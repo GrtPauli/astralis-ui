@@ -46,7 +46,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {...props}
       >
         {loading && (
-          <span className="astralis-mr-2 astralis-animate-spin">
+          <span className="astralis-mr-2 astralis-animate-spin fon">
             <svg
               className="astralis-h-4 astralis-w-4"
               xmlns="http://www.w3.org/2000/svg"

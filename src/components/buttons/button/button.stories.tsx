@@ -3,7 +3,7 @@ import Button from "./button";
 import { AstralisProvider } from "../../../theme";
 
 const meta: Meta<typeof Button> = {
-  title: "Components/Button",
+  title: "Components/Buttons/Button",
   component: Button,
   tags: ["autodocs"],
   argTypes: {
