@@ -558,6 +558,10 @@ video {
   margin-top: -0.5rem;
 }
 
+.astralis-mb-1 {
+  margin-bottom: 0.25rem;
+}
+
 .astralis-mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -572,18 +576,6 @@ video {
 
 .astralis-mr-2 {
   margin-right: 0.5rem;
-}
-
-.astralis-mt-2 {
-  margin-top: 0.5rem;
-}
-
-.astralis-mb-3 {
-  margin-bottom: 0.75rem;
-}
-
-.astralis-mb-1 {
-  margin-bottom: 0.25rem;
 }
 
 .astralis-flex {
@@ -634,20 +626,12 @@ video {
   width: 1.25rem;
 }
 
-.astralis-w-full {
-  width: 100%;
-}
-
-.astralis-w-\[\] {
-  width: ;
-}
-
 .astralis-w-\[500px\] {
   width: 500px;
 }
 
-.astralis-w-\[600px\] {
-  width: 600px;
+.astralis-w-full {
+  width: 100%;
 }
 
 @keyframes astralis-spin {
@@ -658,6 +642,16 @@ video {
 
 .astralis-animate-spin {
   animation: astralis-spin 1s linear infinite;
+}
+
+@keyframes astralis-pulse {
+  50% {
+    opacity: .5;
+  }
+}
+
+.astralis-animate-pulse {
+  animation: astralis-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 .astralis-grid-cols-2 {
@@ -688,6 +682,12 @@ video {
   gap: 1.25rem;
 }
 
+.astralis-space-x-3 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.75rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
 .astralis-space-x-4 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(1rem * var(--tw-space-x-reverse));
@@ -706,12 +706,6 @@ video {
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
 
-.astralis-space-x-3 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(0.75rem * var(--tw-space-x-reverse));
-  margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
-}
-
 .astralis-rounded {
   border-radius: 0.25rem;
 }
@@ -722,6 +716,30 @@ video {
 
 .astralis-rounded-md {
   border-radius: 0.375rem;
+}
+
+.astralis-rounded-2xl {
+  border-radius: 1rem;
+}
+
+.astralis-rounded-3xl {
+  border-radius: 1.5rem;
+}
+
+.astralis-rounded-full {
+  border-radius: 9999px;
+}
+
+.astralis-rounded-none {
+  border-radius: 0px;
+}
+
+.astralis-rounded-sm {
+  border-radius: 0.125rem;
+}
+
+.astralis-rounded-xl {
+  border-radius: 0.75rem;
 }
 
 .astralis-border {
@@ -751,6 +769,11 @@ video {
 .astralis-bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity, 1));
+}
+
+.astralis-bg-gray-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
 }
 
 .astralis-bg-primary-500 {
@@ -787,9 +810,34 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
-.astralis-bg-gray-50 {
+.astralis-bg-gray-200 {
   --tw-bg-opacity: 1;
-  background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity, 1));
+}
+
+.astralis-object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.astralis-object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.astralis-object-fill {
+  -o-object-fit: fill;
+     object-fit: fill;
+}
+
+.astralis-object-none {
+  -o-object-fit: none;
+     object-fit: none;
+}
+
+.astralis-object-scale-down {
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
 }
 
 .astralis-p-3 {
@@ -955,6 +1003,10 @@ video {
   opacity: 0.25;
 }
 
+.astralis-opacity-50 {
+  opacity: 0.5;
+}
+
 .astralis-opacity-75 {
   opacity: 0.75;
 }
@@ -971,8 +1023,19 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.astralis-blur-sm {
+  --tw-blur: blur(4px);
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
 .astralis-transition-colors {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.astralis-transition-opacity {
+  transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
