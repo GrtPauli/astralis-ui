@@ -203,8 +203,6 @@
     --astralis-blur-3xl: var(--astralis-blur-3xl);
     --astralis-default-transition-duration: 150ms;
     --astralis-default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    --astralis-default-font-family: var(--astralis-font-sans);
-    --astralis-default-mono-font-family: var(--astralis-font-mono);
     --astralis-color-transparent: var(--astralis-color-transparent);
     --astralis-color-current: var(--astralis-color-current);
     --astralis-color-brand-50: var(--astralis-color-brand-50);
