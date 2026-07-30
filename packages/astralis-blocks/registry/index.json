@@ -88,6 +88,98 @@
       ]
     },
     {
+      "id": "footer-columns-01",
+      "category": "footer",
+      "family": "footer-columns",
+      "name": "Four link columns with brand block",
+      "description": "Six-column grid on a tinted band: a brand block with wordmark and blurb takes two columns, then four columns of links. A separator divides off the bottom row, which pairs the copyright with social icons. Two columns at sm, one at base.",
+      "tags": [
+        "four-columns",
+        "brand-block",
+        "social-row",
+        "tinted-surface",
+        "copyright"
+      ],
+      "files": [
+        "footer-columns-01.tsx"
+      ],
+      "component": "FooterColumns01",
+      "uses": [
+        "Box",
+        "Container",
+        "Flex",
+        "Grid",
+        "GridItem",
+        "Icon",
+        "Link",
+        "Separator",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "footer-columns-02",
+      "category": "footer",
+      "family": "footer-columns",
+      "name": "Newsletter capture with three columns",
+      "description": "Five-column grid on the page surface: brand, blurb and an inline newsletter form take two columns, then three columns of links. The bottom row pairs the copyright with legal links rather than social icons.",
+      "tags": [
+        "three-columns",
+        "newsletter",
+        "email-capture",
+        "legal-row",
+        "base-surface"
+      ],
+      "files": [
+        "footer-columns-02.tsx"
+      ],
+      "component": "FooterColumns02",
+      "uses": [
+        "Box",
+        "Button",
+        "Container",
+        "Flex",
+        "FlexItem",
+        "Grid",
+        "GridItem",
+        "Input",
+        "Link",
+        "Separator",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "footer-columns-03",
+      "category": "footer",
+      "family": "footer-columns",
+      "name": "Inverted footer with four columns",
+      "description": "The column layout inverted to close a page: brand block plus four link columns on the inverted surface, with opacity carrying the secondary tier since there is no inverted-muted token. Link hover moves to the underline, which reads on any fill.",
+      "tags": [
+        "four-columns",
+        "inverted-surface",
+        "brand-block",
+        "social-row",
+        "underline-hover"
+      ],
+      "files": [
+        "footer-columns-03.tsx"
+      ],
+      "component": "FooterColumns03",
+      "uses": [
+        "Box",
+        "Container",
+        "Flex",
+        "Grid",
+        "GridItem",
+        "Icon",
+        "Link",
+        "Separator",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
       "id": "forgot-password-01",
       "category": "auth",
       "family": "forgot-password",
@@ -245,6 +337,92 @@
         "Icon",
         "Input",
         "InputPassword",
+        "Link",
+        "Separator",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "navbar-inline-01",
+      "category": "navbar",
+      "family": "navbar-inline",
+      "name": "Sticky bar with inline links",
+      "description": "Sticky header on the page surface: wordmark on the left, inline navigation in the middle, and a text sign-in beside a solid call to action on the right. Below md the links and actions collapse into a disclosure panel under a hairline.",
+      "tags": [
+        "sticky",
+        "inline-links",
+        "dual-action",
+        "mobile-disclosure",
+        "hairline"
+      ],
+      "files": [
+        "navbar-inline-01.tsx"
+      ],
+      "component": "NavbarInline01",
+      "uses": [
+        "Box",
+        "Button",
+        "Container",
+        "Flex",
+        "Icon",
+        "Link",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "navbar-inline-02",
+      "category": "navbar",
+      "family": "navbar-inline",
+      "name": "Announcement strip over a sticky bar",
+      "description": "A brand-filled announcement strip above the header, then a sticky bar with the wordmark and links grouped together on the left and three tiers of action on the right. Collapses to a disclosure panel below lg.",
+      "tags": [
+        "sticky",
+        "announcement-bar",
+        "grouped-left",
+        "triple-action",
+        "mobile-disclosure"
+      ],
+      "files": [
+        "navbar-inline-02.tsx"
+      ],
+      "component": "NavbarInline02",
+      "uses": [
+        "Badge",
+        "Box",
+        "Button",
+        "Container",
+        "Flex",
+        "Icon",
+        "Link",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "navbar-inline-03",
+      "category": "navbar",
+      "family": "navbar-inline",
+      "name": "Floating pill with centred links",
+      "description": "The same bar inset from the page edges as a rounded, bordered card rather than a full-bleed strip. Wordmark left, centred links, one call to action right, and a disclosure that opens inside the pill below md. Uses the raised surface, so it lifts in dark mode where a shadow alone would not read.",
+      "tags": [
+        "sticky",
+        "floating-pill",
+        "centred-links",
+        "single-action",
+        "raised-surface"
+      ],
+      "files": [
+        "navbar-inline-03.tsx"
+      ],
+      "component": "NavbarInline03",
+      "uses": [
+        "Box",
+        "Button",
+        "Container",
+        "Flex",
+        "Icon",
         "Link",
         "Separator",
         "Stack",
