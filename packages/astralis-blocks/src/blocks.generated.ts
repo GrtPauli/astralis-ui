@@ -6,6 +6,15 @@
 
 import type { JSX } from "react";
 import type { BlockRegistryEntry } from "./registry";
+import { ContactSplit01 } from "./contact/contact-split/contact-split-01/contact-split-01";
+import { ContactSplit02 } from "./contact/contact-split/contact-split-02/contact-split-02";
+import { ContactSplit03 } from "./contact/contact-split/contact-split-03/contact-split-03";
+import { CtaPanel01 } from "./cta/cta-panel/cta-panel-01/cta-panel-01";
+import { CtaPanel02 } from "./cta/cta-panel/cta-panel-02/cta-panel-02";
+import { CtaPanel03 } from "./cta/cta-panel/cta-panel-03/cta-panel-03";
+import { DashboardShell01 } from "./dashboard/dashboard-shell/dashboard-shell-01/dashboard-shell-01";
+import { DashboardShell02 } from "./dashboard/dashboard-shell/dashboard-shell-02/dashboard-shell-02";
+import { DashboardShell03 } from "./dashboard/dashboard-shell/dashboard-shell-03/dashboard-shell-03";
 import { FeaturesGrid01 } from "./features/features-grid/features-grid-01/features-grid-01";
 import { FeaturesGrid02 } from "./features/features-grid/features-grid-02/features-grid-02";
 import { FeaturesGrid03 } from "./features/features-grid/features-grid-03/features-grid-03";
@@ -24,6 +33,24 @@ import { PricingTiers01 } from "./pricing/pricing-tiers/pricing-tiers-01/pricing
 import { PricingTiers02 } from "./pricing/pricing-tiers/pricing-tiers-02/pricing-tiers-02";
 import { PricingTiers03 } from "./pricing/pricing-tiers/pricing-tiers-03/pricing-tiers-03";
 import { Signup01 } from "./auth/signup/signup-01/signup-01";
+import { StatsBand01 } from "./stats/stats-band/stats-band-01/stats-band-01";
+import { StatsBand02 } from "./stats/stats-band/stats-band-02/stats-band-02";
+import { StatsBand03 } from "./stats/stats-band/stats-band-03/stats-band-03";
+import { TeamGrid01 } from "./team/team-grid/team-grid-01/team-grid-01";
+import { TeamGrid02 } from "./team/team-grid/team-grid-02/team-grid-02";
+import { TeamGrid03 } from "./team/team-grid/team-grid-03/team-grid-03";
+import { TestimonialGrid01 } from "./testimonials/testimonial-grid/testimonial-grid-01/testimonial-grid-01";
+import { TestimonialGrid02 } from "./testimonials/testimonial-grid/testimonial-grid-02/testimonial-grid-02";
+import { TestimonialGrid03 } from "./testimonials/testimonial-grid/testimonial-grid-03/testimonial-grid-03";
+import contactSplit01Meta from "./contact/contact-split/contact-split-01/meta";
+import contactSplit02Meta from "./contact/contact-split/contact-split-02/meta";
+import contactSplit03Meta from "./contact/contact-split/contact-split-03/meta";
+import ctaPanel01Meta from "./cta/cta-panel/cta-panel-01/meta";
+import ctaPanel02Meta from "./cta/cta-panel/cta-panel-02/meta";
+import ctaPanel03Meta from "./cta/cta-panel/cta-panel-03/meta";
+import dashboardShell01Meta from "./dashboard/dashboard-shell/dashboard-shell-01/meta";
+import dashboardShell02Meta from "./dashboard/dashboard-shell/dashboard-shell-02/meta";
+import dashboardShell03Meta from "./dashboard/dashboard-shell/dashboard-shell-03/meta";
 import featuresGrid01Meta from "./features/features-grid/features-grid-01/meta";
 import featuresGrid02Meta from "./features/features-grid/features-grid-02/meta";
 import featuresGrid03Meta from "./features/features-grid/features-grid-03/meta";
@@ -42,6 +69,15 @@ import pricingTiers01Meta from "./pricing/pricing-tiers/pricing-tiers-01/meta";
 import pricingTiers02Meta from "./pricing/pricing-tiers/pricing-tiers-02/meta";
 import pricingTiers03Meta from "./pricing/pricing-tiers/pricing-tiers-03/meta";
 import signup01Meta from "./auth/signup/signup-01/meta";
+import statsBand01Meta from "./stats/stats-band/stats-band-01/meta";
+import statsBand02Meta from "./stats/stats-band/stats-band-02/meta";
+import statsBand03Meta from "./stats/stats-band/stats-band-03/meta";
+import teamGrid01Meta from "./team/team-grid/team-grid-01/meta";
+import teamGrid02Meta from "./team/team-grid/team-grid-02/meta";
+import teamGrid03Meta from "./team/team-grid/team-grid-03/meta";
+import testimonialGrid01Meta from "./testimonials/testimonial-grid/testimonial-grid-01/meta";
+import testimonialGrid02Meta from "./testimonials/testimonial-grid/testimonial-grid-02/meta";
+import testimonialGrid03Meta from "./testimonials/testimonial-grid/testimonial-grid-03/meta";
 
 export interface BlockEntry {
   meta: BlockRegistryEntry;
@@ -49,6 +85,87 @@ export interface BlockEntry {
 }
 
 export const blocks = {
+  "contact-split-01": {
+    meta: {
+      ...contactSplit01Meta,
+      files: ["contact-split-01.tsx"],
+      component: "ContactSplit01",
+      uses: ["Box","Button","Container","FieldLabel","FieldRoot","Flex","Grid","Heading","Icon","Input","InputTextarea","Stack","Text"],
+    },
+    component: ContactSplit01,
+  },
+  "contact-split-02": {
+    meta: {
+      ...contactSplit02Meta,
+      files: ["contact-split-02.tsx"],
+      component: "ContactSplit02",
+      uses: ["Box","Button","Container","FieldLabel","FieldRoot","Flex","Grid","GridItem","Heading","Input","InputTextarea","Select","Stack","Text"],
+    },
+    component: ContactSplit02,
+  },
+  "contact-split-03": {
+    meta: {
+      ...contactSplit03Meta,
+      files: ["contact-split-03.tsx"],
+      component: "ContactSplit03",
+      uses: ["Box","Button","Container","FieldLabel","FieldRoot","Flex","Grid","Heading","Icon","Input","InputTextarea","Stack","Text"],
+    },
+    component: ContactSplit03,
+  },
+  "cta-panel-01": {
+    meta: {
+      ...ctaPanel01Meta,
+      files: ["cta-panel-01.tsx"],
+      component: "CtaPanel01",
+      uses: ["Badge","Box","Button","Container","Flex","Heading","Icon","Stack","Text"],
+    },
+    component: CtaPanel01,
+  },
+  "cta-panel-02": {
+    meta: {
+      ...ctaPanel02Meta,
+      files: ["cta-panel-02.tsx"],
+      component: "CtaPanel02",
+      uses: ["Box","Button","Container","Flex","Heading","Icon","Link","Stack","Text"],
+    },
+    component: CtaPanel02,
+  },
+  "cta-panel-03": {
+    meta: {
+      ...ctaPanel03Meta,
+      files: ["cta-panel-03.tsx"],
+      component: "CtaPanel03",
+      uses: ["Box","Button","Container","Flex","FlexItem","Heading","Input","Link","Stack","Text"],
+    },
+    component: CtaPanel03,
+  },
+  "dashboard-shell-01": {
+    meta: {
+      ...dashboardShell01Meta,
+      files: ["dashboard-shell-01.tsx"],
+      component: "DashboardShell01",
+      uses: ["Avatar","Badge","Box","Flex","Grid","Icon","Input","Kbd","Stack","Text"],
+    },
+    component: DashboardShell01,
+  },
+  "dashboard-shell-02": {
+    meta: {
+      ...dashboardShell02Meta,
+      files: ["dashboard-shell-02.tsx"],
+      component: "DashboardShell02",
+      uses: ["Avatar","Box","Button","Flex","Icon","Input","Stack","Text"],
+    },
+    component: DashboardShell02,
+  },
+  "dashboard-shell-03": {
+    meta: {
+      ...dashboardShell03Meta,
+      files: ["dashboard-shell-03.tsx"],
+      component: "DashboardShell03",
+      uses: ["Avatar","Badge","Box","Flex","Grid","Icon","Separator","Stack","Text"],
+    },
+    component: DashboardShell03,
+  },
   "features-grid-01": {
     meta: {
       ...featuresGrid01Meta,
@@ -210,6 +327,87 @@ export const blocks = {
       uses: ["Box","Button","Checkbox","Container","FieldHelpText","FieldLabel","FieldRoot","Flex","FlexItem","Heading","Icon","Input","InputPassword","Link","List","ListItem","Separator","Stack","Text"],
     },
     component: Signup01,
+  },
+  "stats-band-01": {
+    meta: {
+      ...statsBand01Meta,
+      files: ["stats-band-01.tsx"],
+      component: "StatsBand01",
+      uses: ["Box","Container","Grid","Heading","Stack","Text"],
+    },
+    component: StatsBand01,
+  },
+  "stats-band-02": {
+    meta: {
+      ...statsBand02Meta,
+      files: ["stats-band-02.tsx"],
+      component: "StatsBand02",
+      uses: ["Box","Container","Grid","Heading","Stack","Stat","StatHelpText","StatIndicator","StatLabel","StatValue","Text"],
+    },
+    component: StatsBand02,
+  },
+  "stats-band-03": {
+    meta: {
+      ...statsBand03Meta,
+      files: ["stats-band-03.tsx"],
+      component: "StatsBand03",
+      uses: ["Box","Container","Grid","GridItem","Heading","Stack","Text"],
+    },
+    component: StatsBand03,
+  },
+  "team-grid-01": {
+    meta: {
+      ...teamGrid01Meta,
+      files: ["team-grid-01.tsx"],
+      component: "TeamGrid01",
+      uses: ["Avatar","Box","Container","Flex","Grid","Heading","Icon","Link","Stack","Text"],
+    },
+    component: TeamGrid01,
+  },
+  "team-grid-02": {
+    meta: {
+      ...teamGrid02Meta,
+      files: ["team-grid-02.tsx"],
+      component: "TeamGrid02",
+      uses: ["Avatar","Box","Container","Flex","Grid","Heading","Icon","Link","Stack","Text"],
+    },
+    component: TeamGrid02,
+  },
+  "team-grid-03": {
+    meta: {
+      ...teamGrid03Meta,
+      files: ["team-grid-03.tsx"],
+      component: "TeamGrid03",
+      uses: ["Avatar","Box","Button","Container","Grid","GridItem","Heading","Stack","Text"],
+    },
+    component: TeamGrid03,
+  },
+  "testimonial-grid-01": {
+    meta: {
+      ...testimonialGrid01Meta,
+      files: ["testimonial-grid-01.tsx"],
+      component: "TestimonialGrid01",
+      uses: ["Avatar","Box","Container","Flex","Grid","Heading","Icon","Stack","Text"],
+    },
+    component: TestimonialGrid01,
+  },
+  "testimonial-grid-02": {
+    meta: {
+      ...testimonialGrid02Meta,
+      files: ["testimonial-grid-02.tsx"],
+      component: "TestimonialGrid02",
+      uses: ["Avatar","Box","Container","Flex","Grid","Heading","Stack","Text"],
+    },
+    component: TestimonialGrid02,
+  },
+  "testimonial-grid-03": {
+    meta: {
+      ...testimonialGrid03Meta,
+      files: ["testimonial-grid-03.tsx"],
+      component: "TestimonialGrid03",
+      uses: ["Avatar","Box","Container","Flex","Grid","Heading","Icon","Stack","Text"],
+    },
+    component: TestimonialGrid03,
   },
 } as const satisfies Record<string, BlockEntry>;
 

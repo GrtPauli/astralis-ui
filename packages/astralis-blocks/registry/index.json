@@ -1,6 +1,281 @@
 {
   "blocks": [
     {
+      "id": "contact-split-01",
+      "category": "contact",
+      "family": "contact-split",
+      "name": "Details beside a form card",
+      "description": "A two-column contact section: heading, pitch and icon-tiled contact details on the left, a bordered form card with name, email and message on the right. Stacks into one column below lg.",
+      "tags": [
+        "split",
+        "form-card",
+        "contact-details",
+        "icon-tiles",
+        "two-column"
+      ],
+      "files": [
+        "contact-split-01.tsx"
+      ],
+      "component": "ContactSplit01",
+      "uses": [
+        "Box",
+        "Button",
+        "Container",
+        "FieldLabel",
+        "FieldRoot",
+        "Flex",
+        "Grid",
+        "Heading",
+        "Icon",
+        "Input",
+        "InputTextarea",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "contact-split-02",
+      "category": "contact",
+      "family": "contact-split",
+      "name": "Raised form card with a reassurance column",
+      "description": "The contact split as a card on a tinted band: a raised form panel with a topic select on the wider left column, and a reassurance column — response time, hours, an email — on the right. Stacks below lg.",
+      "tags": [
+        "split",
+        "raised-card",
+        "tinted-band",
+        "topic-select",
+        "reassurance"
+      ],
+      "files": [
+        "contact-split-02.tsx"
+      ],
+      "component": "ContactSplit02",
+      "uses": [
+        "Box",
+        "Button",
+        "Container",
+        "FieldLabel",
+        "FieldRoot",
+        "Flex",
+        "Grid",
+        "GridItem",
+        "Heading",
+        "Input",
+        "InputTextarea",
+        "Select",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "contact-split-03",
+      "category": "contact",
+      "family": "contact-split",
+      "name": "Inverted pitch panel beside a form",
+      "description": "The contact split with the pitch pulled into an inverted panel — a dark card carrying the heading and contact lines with light icon chips, beside a two-column form on the base surface. Stacks below lg.",
+      "tags": [
+        "split",
+        "inverted-panel",
+        "icon-chips",
+        "form",
+        "two-column"
+      ],
+      "files": [
+        "contact-split-03.tsx"
+      ],
+      "component": "ContactSplit03",
+      "uses": [
+        "Box",
+        "Button",
+        "Container",
+        "FieldLabel",
+        "FieldRoot",
+        "Flex",
+        "Grid",
+        "Heading",
+        "Icon",
+        "Input",
+        "InputTextarea",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "cta-panel-01",
+      "category": "cta",
+      "family": "cta-panel",
+      "name": "Centred panel with dual actions",
+      "description": "A tinted bordered panel on a narrow measure: release badge, headline, one line of copy, then a primary and secondary action with a row of assurances underneath. Actions stack below sm.",
+      "tags": [
+        "centred",
+        "dual-cta",
+        "tinted-panel",
+        "badge",
+        "assurances"
+      ],
+      "files": [
+        "cta-panel-01.tsx"
+      ],
+      "component": "CtaPanel01",
+      "uses": [
+        "Badge",
+        "Box",
+        "Button",
+        "Container",
+        "Flex",
+        "Heading",
+        "Icon",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "cta-panel-02",
+      "category": "cta",
+      "family": "cta-panel",
+      "name": "Inverted band with side actions",
+      "description": "A full-bleed inverted band that closes the page: heading and supporting copy on the left, a solid action and an arrow link on the right. Stacks into one column below lg.",
+      "tags": [
+        "inverted",
+        "full-bleed",
+        "side-actions",
+        "arrow-link",
+        "split"
+      ],
+      "files": [
+        "cta-panel-02.tsx"
+      ],
+      "component": "CtaPanel02",
+      "uses": [
+        "Box",
+        "Button",
+        "Container",
+        "Flex",
+        "Heading",
+        "Icon",
+        "Link",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "cta-panel-03",
+      "category": "cta",
+      "family": "cta-panel",
+      "name": "Brand-tinted panel with email capture",
+      "description": "A brand-tinted bordered panel: uppercase eyebrow, headline, one line of copy, then an inline email field and submit button with fine print beneath. Field and button stack below sm.",
+      "tags": [
+        "centred",
+        "email-capture",
+        "brand-tinted",
+        "eyebrow",
+        "newsletter"
+      ],
+      "files": [
+        "cta-panel-03.tsx"
+      ],
+      "component": "CtaPanel03",
+      "uses": [
+        "Box",
+        "Button",
+        "Container",
+        "Flex",
+        "FlexItem",
+        "Heading",
+        "Input",
+        "Link",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "dashboard-shell-01",
+      "category": "dashboard",
+      "family": "dashboard-shell",
+      "name": "Sidebar shell with grouped nav",
+      "description": "A dashboard shell: a tinted sidebar with a workspace header, grouped nav with counts and a user row, beside a sticky header carrying a breadcrumb, search and actions. The content region is empty scaffolding. Below lg the sidebar becomes an overlay drawer.",
+      "tags": [
+        "sidebar",
+        "grouped-nav",
+        "sticky-header",
+        "search",
+        "mobile-drawer"
+      ],
+      "files": [
+        "dashboard-shell-01.tsx"
+      ],
+      "component": "DashboardShell01",
+      "uses": [
+        "Avatar",
+        "Badge",
+        "Box",
+        "Flex",
+        "Grid",
+        "Icon",
+        "Input",
+        "Kbd",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "dashboard-shell-02",
+      "category": "dashboard",
+      "family": "dashboard-shell",
+      "name": "Icon rail with an inset content panel",
+      "description": "The shell reduced to an icon rail: labelled icon nav that survives every viewport without a drawer, a header with the page title and a primary action, and the content region as an inset panel. No client state.",
+      "tags": [
+        "icon-rail",
+        "server-safe",
+        "inset-panel",
+        "compact",
+        "primary-action"
+      ],
+      "files": [
+        "dashboard-shell-02.tsx"
+      ],
+      "component": "DashboardShell02",
+      "uses": [
+        "Avatar",
+        "Box",
+        "Button",
+        "Flex",
+        "Icon",
+        "Input",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "dashboard-shell-03",
+      "category": "dashboard",
+      "family": "dashboard-shell",
+      "name": "Inverted sidebar with a two-tier header",
+      "description": "The shell with an inverted sidebar and a two-tier header: a title row with actions above a row of section tabs, the active tab marked by its own bottom border. The content region is empty scaffolding. Below lg the sidebar becomes an overlay drawer.",
+      "tags": [
+        "sidebar",
+        "inverted",
+        "two-tier-header",
+        "section-tabs",
+        "mobile-drawer"
+      ],
+      "files": [
+        "dashboard-shell-03.tsx"
+      ],
+      "component": "DashboardShell03",
+      "uses": [
+        "Avatar",
+        "Badge",
+        "Box",
+        "Flex",
+        "Grid",
+        "Icon",
+        "Separator",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
       "id": "features-grid-01",
       "category": "features",
       "family": "features-grid",
@@ -561,6 +836,265 @@
         "List",
         "ListItem",
         "Separator",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "stats-band-01",
+      "category": "stats",
+      "family": "stats-band",
+      "name": "Centred marketing numbers",
+      "description": "A marketing stats band: oversized numbers with captions under a centred heading, four across on desktop and two on mobile. On the base surface.",
+      "tags": [
+        "four-up",
+        "centred",
+        "oversized-numbers",
+        "marketing",
+        "heading"
+      ],
+      "files": [
+        "stats-band-01.tsx"
+      ],
+      "component": "StatsBand01",
+      "uses": [
+        "Box",
+        "Container",
+        "Grid",
+        "Heading",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "stats-band-02",
+      "category": "stats",
+      "family": "stats-band",
+      "name": "KPI cards with trend indicators",
+      "description": "A dashboard-flavoured KPI band on a tinted surface: four bordered cards, each composing a Stat — label, value, a signed trend indicator and a note. Four across from md, two below.",
+      "tags": [
+        "four-up",
+        "kpi-cards",
+        "stat-component",
+        "trend-indicator",
+        "tinted-band"
+      ],
+      "files": [
+        "stats-band-02.tsx"
+      ],
+      "component": "StatsBand02",
+      "uses": [
+        "Box",
+        "Container",
+        "Grid",
+        "Heading",
+        "Stack",
+        "Stat",
+        "StatHelpText",
+        "StatIndicator",
+        "StatLabel",
+        "StatValue",
+        "Text"
+      ]
+    },
+    {
+      "id": "stats-band-03",
+      "category": "stats",
+      "family": "stats-band",
+      "name": "Inverted split with a 2×2 grid",
+      "description": "The stats skeleton as an inverted closing band, split two ways: framing copy on the left, a 2×2 grid of oversized numbers on the right. Stacks into one column below lg.",
+      "tags": [
+        "split",
+        "inverted-band",
+        "2x2-grid",
+        "oversized-numbers",
+        "side-heading"
+      ],
+      "files": [
+        "stats-band-03.tsx"
+      ],
+      "component": "StatsBand03",
+      "uses": [
+        "Box",
+        "Container",
+        "Grid",
+        "GridItem",
+        "Heading",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "team-grid-01",
+      "category": "team",
+      "family": "team-grid",
+      "name": "Centred portraits, four up",
+      "description": "A borderless four-up grid of centred portraits with name, role and a small social row beneath each, under a centred heading. Two across at sm, four at lg, one below.",
+      "tags": [
+        "four-up",
+        "centred-portraits",
+        "borderless",
+        "social-row",
+        "avatar"
+      ],
+      "files": [
+        "team-grid-01.tsx"
+      ],
+      "component": "TeamGrid01",
+      "uses": [
+        "Avatar",
+        "Box",
+        "Container",
+        "Flex",
+        "Grid",
+        "Heading",
+        "Icon",
+        "Link",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "team-grid-02",
+      "category": "team",
+      "family": "team-grid",
+      "name": "Bordered cards with bios",
+      "description": "The team skeleton with more to say: bordered cards on a tinted band, each pairing an avatar and role with a short bio and a social row pinned to the bottom. Three across from md, one below.",
+      "tags": [
+        "three-up",
+        "bordered-cards",
+        "bio",
+        "tinted-band",
+        "social-row"
+      ],
+      "files": [
+        "team-grid-02.tsx"
+      ],
+      "component": "TeamGrid02",
+      "uses": [
+        "Avatar",
+        "Box",
+        "Container",
+        "Flex",
+        "Grid",
+        "Heading",
+        "Icon",
+        "Link",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "team-grid-03",
+      "category": "team",
+      "family": "team-grid",
+      "name": "Heading beside a dense grid",
+      "description": "The team skeleton split two ways: a heading column with an intro and careers call to action on the left, a dense grid of rounded-avatar members on the right. Stacks into one column below lg.",
+      "tags": [
+        "split",
+        "side-heading",
+        "dense-grid",
+        "rounded-avatars",
+        "careers-cta"
+      ],
+      "files": [
+        "team-grid-03.tsx"
+      ],
+      "component": "TeamGrid03",
+      "uses": [
+        "Avatar",
+        "Box",
+        "Button",
+        "Container",
+        "Grid",
+        "GridItem",
+        "Heading",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "testimonial-grid-01",
+      "category": "testimonials",
+      "family": "testimonial-grid",
+      "name": "Bordered cards with star ratings",
+      "description": "A three-column wall of bordered quote cards on the base surface, centred heading above. Each card runs a five-star rating, the quote, then an avatar attribution pinned to a divider at the bottom. Two across at md, one below it.",
+      "tags": [
+        "three-up",
+        "bordered-cards",
+        "star-rating",
+        "avatar",
+        "centred-heading"
+      ],
+      "files": [
+        "testimonial-grid-01.tsx"
+      ],
+      "component": "TestimonialGrid01",
+      "uses": [
+        "Avatar",
+        "Box",
+        "Container",
+        "Flex",
+        "Grid",
+        "Heading",
+        "Icon",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "testimonial-grid-02",
+      "category": "testimonials",
+      "family": "testimonial-grid",
+      "name": "Raised cards on a tinted band",
+      "description": "The quote-card skeleton with a softer treatment: a tinted band carrying raised, borderless cards with a decorative quotation glyph and the avatar attribution moved to the top. Three across from md, one below.",
+      "tags": [
+        "three-up",
+        "raised-cards",
+        "tinted-band",
+        "quote-glyph",
+        "avatar"
+      ],
+      "files": [
+        "testimonial-grid-02.tsx"
+      ],
+      "component": "TestimonialGrid02",
+      "uses": [
+        "Avatar",
+        "Box",
+        "Container",
+        "Flex",
+        "Grid",
+        "Heading",
+        "Stack",
+        "Text"
+      ]
+    },
+    {
+      "id": "testimonial-grid-03",
+      "category": "testimonials",
+      "family": "testimonial-grid",
+      "name": "Light cards on an inverted band",
+      "description": "The quote-card skeleton on an inverted closing band: the heading inverts with the surface while the cards flip to the light base to read as spotlights. Star rating, quote, and avatar attribution on a divider. Three across from md, one below.",
+      "tags": [
+        "three-up",
+        "inverted-band",
+        "light-cards",
+        "star-rating",
+        "avatar"
+      ],
+      "files": [
+        "testimonial-grid-03.tsx"
+      ],
+      "component": "TestimonialGrid03",
+      "uses": [
+        "Avatar",
+        "Box",
+        "Container",
+        "Flex",
+        "Grid",
+        "Heading",
+        "Icon",
         "Stack",
         "Text"
       ]
