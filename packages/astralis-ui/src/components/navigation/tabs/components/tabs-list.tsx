@@ -98,13 +98,25 @@ export function TabsList({ children, className, ...rest }: TabsListProps) {
     };
   }, [scrollable, syncOverflow, children]);
 
-  /* ---- keep the active tab in view when it changes ---- */
+  /* ---- keep the active tab in view, WITHIN the strip ---- */
   useEffect(() => {
     if (!scrollable) return;
-    const active = listRef.current?.querySelector<HTMLElement>(
-      '[role="tab"][data-state="active"]',
-    );
-    active?.scrollIntoView({ block: "nearest", inline: "nearest" });
+    const list = listRef.current;
+    const active = list?.querySelector<HTMLElement>('[role="tab"][data-state="active"]');
+    if (!list || !active) return;
+
+    // Deliberately not `scrollIntoView`: that walks every scrollable ancestor
+    // up to the document, so a tab set mounted below the fold scrolled the
+    // whole PAGE down to itself on load. Moving the strip's own scrollLeft
+    // cannot touch anything outside the strip.
+    const start = active.offsetLeft;
+    const end = start + active.offsetWidth;
+
+    if (start < list.scrollLeft) {
+      list.scrollTo({ left: start, behavior: "smooth" });
+    } else if (end > list.scrollLeft + list.clientWidth) {
+      list.scrollTo({ left: end - list.clientWidth, behavior: "smooth" });
+    }
   }, [scrollable, value]);
 
   const scrollBy = (direction: -1 | 1) => {
