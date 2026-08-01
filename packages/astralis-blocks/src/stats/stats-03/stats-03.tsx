@@ -21,7 +21,7 @@ const metrics = [
  * numbers invert with the surface; the captions dim via `opacity` on their
  * wrapper, since the label ladder has no inverted-muted rung. Stacks below `lg`.
  */
-export function StatsBand03() {
+export function Stats03() {
   return (
     <Box as="section" bg="inverted" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

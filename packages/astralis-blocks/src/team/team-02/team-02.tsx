@@ -84,7 +84,7 @@ function SocialRow({ name }: { name: string }) {
  * bottom. The card is a flex column so those rows line up across the grid
  * regardless of bio length. Three across from md, one below.
  */
-export function TeamGrid02() {
+export function Team02() {
   return (
     <Box as="section" bg="subtle" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

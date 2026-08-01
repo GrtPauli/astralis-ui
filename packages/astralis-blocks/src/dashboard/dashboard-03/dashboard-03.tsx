@@ -95,6 +95,7 @@ function NavRow({ item }: { item: NavItem }) {
       color="inverted"
       bg={item.active ? "brand" : undefined}
       opacity={item.active ? undefined : "high"}
+      hover={item.active ? undefined : { opacity: "max" }}
     >
       <Flex alignItems="center" gap="3">
         <NavIcon path={item.icon} />
@@ -114,7 +115,7 @@ function NavRow({ item }: { item: NavItem }) {
 /** The sidebar body, shared by the fixed rail and the mobile drawer. */
 function SidebarContent() {
   return (
-    <Flex direction="column" h="full">
+    <Flex direction="column" alignItems="stretch" h="full">
       <Flex alignItems="center" gap="2.5" h="16" px="4" shrink="0">
         <Flex
           alignItems="center"
@@ -186,11 +187,11 @@ function SidebarContent() {
  * The active tab is marked with a bottom border on the tab itself, so the rule
  * belongs to the tab rather than being a separate node under it.
  */
-export function DashboardShell03() {
+export function Dashboard03() {
   const [open, setOpen] = useState(false);
 
   return (
-    <Flex minH="screen" bg="base">
+    <Flex alignItems="stretch" minH="screen" bg="base">
       <Box
         as="aside"
         w="64"
@@ -222,7 +223,7 @@ export function DashboardShell03() {
         </Box>
       ) : null}
 
-      <Flex direction="column" flex="1">
+      <Flex direction="column" alignItems="stretch" flex="1">
         <Box as="header" shrink="0" bg="base" borderB="normal" borderColor="base">
           {/* ---- Tier one: title + actions ---- */}
           <Flex alignItems="center" gap="4" h="16" px={{ base: "4", lg: "6" }}>
@@ -237,6 +238,8 @@ export function DashboardShell03() {
               p="2"
               rounded="md"
               bg="transparent"
+              hover={{ bg: "subtle" }}
+              focusVisible={{ borderColor: "brand" }}
             >
               <NavIcon path={paths.menu} />
             </Box>
@@ -248,18 +251,22 @@ export function DashboardShell03() {
             <Box flex="1" />
 
             <Flex alignItems="center" gap="3" shrink="0">
-              <Box
+              <Flex
                 as="button"
                 type="button"
                 aria-label="Notifications"
+                alignItems="center"
+                justifyContent="center"
                 cursor="pointer"
                 p="2"
                 rounded="md"
                 bg="transparent"
+                hover={{ bg: "subtle" }}
+                focusVisible={{ borderColor: "brand" }}
                 color="muted"
               >
                 <NavIcon path={paths.bell} />
-              </Box>
+              </Flex>
               <Avatar name="Ada Lovelace" size="sm" />
             </Flex>
           </Flex>
@@ -283,6 +290,7 @@ export function DashboardShell03() {
                 borderB={tab.active ? "thick" : undefined}
                 borderColor={tab.active ? "brand" : undefined}
                 color={tab.active ? "base" : "muted"}
+                hover={tab.active ? undefined : { color: "base" }}
               >
                 <Text as="span" size="sm" weight={tab.active ? "medium" : "normal"} color="inherit">
                   {tab.label}
@@ -292,19 +300,23 @@ export function DashboardShell03() {
           </Flex>
         </Box>
 
-        {/* ---- Content region — replace everything inside ---- */}
+        {/* ---- Content region — replace everything inside ----
+            `h="full"` on the stack and `flex="1"` on the lower grid: the stat
+            tiles keep their fixed height and the panels below absorb whatever
+            is left, so the region fills the viewport instead of stopping short
+            of it. */}
         <Box as="main" flex="1" p={{ base: "4", lg: "6" }}>
-          <Stack direction="vertical" alignItems="stretch" gap={{ base: "4", lg: "6" }}>
+          <Stack direction="vertical" alignItems="stretch" gap={{ base: "4", lg: "6" }} h="full">
             <Grid columns={{ base: "1", md: "2", xl: "4" }} gap={{ base: "4", lg: "6" }}>
               <Box h="28" bg="subtle" rounded="xl" />
               <Box h="28" bg="subtle" rounded="xl" />
               <Box h="28" bg="subtle" rounded="xl" />
               <Box h="28" bg="subtle" rounded="xl" />
             </Grid>
-            <Grid columns={{ base: "1", lg: "3" }} gap={{ base: "4", lg: "6" }}>
-              <Box minH="80" bg="subtle" rounded="xl" />
-              <Box minH="80" bg="subtle" rounded="xl" />
-              <Box minH="80" bg="subtle" rounded="xl" />
+            <Grid columns={{ base: "1", lg: "3" }} gap={{ base: "4", lg: "6" }} flex="1">
+              <Box minH="80" h="full" bg="subtle" rounded="xl" />
+              <Box minH="80" h="full" bg="subtle" rounded="xl" />
+              <Box minH="80" h="full" bg="subtle" rounded="xl" />
             </Grid>
           </Stack>
         </Box>

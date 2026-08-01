@@ -54,7 +54,7 @@ function ArrowIcon() {
   );
 }
 
-/** Neutral nav link — see navbar-inline-01 for why the scheme is gray. */
+/** Neutral nav link — see navbar-01 for why the scheme is gray. */
 function NavLink({ href, label }: { href: string; label: string }) {
   return (
     <Link href={href} colorScheme="gray" variant="plain" size="sm" weight="medium">
@@ -68,7 +68,7 @@ function NavLink({ href, label }: { href: string; label: string }) {
  * takes `brand-contrast` for its text, which is the one role guaranteed to be
  * readable on that fill whatever hue the theme seeds.
  */
-export function NavbarInline02() {
+export function Navbar02() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -160,6 +160,8 @@ export function NavbarInline02() {
             p="2"
             rounded="md"
             bg="transparent"
+            hover={{ bg: "subtle" }}
+            focusVisible={{ borderColor: "brand" }}
           >
             <MenuIcon open={open} />
           </Box>

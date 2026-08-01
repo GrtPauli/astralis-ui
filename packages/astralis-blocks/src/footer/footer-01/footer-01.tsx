@@ -70,7 +70,7 @@ function FooterLink({ label }: { label: string }) {
  * Six-column grid: the brand block takes two, then four link columns. Drops to
  * two columns at `sm` and one at `base`, with the brand block full width.
  */
-export function FooterColumns01() {
+export function Footer01() {
   return (
     <Box as="footer" bg="subtle" py={{ base: "14", lg: "20" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

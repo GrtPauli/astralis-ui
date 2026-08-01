@@ -90,7 +90,7 @@ const features = [
  * left with its call to action opposite, and each card runs its icon inline
  * beside the title. Two across from `md`, one below it.
  */
-export function FeaturesGrid02() {
+export function Features02() {
   return (
     <Box as="section" bg="subtle" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

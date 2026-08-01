@@ -21,7 +21,7 @@ const stats = [
  * Two-column hero — copy on the left, a framed product shot on the right.
  * Collapses to a single stacked column below `lg`.
  */
-export function HeroSplit01() {
+export function Hero01() {
   return (
     <Box as="section" bg="base" py={{ base: "16", lg: "24" }}>
       {/* Container defaults to px="4". That reads as cramped for a hero at any
@@ -48,6 +48,8 @@ export function HeroSplit01() {
               border="normal"
               borderColor="base"
               rounded="full"
+              hover={{ bg: "muted", borderColor: "muted" }}
+              focusVisible={{ borderColor: "brand" }}
             >
               <Badge variant="solid" colorScheme="brand" size="xs">
                 New

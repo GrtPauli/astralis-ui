@@ -72,7 +72,7 @@ function StarRow() {
  * Card cannot express this — its root is not a flex column and takes no style
  * props — so the cards are plain Boxes. See reports/astralis-api-updates.md.
  */
-export function TestimonialGrid01() {
+export function Testimonials01() {
   return (
     <Box as="section" bg="base" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

@@ -57,7 +57,7 @@ function FooterLink({ label }: { label: string }) {
 }
 
 /** Three tiers with the whole footer inverted to close the page. */
-export function FooterColumns03() {
+export function Footer03() {
   return (
     <Box as="footer" bg="inverted" py={{ base: "14", lg: "20" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

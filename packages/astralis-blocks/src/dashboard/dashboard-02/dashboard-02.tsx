@@ -55,9 +55,9 @@ function RailIcon({ path }: { path: string }) {
  *
  * The content sits in an inset panel — an empty region for your page to fill.
  */
-export function DashboardShell02() {
+export function Dashboard02() {
   return (
-    <Flex minH="screen" bg="subtle">
+    <Flex alignItems="stretch" minH="screen" bg="subtle">
       {/* ---------------------------------------------------------------- */}
       {/* Icon rail                                                        */}
       {/* ---------------------------------------------------------------- */}
@@ -101,6 +101,8 @@ export function DashboardShell02() {
               rounded="lg"
               bg={item.active ? "brand-subtle" : undefined}
               color={item.active ? "brand" : "muted"}
+              hover={item.active ? undefined : { bg: "subtle", color: "base" }}
+              focusVisible={{ borderColor: "brand" }}
             >
               <RailIcon path={item.icon} />
             </Flex>
@@ -113,7 +115,7 @@ export function DashboardShell02() {
       {/* ---------------------------------------------------------------- */}
       {/* Main column                                                      */}
       {/* ---------------------------------------------------------------- */}
-      <Flex direction="column" flex="1">
+      <Flex direction="column" alignItems="stretch" flex="1">
         <Flex
           as="header"
           alignItems="center"

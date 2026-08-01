@@ -71,7 +71,7 @@ function CheckMark({ inverted }: { inverted?: boolean }) {
 }
 
 /** Three tiers with the recommended plan inverted to carry the most weight. */
-export function PricingTiers03() {
+export function Pricing03() {
   return (
     <Box as="section" bg="base" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

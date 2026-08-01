@@ -6,78 +6,78 @@
 
 import type { JSX } from "react";
 import type { BlockRegistryEntry } from "./registry";
-import { ContactSplit01 } from "./contact/contact-split/contact-split-01/contact-split-01";
-import { ContactSplit02 } from "./contact/contact-split/contact-split-02/contact-split-02";
-import { ContactSplit03 } from "./contact/contact-split/contact-split-03/contact-split-03";
-import { CtaPanel01 } from "./cta/cta-panel/cta-panel-01/cta-panel-01";
-import { CtaPanel02 } from "./cta/cta-panel/cta-panel-02/cta-panel-02";
-import { CtaPanel03 } from "./cta/cta-panel/cta-panel-03/cta-panel-03";
-import { DashboardShell01 } from "./dashboard/dashboard-shell/dashboard-shell-01/dashboard-shell-01";
-import { DashboardShell02 } from "./dashboard/dashboard-shell/dashboard-shell-02/dashboard-shell-02";
-import { DashboardShell03 } from "./dashboard/dashboard-shell/dashboard-shell-03/dashboard-shell-03";
-import { FeaturesGrid01 } from "./features/features-grid/features-grid-01/features-grid-01";
-import { FeaturesGrid02 } from "./features/features-grid/features-grid-02/features-grid-02";
-import { FeaturesGrid03 } from "./features/features-grid/features-grid-03/features-grid-03";
-import { FooterColumns01 } from "./footer/footer-columns/footer-columns-01/footer-columns-01";
-import { FooterColumns02 } from "./footer/footer-columns/footer-columns-02/footer-columns-02";
-import { FooterColumns03 } from "./footer/footer-columns/footer-columns-03/footer-columns-03";
-import { ForgotPassword01 } from "./auth/forgot-password/forgot-password-01/forgot-password-01";
-import { HeroSplit01 } from "./hero/hero-split/hero-split-01/hero-split-01";
-import { HeroSplit02 } from "./hero/hero-split/hero-split-02/hero-split-02";
-import { HeroSplit03 } from "./hero/hero-split/hero-split-03/hero-split-03";
-import { Login01 } from "./auth/login/login-01/login-01";
-import { NavbarInline01 } from "./navbar/navbar-inline/navbar-inline-01/navbar-inline-01";
-import { NavbarInline02 } from "./navbar/navbar-inline/navbar-inline-02/navbar-inline-02";
-import { NavbarInline03 } from "./navbar/navbar-inline/navbar-inline-03/navbar-inline-03";
-import { PricingTiers01 } from "./pricing/pricing-tiers/pricing-tiers-01/pricing-tiers-01";
-import { PricingTiers02 } from "./pricing/pricing-tiers/pricing-tiers-02/pricing-tiers-02";
-import { PricingTiers03 } from "./pricing/pricing-tiers/pricing-tiers-03/pricing-tiers-03";
-import { Signup01 } from "./auth/signup/signup-01/signup-01";
-import { StatsBand01 } from "./stats/stats-band/stats-band-01/stats-band-01";
-import { StatsBand02 } from "./stats/stats-band/stats-band-02/stats-band-02";
-import { StatsBand03 } from "./stats/stats-band/stats-band-03/stats-band-03";
-import { TeamGrid01 } from "./team/team-grid/team-grid-01/team-grid-01";
-import { TeamGrid02 } from "./team/team-grid/team-grid-02/team-grid-02";
-import { TeamGrid03 } from "./team/team-grid/team-grid-03/team-grid-03";
-import { TestimonialGrid01 } from "./testimonials/testimonial-grid/testimonial-grid-01/testimonial-grid-01";
-import { TestimonialGrid02 } from "./testimonials/testimonial-grid/testimonial-grid-02/testimonial-grid-02";
-import { TestimonialGrid03 } from "./testimonials/testimonial-grid/testimonial-grid-03/testimonial-grid-03";
-import contactSplit01Meta from "./contact/contact-split/contact-split-01/meta";
-import contactSplit02Meta from "./contact/contact-split/contact-split-02/meta";
-import contactSplit03Meta from "./contact/contact-split/contact-split-03/meta";
-import ctaPanel01Meta from "./cta/cta-panel/cta-panel-01/meta";
-import ctaPanel02Meta from "./cta/cta-panel/cta-panel-02/meta";
-import ctaPanel03Meta from "./cta/cta-panel/cta-panel-03/meta";
-import dashboardShell01Meta from "./dashboard/dashboard-shell/dashboard-shell-01/meta";
-import dashboardShell02Meta from "./dashboard/dashboard-shell/dashboard-shell-02/meta";
-import dashboardShell03Meta from "./dashboard/dashboard-shell/dashboard-shell-03/meta";
-import featuresGrid01Meta from "./features/features-grid/features-grid-01/meta";
-import featuresGrid02Meta from "./features/features-grid/features-grid-02/meta";
-import featuresGrid03Meta from "./features/features-grid/features-grid-03/meta";
-import footerColumns01Meta from "./footer/footer-columns/footer-columns-01/meta";
-import footerColumns02Meta from "./footer/footer-columns/footer-columns-02/meta";
-import footerColumns03Meta from "./footer/footer-columns/footer-columns-03/meta";
-import forgotPassword01Meta from "./auth/forgot-password/forgot-password-01/meta";
-import heroSplit01Meta from "./hero/hero-split/hero-split-01/meta";
-import heroSplit02Meta from "./hero/hero-split/hero-split-02/meta";
-import heroSplit03Meta from "./hero/hero-split/hero-split-03/meta";
-import login01Meta from "./auth/login/login-01/meta";
-import navbarInline01Meta from "./navbar/navbar-inline/navbar-inline-01/meta";
-import navbarInline02Meta from "./navbar/navbar-inline/navbar-inline-02/meta";
-import navbarInline03Meta from "./navbar/navbar-inline/navbar-inline-03/meta";
-import pricingTiers01Meta from "./pricing/pricing-tiers/pricing-tiers-01/meta";
-import pricingTiers02Meta from "./pricing/pricing-tiers/pricing-tiers-02/meta";
-import pricingTiers03Meta from "./pricing/pricing-tiers/pricing-tiers-03/meta";
-import signup01Meta from "./auth/signup/signup-01/meta";
-import statsBand01Meta from "./stats/stats-band/stats-band-01/meta";
-import statsBand02Meta from "./stats/stats-band/stats-band-02/meta";
-import statsBand03Meta from "./stats/stats-band/stats-band-03/meta";
-import teamGrid01Meta from "./team/team-grid/team-grid-01/meta";
-import teamGrid02Meta from "./team/team-grid/team-grid-02/meta";
-import teamGrid03Meta from "./team/team-grid/team-grid-03/meta";
-import testimonialGrid01Meta from "./testimonials/testimonial-grid/testimonial-grid-01/meta";
-import testimonialGrid02Meta from "./testimonials/testimonial-grid/testimonial-grid-02/meta";
-import testimonialGrid03Meta from "./testimonials/testimonial-grid/testimonial-grid-03/meta";
+import { Contact01 } from "./contact/contact-01/contact-01";
+import { Contact02 } from "./contact/contact-02/contact-02";
+import { Contact03 } from "./contact/contact-03/contact-03";
+import { Cta01 } from "./cta/cta-01/cta-01";
+import { Cta02 } from "./cta/cta-02/cta-02";
+import { Cta03 } from "./cta/cta-03/cta-03";
+import { Dashboard01 } from "./dashboard/dashboard-01/dashboard-01";
+import { Dashboard02 } from "./dashboard/dashboard-02/dashboard-02";
+import { Dashboard03 } from "./dashboard/dashboard-03/dashboard-03";
+import { Features01 } from "./features/features-01/features-01";
+import { Features02 } from "./features/features-02/features-02";
+import { Features03 } from "./features/features-03/features-03";
+import { Footer01 } from "./footer/footer-01/footer-01";
+import { Footer02 } from "./footer/footer-02/footer-02";
+import { Footer03 } from "./footer/footer-03/footer-03";
+import { Auth03 } from "./forgot-password/forgot-password-01/forgot-password-01";
+import { Hero01 } from "./hero/hero-01/hero-01";
+import { Hero02 } from "./hero/hero-02/hero-02";
+import { Hero03 } from "./hero/hero-03/hero-03";
+import { Auth01 } from "./login/login-01/login-01";
+import { Navbar01 } from "./navbar/navbar-01/navbar-01";
+import { Navbar02 } from "./navbar/navbar-02/navbar-02";
+import { Navbar03 } from "./navbar/navbar-03/navbar-03";
+import { Pricing01 } from "./pricing/pricing-01/pricing-01";
+import { Pricing02 } from "./pricing/pricing-02/pricing-02";
+import { Pricing03 } from "./pricing/pricing-03/pricing-03";
+import { Auth02 } from "./signup/signup-01/signup-01";
+import { Stats01 } from "./stats/stats-01/stats-01";
+import { Stats02 } from "./stats/stats-02/stats-02";
+import { Stats03 } from "./stats/stats-03/stats-03";
+import { Team01 } from "./team/team-01/team-01";
+import { Team02 } from "./team/team-02/team-02";
+import { Team03 } from "./team/team-03/team-03";
+import { Testimonials01 } from "./testimonials/testimonials-01/testimonials-01";
+import { Testimonials02 } from "./testimonials/testimonials-02/testimonials-02";
+import { Testimonials03 } from "./testimonials/testimonials-03/testimonials-03";
+import contact01Meta from "./contact/contact-01/meta";
+import contact02Meta from "./contact/contact-02/meta";
+import contact03Meta from "./contact/contact-03/meta";
+import cta01Meta from "./cta/cta-01/meta";
+import cta02Meta from "./cta/cta-02/meta";
+import cta03Meta from "./cta/cta-03/meta";
+import dashboard01Meta from "./dashboard/dashboard-01/meta";
+import dashboard02Meta from "./dashboard/dashboard-02/meta";
+import dashboard03Meta from "./dashboard/dashboard-03/meta";
+import features01Meta from "./features/features-01/meta";
+import features02Meta from "./features/features-02/meta";
+import features03Meta from "./features/features-03/meta";
+import footer01Meta from "./footer/footer-01/meta";
+import footer02Meta from "./footer/footer-02/meta";
+import footer03Meta from "./footer/footer-03/meta";
+import forgotPassword01Meta from "./forgot-password/forgot-password-01/meta";
+import hero01Meta from "./hero/hero-01/meta";
+import hero02Meta from "./hero/hero-02/meta";
+import hero03Meta from "./hero/hero-03/meta";
+import login01Meta from "./login/login-01/meta";
+import navbar01Meta from "./navbar/navbar-01/meta";
+import navbar02Meta from "./navbar/navbar-02/meta";
+import navbar03Meta from "./navbar/navbar-03/meta";
+import pricing01Meta from "./pricing/pricing-01/meta";
+import pricing02Meta from "./pricing/pricing-02/meta";
+import pricing03Meta from "./pricing/pricing-03/meta";
+import signup01Meta from "./signup/signup-01/meta";
+import stats01Meta from "./stats/stats-01/meta";
+import stats02Meta from "./stats/stats-02/meta";
+import stats03Meta from "./stats/stats-03/meta";
+import team01Meta from "./team/team-01/meta";
+import team02Meta from "./team/team-02/meta";
+import team03Meta from "./team/team-03/meta";
+import testimonials01Meta from "./testimonials/testimonials-01/meta";
+import testimonials02Meta from "./testimonials/testimonials-02/meta";
+import testimonials03Meta from "./testimonials/testimonials-03/meta";
 
 export interface BlockEntry {
   meta: BlockRegistryEntry;
@@ -85,329 +85,329 @@ export interface BlockEntry {
 }
 
 export const blocks = {
-  "contact-split-01": {
+  "contact-01": {
     meta: {
-      ...contactSplit01Meta,
-      files: ["contact-split-01.tsx"],
-      component: "ContactSplit01",
-      uses: ["Box","Button","Container","FieldLabel","FieldRoot","Flex","Grid","Heading","Icon","Input","InputTextarea","Stack","Text"],
+      ...contact01Meta,
+      files: ["contact-01.tsx"],
+      component: "Contact01",
+      uses: ["Box","Button","Container","FieldLabel","FieldRoot","Flex","Grid","Heading","Icon","Input","InputTextarea","Link","Stack","Text"],
     },
-    component: ContactSplit01,
+    component: Contact01,
   },
-  "contact-split-02": {
+  "contact-02": {
     meta: {
-      ...contactSplit02Meta,
-      files: ["contact-split-02.tsx"],
-      component: "ContactSplit02",
+      ...contact02Meta,
+      files: ["contact-02.tsx"],
+      component: "Contact02",
       uses: ["Box","Button","Container","FieldLabel","FieldRoot","Flex","Grid","GridItem","Heading","Input","InputTextarea","Select","Stack","Text"],
     },
-    component: ContactSplit02,
+    component: Contact02,
   },
-  "contact-split-03": {
+  "contact-03": {
     meta: {
-      ...contactSplit03Meta,
-      files: ["contact-split-03.tsx"],
-      component: "ContactSplit03",
+      ...contact03Meta,
+      files: ["contact-03.tsx"],
+      component: "Contact03",
       uses: ["Box","Button","Container","FieldLabel","FieldRoot","Flex","Grid","Heading","Icon","Input","InputTextarea","Stack","Text"],
     },
-    component: ContactSplit03,
+    component: Contact03,
   },
-  "cta-panel-01": {
+  "cta-01": {
     meta: {
-      ...ctaPanel01Meta,
-      files: ["cta-panel-01.tsx"],
-      component: "CtaPanel01",
+      ...cta01Meta,
+      files: ["cta-01.tsx"],
+      component: "Cta01",
       uses: ["Badge","Box","Button","Container","Flex","Heading","Icon","Stack","Text"],
     },
-    component: CtaPanel01,
+    component: Cta01,
   },
-  "cta-panel-02": {
+  "cta-02": {
     meta: {
-      ...ctaPanel02Meta,
-      files: ["cta-panel-02.tsx"],
-      component: "CtaPanel02",
+      ...cta02Meta,
+      files: ["cta-02.tsx"],
+      component: "Cta02",
       uses: ["Box","Button","Container","Flex","Heading","Icon","Link","Stack","Text"],
     },
-    component: CtaPanel02,
+    component: Cta02,
   },
-  "cta-panel-03": {
+  "cta-03": {
     meta: {
-      ...ctaPanel03Meta,
-      files: ["cta-panel-03.tsx"],
-      component: "CtaPanel03",
+      ...cta03Meta,
+      files: ["cta-03.tsx"],
+      component: "Cta03",
       uses: ["Box","Button","Container","Flex","FlexItem","Heading","Input","Link","Stack","Text"],
     },
-    component: CtaPanel03,
+    component: Cta03,
   },
-  "dashboard-shell-01": {
+  "dashboard-01": {
     meta: {
-      ...dashboardShell01Meta,
-      files: ["dashboard-shell-01.tsx"],
-      component: "DashboardShell01",
-      uses: ["Avatar","Badge","Box","Flex","Grid","Icon","Input","Kbd","Stack","Text"],
+      ...dashboard01Meta,
+      files: ["dashboard-01.tsx"],
+      component: "Dashboard01",
+      uses: ["Avatar","Badge","Box","BreadcrumbItem","BreadcrumbLink","BreadcrumbRoot","Flex","Grid","Icon","Input","Kbd","Stack","Text"],
     },
-    component: DashboardShell01,
+    component: Dashboard01,
   },
-  "dashboard-shell-02": {
+  "dashboard-02": {
     meta: {
-      ...dashboardShell02Meta,
-      files: ["dashboard-shell-02.tsx"],
-      component: "DashboardShell02",
+      ...dashboard02Meta,
+      files: ["dashboard-02.tsx"],
+      component: "Dashboard02",
       uses: ["Avatar","Box","Button","Flex","Icon","Input","Stack","Text"],
     },
-    component: DashboardShell02,
+    component: Dashboard02,
   },
-  "dashboard-shell-03": {
+  "dashboard-03": {
     meta: {
-      ...dashboardShell03Meta,
-      files: ["dashboard-shell-03.tsx"],
-      component: "DashboardShell03",
+      ...dashboard03Meta,
+      files: ["dashboard-03.tsx"],
+      component: "Dashboard03",
       uses: ["Avatar","Badge","Box","Flex","Grid","Icon","Separator","Stack","Text"],
     },
-    component: DashboardShell03,
+    component: Dashboard03,
   },
-  "features-grid-01": {
+  "features-01": {
     meta: {
-      ...featuresGrid01Meta,
-      files: ["features-grid-01.tsx"],
-      component: "FeaturesGrid01",
+      ...features01Meta,
+      files: ["features-01.tsx"],
+      component: "Features01",
       uses: ["Box","Container","Flex","Grid","Heading","Icon","Stack","Text"],
     },
-    component: FeaturesGrid01,
+    component: Features01,
   },
-  "features-grid-02": {
+  "features-02": {
     meta: {
-      ...featuresGrid02Meta,
-      files: ["features-grid-02.tsx"],
-      component: "FeaturesGrid02",
+      ...features02Meta,
+      files: ["features-02.tsx"],
+      component: "Features02",
       uses: ["Badge","Box","Button","Container","Flex","Grid","Heading","Icon","Stack","Text"],
     },
-    component: FeaturesGrid02,
+    component: Features02,
   },
-  "features-grid-03": {
+  "features-03": {
     meta: {
-      ...featuresGrid03Meta,
-      files: ["features-grid-03.tsx"],
-      component: "FeaturesGrid03",
+      ...features03Meta,
+      files: ["features-03.tsx"],
+      component: "Features03",
       uses: ["Box","Container","Flex","Grid","GridItem","Heading","Icon","Stack","Text"],
     },
-    component: FeaturesGrid03,
+    component: Features03,
   },
-  "footer-columns-01": {
+  "footer-01": {
     meta: {
-      ...footerColumns01Meta,
-      files: ["footer-columns-01.tsx"],
-      component: "FooterColumns01",
+      ...footer01Meta,
+      files: ["footer-01.tsx"],
+      component: "Footer01",
       uses: ["Box","Container","Flex","Grid","GridItem","Icon","Link","Separator","Stack","Text"],
     },
-    component: FooterColumns01,
+    component: Footer01,
   },
-  "footer-columns-02": {
+  "footer-02": {
     meta: {
-      ...footerColumns02Meta,
-      files: ["footer-columns-02.tsx"],
-      component: "FooterColumns02",
+      ...footer02Meta,
+      files: ["footer-02.tsx"],
+      component: "Footer02",
       uses: ["Box","Button","Container","Flex","FlexItem","Grid","GridItem","Input","Link","Separator","Stack","Text"],
     },
-    component: FooterColumns02,
+    component: Footer02,
   },
-  "footer-columns-03": {
+  "footer-03": {
     meta: {
-      ...footerColumns03Meta,
-      files: ["footer-columns-03.tsx"],
-      component: "FooterColumns03",
+      ...footer03Meta,
+      files: ["footer-03.tsx"],
+      component: "Footer03",
       uses: ["Box","Container","Flex","Grid","GridItem","Icon","Link","Separator","Stack","Text"],
     },
-    component: FooterColumns03,
+    component: Footer03,
   },
   "forgot-password-01": {
     meta: {
       ...forgotPassword01Meta,
       files: ["forgot-password-01.tsx"],
-      component: "ForgotPassword01",
+      component: "Auth03",
       uses: ["Box","Button","Container","FieldHelpText","FieldLabel","FieldRoot","Flex","Heading","Icon","Input","Link","Stack","Text"],
     },
-    component: ForgotPassword01,
+    component: Auth03,
   },
-  "hero-split-01": {
+  "hero-01": {
     meta: {
-      ...heroSplit01Meta,
-      files: ["hero-split-01.tsx"],
-      component: "HeroSplit01",
+      ...hero01Meta,
+      files: ["hero-01.tsx"],
+      component: "Hero01",
       uses: ["AspectRatio","Badge","Box","Button","Container","Flex","Grid","Heading","Stack","Text"],
     },
-    component: HeroSplit01,
+    component: Hero01,
   },
-  "hero-split-02": {
+  "hero-02": {
     meta: {
-      ...heroSplit02Meta,
-      files: ["hero-split-02.tsx"],
-      component: "HeroSplit02",
+      ...hero02Meta,
+      files: ["hero-02.tsx"],
+      component: "Hero02",
       uses: ["AspectRatio","Box","Button","Container","Flex","FlexItem","Grid","GridItem","Heading","Input","Stack","Text"],
     },
-    component: HeroSplit02,
+    component: Hero02,
   },
-  "hero-split-03": {
+  "hero-03": {
     meta: {
-      ...heroSplit03Meta,
-      files: ["hero-split-03.tsx"],
-      component: "HeroSplit03",
+      ...hero03Meta,
+      files: ["hero-03.tsx"],
+      component: "Hero03",
       uses: ["Box","Button","CardBody","CardRoot","Container","Flex","Grid","Heading","Icon","List","ListItem","Stack","Text"],
     },
-    component: HeroSplit03,
+    component: Hero03,
   },
   "login-01": {
     meta: {
       ...login01Meta,
       files: ["login-01.tsx"],
-      component: "Login01",
+      component: "Auth01",
       uses: ["Box","Button","Checkbox","Container","FieldLabel","FieldRoot","Flex","FlexItem","Heading","Icon","Input","InputPassword","Link","Separator","Stack","Text"],
     },
-    component: Login01,
+    component: Auth01,
   },
-  "navbar-inline-01": {
+  "navbar-01": {
     meta: {
-      ...navbarInline01Meta,
-      files: ["navbar-inline-01.tsx"],
-      component: "NavbarInline01",
+      ...navbar01Meta,
+      files: ["navbar-01.tsx"],
+      component: "Navbar01",
       uses: ["Box","Button","Container","Flex","Icon","Link","Stack","Text"],
     },
-    component: NavbarInline01,
+    component: Navbar01,
   },
-  "navbar-inline-02": {
+  "navbar-02": {
     meta: {
-      ...navbarInline02Meta,
-      files: ["navbar-inline-02.tsx"],
-      component: "NavbarInline02",
+      ...navbar02Meta,
+      files: ["navbar-02.tsx"],
+      component: "Navbar02",
       uses: ["Badge","Box","Button","Container","Flex","Icon","Link","Stack","Text"],
     },
-    component: NavbarInline02,
+    component: Navbar02,
   },
-  "navbar-inline-03": {
+  "navbar-03": {
     meta: {
-      ...navbarInline03Meta,
-      files: ["navbar-inline-03.tsx"],
-      component: "NavbarInline03",
+      ...navbar03Meta,
+      files: ["navbar-03.tsx"],
+      component: "Navbar03",
       uses: ["Box","Button","Container","Flex","Icon","Link","Separator","Stack","Text"],
     },
-    component: NavbarInline03,
+    component: Navbar03,
   },
-  "pricing-tiers-01": {
+  "pricing-01": {
     meta: {
-      ...pricingTiers01Meta,
-      files: ["pricing-tiers-01.tsx"],
-      component: "PricingTiers01",
+      ...pricing01Meta,
+      files: ["pricing-01.tsx"],
+      component: "Pricing01",
       uses: ["Badge","Box","Button","Container","Flex","Grid","Heading","Icon","List","ListItem","Separator","Stack","Text"],
     },
-    component: PricingTiers01,
+    component: Pricing01,
   },
-  "pricing-tiers-02": {
+  "pricing-02": {
     meta: {
-      ...pricingTiers02Meta,
-      files: ["pricing-tiers-02.tsx"],
-      component: "PricingTiers02",
+      ...pricing02Meta,
+      files: ["pricing-02.tsx"],
+      component: "Pricing02",
       uses: ["Badge","Box","Button","Container","Flex","Grid","Heading","Icon","List","ListItem","Stack","Text"],
     },
-    component: PricingTiers02,
+    component: Pricing02,
   },
-  "pricing-tiers-03": {
+  "pricing-03": {
     meta: {
-      ...pricingTiers03Meta,
-      files: ["pricing-tiers-03.tsx"],
-      component: "PricingTiers03",
+      ...pricing03Meta,
+      files: ["pricing-03.tsx"],
+      component: "Pricing03",
       uses: ["Badge","Box","Button","Container","Flex","Grid","Heading","Icon","List","ListItem","Stack","Text"],
     },
-    component: PricingTiers03,
+    component: Pricing03,
   },
   "signup-01": {
     meta: {
       ...signup01Meta,
       files: ["signup-01.tsx"],
-      component: "Signup01",
+      component: "Auth02",
       uses: ["Box","Button","Checkbox","Container","FieldHelpText","FieldLabel","FieldRoot","Flex","FlexItem","Heading","Icon","Input","InputPassword","Link","List","ListItem","Separator","Stack","Text"],
     },
-    component: Signup01,
+    component: Auth02,
   },
-  "stats-band-01": {
+  "stats-01": {
     meta: {
-      ...statsBand01Meta,
-      files: ["stats-band-01.tsx"],
-      component: "StatsBand01",
+      ...stats01Meta,
+      files: ["stats-01.tsx"],
+      component: "Stats01",
       uses: ["Box","Container","Grid","Heading","Stack","Text"],
     },
-    component: StatsBand01,
+    component: Stats01,
   },
-  "stats-band-02": {
+  "stats-02": {
     meta: {
-      ...statsBand02Meta,
-      files: ["stats-band-02.tsx"],
-      component: "StatsBand02",
+      ...stats02Meta,
+      files: ["stats-02.tsx"],
+      component: "Stats02",
       uses: ["Box","Container","Grid","Heading","Stack","Stat","StatHelpText","StatIndicator","StatLabel","StatValue","Text"],
     },
-    component: StatsBand02,
+    component: Stats02,
   },
-  "stats-band-03": {
+  "stats-03": {
     meta: {
-      ...statsBand03Meta,
-      files: ["stats-band-03.tsx"],
-      component: "StatsBand03",
+      ...stats03Meta,
+      files: ["stats-03.tsx"],
+      component: "Stats03",
       uses: ["Box","Container","Grid","GridItem","Heading","Stack","Text"],
     },
-    component: StatsBand03,
+    component: Stats03,
   },
-  "team-grid-01": {
+  "team-01": {
     meta: {
-      ...teamGrid01Meta,
-      files: ["team-grid-01.tsx"],
-      component: "TeamGrid01",
+      ...team01Meta,
+      files: ["team-01.tsx"],
+      component: "Team01",
       uses: ["Avatar","Box","Container","Flex","Grid","Heading","Icon","Link","Stack","Text"],
     },
-    component: TeamGrid01,
+    component: Team01,
   },
-  "team-grid-02": {
+  "team-02": {
     meta: {
-      ...teamGrid02Meta,
-      files: ["team-grid-02.tsx"],
-      component: "TeamGrid02",
+      ...team02Meta,
+      files: ["team-02.tsx"],
+      component: "Team02",
       uses: ["Avatar","Box","Container","Flex","Grid","Heading","Icon","Link","Stack","Text"],
     },
-    component: TeamGrid02,
+    component: Team02,
   },
-  "team-grid-03": {
+  "team-03": {
     meta: {
-      ...teamGrid03Meta,
-      files: ["team-grid-03.tsx"],
-      component: "TeamGrid03",
+      ...team03Meta,
+      files: ["team-03.tsx"],
+      component: "Team03",
       uses: ["Avatar","Box","Button","Container","Grid","GridItem","Heading","Stack","Text"],
     },
-    component: TeamGrid03,
+    component: Team03,
   },
-  "testimonial-grid-01": {
+  "testimonials-01": {
     meta: {
-      ...testimonialGrid01Meta,
-      files: ["testimonial-grid-01.tsx"],
-      component: "TestimonialGrid01",
+      ...testimonials01Meta,
+      files: ["testimonials-01.tsx"],
+      component: "Testimonials01",
       uses: ["Avatar","Box","Container","Flex","Grid","Heading","Icon","Stack","Text"],
     },
-    component: TestimonialGrid01,
+    component: Testimonials01,
   },
-  "testimonial-grid-02": {
+  "testimonials-02": {
     meta: {
-      ...testimonialGrid02Meta,
-      files: ["testimonial-grid-02.tsx"],
-      component: "TestimonialGrid02",
+      ...testimonials02Meta,
+      files: ["testimonials-02.tsx"],
+      component: "Testimonials02",
       uses: ["Avatar","Box","Container","Flex","Grid","Heading","Stack","Text"],
     },
-    component: TestimonialGrid02,
+    component: Testimonials02,
   },
-  "testimonial-grid-03": {
+  "testimonials-03": {
     meta: {
-      ...testimonialGrid03Meta,
-      files: ["testimonial-grid-03.tsx"],
-      component: "TestimonialGrid03",
+      ...testimonials03Meta,
+      files: ["testimonials-03.tsx"],
+      component: "Testimonials03",
       uses: ["Avatar","Box","Container","Flex","Grid","Heading","Icon","Stack","Text"],
     },
-    component: TestimonialGrid03,
+    component: Testimonials03,
   },
 } as const satisfies Record<string, BlockEntry>;
 

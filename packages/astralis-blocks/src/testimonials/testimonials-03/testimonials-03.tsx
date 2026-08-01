@@ -52,7 +52,7 @@ function StarRow() {
  * as spotlights against the dark. Inside a light card the normal label ladder
  * applies, so the attribution needs no inverted handling. Three across from md.
  */
-export function TestimonialGrid03() {
+export function Testimonials03() {
   return (
     <Box as="section" bg="inverted" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

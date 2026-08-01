@@ -1,9 +1,8 @@
-import type { BlockMeta } from "../../../registry";
+import type { BlockMeta } from "../../registry";
 
 export default {
-  id: "stats-band-01",
+  id: "stats-01",
   category: "stats",
-  family: "stats-band",
   name: "Centred marketing numbers",
   description:
     "A marketing stats band: oversized numbers with captions under a centred heading, four across on desktop and two on mobile. On the base surface.",

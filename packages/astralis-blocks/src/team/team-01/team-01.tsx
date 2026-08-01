@@ -63,7 +63,7 @@ function SocialRow({ name }: { name: string }) {
  *
  * Two across from sm, four from lg, one below.
  */
-export function TeamGrid01() {
+export function Team01() {
   return (
     <Box as="section" bg="base" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

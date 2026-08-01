@@ -43,7 +43,7 @@ function FooterLink({ label }: { label: string }) {
  * spans two of five columns so the form keeps a usable width before the grid
  * collapses at `lg`.
  */
-export function FooterColumns02() {
+export function Footer02() {
   return (
     <Box as="footer" bg="base" py={{ base: "14", lg: "20" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

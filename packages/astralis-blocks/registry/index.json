@@ -1,9 +1,8 @@
 {
   "blocks": [
     {
-      "id": "contact-split-01",
+      "id": "contact-01",
       "category": "contact",
-      "family": "contact-split",
       "name": "Details beside a form card",
       "description": "A two-column contact section: heading, pitch and icon-tiled contact details on the left, a bordered form card with name, email and message on the right. Stacks into one column below lg.",
       "tags": [
@@ -14,9 +13,9 @@
         "two-column"
       ],
       "files": [
-        "contact-split-01.tsx"
+        "contact-01.tsx"
       ],
-      "component": "ContactSplit01",
+      "component": "Contact01",
       "uses": [
         "Box",
         "Button",
@@ -29,14 +28,14 @@
         "Icon",
         "Input",
         "InputTextarea",
+        "Link",
         "Stack",
         "Text"
       ]
     },
     {
-      "id": "contact-split-02",
+      "id": "contact-02",
       "category": "contact",
-      "family": "contact-split",
       "name": "Raised form card with a reassurance column",
       "description": "The contact split as a card on a tinted band: a raised form panel with a topic select on the wider left column, and a reassurance column — response time, hours, an email — on the right. Stacks below lg.",
       "tags": [
@@ -47,9 +46,9 @@
         "reassurance"
       ],
       "files": [
-        "contact-split-02.tsx"
+        "contact-02.tsx"
       ],
-      "component": "ContactSplit02",
+      "component": "Contact02",
       "uses": [
         "Box",
         "Button",
@@ -68,9 +67,8 @@
       ]
     },
     {
-      "id": "contact-split-03",
+      "id": "contact-03",
       "category": "contact",
-      "family": "contact-split",
       "name": "Inverted pitch panel beside a form",
       "description": "The contact split with the pitch pulled into an inverted panel — a dark card carrying the heading and contact lines with light icon chips, beside a two-column form on the base surface. Stacks below lg.",
       "tags": [
@@ -81,9 +79,9 @@
         "two-column"
       ],
       "files": [
-        "contact-split-03.tsx"
+        "contact-03.tsx"
       ],
-      "component": "ContactSplit03",
+      "component": "Contact03",
       "uses": [
         "Box",
         "Button",
@@ -101,9 +99,8 @@
       ]
     },
     {
-      "id": "cta-panel-01",
+      "id": "cta-01",
       "category": "cta",
-      "family": "cta-panel",
       "name": "Centred panel with dual actions",
       "description": "A tinted bordered panel on a narrow measure: release badge, headline, one line of copy, then a primary and secondary action with a row of assurances underneath. Actions stack below sm.",
       "tags": [
@@ -114,9 +111,9 @@
         "assurances"
       ],
       "files": [
-        "cta-panel-01.tsx"
+        "cta-01.tsx"
       ],
-      "component": "CtaPanel01",
+      "component": "Cta01",
       "uses": [
         "Badge",
         "Box",
@@ -130,9 +127,8 @@
       ]
     },
     {
-      "id": "cta-panel-02",
+      "id": "cta-02",
       "category": "cta",
-      "family": "cta-panel",
       "name": "Inverted band with side actions",
       "description": "A full-bleed inverted band that closes the page: heading and supporting copy on the left, a solid action and an arrow link on the right. Stacks into one column below lg.",
       "tags": [
@@ -143,9 +139,9 @@
         "split"
       ],
       "files": [
-        "cta-panel-02.tsx"
+        "cta-02.tsx"
       ],
-      "component": "CtaPanel02",
+      "component": "Cta02",
       "uses": [
         "Box",
         "Button",
@@ -159,9 +155,8 @@
       ]
     },
     {
-      "id": "cta-panel-03",
+      "id": "cta-03",
       "category": "cta",
-      "family": "cta-panel",
       "name": "Brand-tinted panel with email capture",
       "description": "A brand-tinted bordered panel: uppercase eyebrow, headline, one line of copy, then an inline email field and submit button with fine print beneath. Field and button stack below sm.",
       "tags": [
@@ -172,9 +167,9 @@
         "newsletter"
       ],
       "files": [
-        "cta-panel-03.tsx"
+        "cta-03.tsx"
       ],
-      "component": "CtaPanel03",
+      "component": "Cta03",
       "uses": [
         "Box",
         "Button",
@@ -189,9 +184,8 @@
       ]
     },
     {
-      "id": "dashboard-shell-01",
+      "id": "dashboard-01",
       "category": "dashboard",
-      "family": "dashboard-shell",
       "name": "Sidebar shell with grouped nav",
       "description": "A dashboard shell: a tinted sidebar with a workspace header, grouped nav with counts and a user row, beside a sticky header carrying a breadcrumb, search and actions. The content region is empty scaffolding. Below lg the sidebar becomes an overlay drawer.",
       "tags": [
@@ -202,13 +196,16 @@
         "mobile-drawer"
       ],
       "files": [
-        "dashboard-shell-01.tsx"
+        "dashboard-01.tsx"
       ],
-      "component": "DashboardShell01",
+      "component": "Dashboard01",
       "uses": [
         "Avatar",
         "Badge",
         "Box",
+        "BreadcrumbItem",
+        "BreadcrumbLink",
+        "BreadcrumbRoot",
         "Flex",
         "Grid",
         "Icon",
@@ -219,9 +216,8 @@
       ]
     },
     {
-      "id": "dashboard-shell-02",
+      "id": "dashboard-02",
       "category": "dashboard",
-      "family": "dashboard-shell",
       "name": "Icon rail with an inset content panel",
       "description": "The shell reduced to an icon rail: labelled icon nav that survives every viewport without a drawer, a header with the page title and a primary action, and the content region as an inset panel. No client state.",
       "tags": [
@@ -232,9 +228,9 @@
         "primary-action"
       ],
       "files": [
-        "dashboard-shell-02.tsx"
+        "dashboard-02.tsx"
       ],
-      "component": "DashboardShell02",
+      "component": "Dashboard02",
       "uses": [
         "Avatar",
         "Box",
@@ -247,9 +243,8 @@
       ]
     },
     {
-      "id": "dashboard-shell-03",
+      "id": "dashboard-03",
       "category": "dashboard",
-      "family": "dashboard-shell",
       "name": "Inverted sidebar with a two-tier header",
       "description": "The shell with an inverted sidebar and a two-tier header: a title row with actions above a row of section tabs, the active tab marked by its own bottom border. The content region is empty scaffolding. Below lg the sidebar becomes an overlay drawer.",
       "tags": [
@@ -260,9 +255,9 @@
         "mobile-drawer"
       ],
       "files": [
-        "dashboard-shell-03.tsx"
+        "dashboard-03.tsx"
       ],
-      "component": "DashboardShell03",
+      "component": "Dashboard03",
       "uses": [
         "Avatar",
         "Badge",
@@ -276,9 +271,8 @@
       ]
     },
     {
-      "id": "features-grid-01",
+      "id": "features-01",
       "category": "features",
-      "family": "features-grid",
       "name": "Three-column grid of bordered cards",
       "description": "Six features three across as flat bordered cards, under a centred accent eyebrow and section heading. Each card stacks a tinted icon tile above its title and body copy, and takes its edge from a border rather than a shadow. Falls to two columns at sm and one at base.",
       "tags": [
@@ -289,9 +283,9 @@
         "accent-eyebrow"
       ],
       "files": [
-        "features-grid-01.tsx"
+        "features-01.tsx"
       ],
-      "component": "FeaturesGrid01",
+      "component": "Features01",
       "uses": [
         "Box",
         "Container",
@@ -304,9 +298,8 @@
       ]
     },
     {
-      "id": "features-grid-02",
+      "id": "features-02",
       "category": "features",
-      "family": "features-grid",
       "name": "Two-column bordered cards with side heading",
       "description": "Four features as bordered cards on a tinted band. The section heading sits left with its call to action opposite on wide viewports, and each card runs a tinted icon tile inline beside the title, with room for a status badge. Two across from md, one below it.",
       "tags": [
@@ -317,9 +310,9 @@
         "heading-cta"
       ],
       "files": [
-        "features-grid-02.tsx"
+        "features-02.tsx"
       ],
-      "component": "FeaturesGrid02",
+      "component": "Features02",
       "uses": [
         "Badge",
         "Box",
@@ -334,9 +327,8 @@
       ]
     },
     {
-      "id": "features-grid-03",
+      "id": "features-03",
       "category": "features",
-      "family": "features-grid",
       "name": "Bento with lead tile and placeholder visual",
       "description": "Asymmetric bento under a left-aligned section heading: a wide brand-tinted lead tile carrying a placeholder deploy-history visual, a tall bordered tile beside it, and two supporting cells. Spans are declared per breakpoint, so everything collapses to one column below lg.",
       "tags": [
@@ -347,9 +339,9 @@
         "brand-panel"
       ],
       "files": [
-        "features-grid-03.tsx"
+        "features-03.tsx"
       ],
-      "component": "FeaturesGrid03",
+      "component": "Features03",
       "uses": [
         "Box",
         "Container",
@@ -363,9 +355,8 @@
       ]
     },
     {
-      "id": "footer-columns-01",
+      "id": "footer-01",
       "category": "footer",
-      "family": "footer-columns",
       "name": "Four link columns with brand block",
       "description": "Six-column grid on a tinted band: a brand block with wordmark and blurb takes two columns, then four columns of links. A separator divides off the bottom row, which pairs the copyright with social icons. Two columns at sm, one at base.",
       "tags": [
@@ -376,9 +367,9 @@
         "copyright"
       ],
       "files": [
-        "footer-columns-01.tsx"
+        "footer-01.tsx"
       ],
-      "component": "FooterColumns01",
+      "component": "Footer01",
       "uses": [
         "Box",
         "Container",
@@ -393,9 +384,8 @@
       ]
     },
     {
-      "id": "footer-columns-02",
+      "id": "footer-02",
       "category": "footer",
-      "family": "footer-columns",
       "name": "Newsletter capture with three columns",
       "description": "Five-column grid on the page surface: brand, blurb and an inline newsletter form take two columns, then three columns of links. The bottom row pairs the copyright with legal links rather than social icons.",
       "tags": [
@@ -406,9 +396,9 @@
         "base-surface"
       ],
       "files": [
-        "footer-columns-02.tsx"
+        "footer-02.tsx"
       ],
-      "component": "FooterColumns02",
+      "component": "Footer02",
       "uses": [
         "Box",
         "Button",
@@ -425,9 +415,8 @@
       ]
     },
     {
-      "id": "footer-columns-03",
+      "id": "footer-03",
       "category": "footer",
-      "family": "footer-columns",
       "name": "Inverted footer with four columns",
       "description": "The column layout inverted to close a page: brand block plus four link columns on the inverted surface, with opacity carrying the secondary tier since there is no inverted-muted token. Link hover moves to the underline, which reads on any fill.",
       "tags": [
@@ -438,9 +427,9 @@
         "underline-hover"
       ],
       "files": [
-        "footer-columns-03.tsx"
+        "footer-03.tsx"
       ],
-      "component": "FooterColumns03",
+      "component": "Footer03",
       "uses": [
         "Box",
         "Container",
@@ -456,8 +445,7 @@
     },
     {
       "id": "forgot-password-01",
-      "category": "auth",
-      "family": "forgot-password",
+      "category": "forgot-password",
       "name": "Single-field reset request",
       "description": "Password reset request on a tinted band: envelope mark, an explanation of what happens next, one email field with a privacy-preserving hint, and a route back to sign-in.",
       "tags": [
@@ -470,7 +458,7 @@
       "files": [
         "forgot-password-01.tsx"
       ],
-      "component": "ForgotPassword01",
+      "component": "Auth03",
       "uses": [
         "Box",
         "Button",
@@ -488,9 +476,8 @@
       ]
     },
     {
-      "id": "hero-split-01",
+      "id": "hero-01",
       "category": "hero",
-      "family": "hero-split",
       "name": "Split with framed product shot",
       "description": "Two-column hero: announcement pill, headline, dual call-to-action and a stat row on the left; a framed product screenshot on the right. Stacks to one column below lg.",
       "tags": [
@@ -501,9 +488,9 @@
         "light-surface"
       ],
       "files": [
-        "hero-split-01.tsx"
+        "hero-01.tsx"
       ],
-      "component": "HeroSplit01",
+      "component": "Hero01",
       "uses": [
         "AspectRatio",
         "Badge",
@@ -518,9 +505,8 @@
       ]
     },
     {
-      "id": "hero-split-02",
+      "id": "hero-02",
       "category": "hero",
-      "family": "hero-split",
       "name": "Media left with email capture",
       "description": "Mirrored split on a tinted band: a placeholder chart on the left, and on the right an accent eyebrow, headline, inline email capture and a trusted-by logo row. Stacks to one column below lg with the media last.",
       "tags": [
@@ -531,9 +517,9 @@
         "accent-eyebrow"
       ],
       "files": [
-        "hero-split-02.tsx"
+        "hero-02.tsx"
       ],
-      "component": "HeroSplit02",
+      "component": "Hero02",
       "uses": [
         "AspectRatio",
         "Box",
@@ -550,9 +536,8 @@
       ]
     },
     {
-      "id": "hero-split-03",
+      "id": "hero-03",
       "category": "hero",
-      "family": "hero-split",
       "name": "Split with checklist and testimonial",
       "description": "Copy on the left with an accent eyebrow, headline and a ticked feature list; on the right a raised testimonial card floating on a brand-tinted panel. Stacks to one column below lg.",
       "tags": [
@@ -563,9 +548,9 @@
         "single-cta"
       ],
       "files": [
-        "hero-split-03.tsx"
+        "hero-03.tsx"
       ],
-      "component": "HeroSplit03",
+      "component": "Hero03",
       "uses": [
         "Box",
         "Button",
@@ -584,8 +569,7 @@
     },
     {
       "id": "login-01",
-      "category": "auth",
-      "family": "login",
+      "category": "login",
       "name": "Centred card with social sign-in",
       "description": "Sign-in card on a tinted band: brand mark and heading above, then email and password fields with an inline forgot-password link, a keep-signed-in checkbox, and Google and GitHub providers below a divider.",
       "tags": [
@@ -598,7 +582,7 @@
       "files": [
         "login-01.tsx"
       ],
-      "component": "Login01",
+      "component": "Auth01",
       "uses": [
         "Box",
         "Button",
@@ -619,9 +603,8 @@
       ]
     },
     {
-      "id": "navbar-inline-01",
+      "id": "navbar-01",
       "category": "navbar",
-      "family": "navbar-inline",
       "name": "Sticky bar with inline links",
       "description": "Sticky header on the page surface: wordmark on the left, inline navigation in the middle, and a text sign-in beside a solid call to action on the right. Below md the links and actions collapse into a disclosure panel under a hairline.",
       "tags": [
@@ -632,9 +615,9 @@
         "hairline"
       ],
       "files": [
-        "navbar-inline-01.tsx"
+        "navbar-01.tsx"
       ],
-      "component": "NavbarInline01",
+      "component": "Navbar01",
       "uses": [
         "Box",
         "Button",
@@ -647,9 +630,8 @@
       ]
     },
     {
-      "id": "navbar-inline-02",
+      "id": "navbar-02",
       "category": "navbar",
-      "family": "navbar-inline",
       "name": "Announcement strip over a sticky bar",
       "description": "A brand-filled announcement strip above the header, then a sticky bar with the wordmark and links grouped together on the left and three tiers of action on the right. Collapses to a disclosure panel below lg.",
       "tags": [
@@ -660,9 +642,9 @@
         "mobile-disclosure"
       ],
       "files": [
-        "navbar-inline-02.tsx"
+        "navbar-02.tsx"
       ],
-      "component": "NavbarInline02",
+      "component": "Navbar02",
       "uses": [
         "Badge",
         "Box",
@@ -676,9 +658,8 @@
       ]
     },
     {
-      "id": "navbar-inline-03",
+      "id": "navbar-03",
       "category": "navbar",
-      "family": "navbar-inline",
       "name": "Floating pill with centred links",
       "description": "The same bar inset from the page edges as a rounded, bordered card rather than a full-bleed strip. Wordmark left, centred links, one call to action right, and a disclosure that opens inside the pill below md. Uses the raised surface, so it lifts in dark mode where a shadow alone would not read.",
       "tags": [
@@ -689,9 +670,9 @@
         "raised-surface"
       ],
       "files": [
-        "navbar-inline-03.tsx"
+        "navbar-03.tsx"
       ],
-      "component": "NavbarInline03",
+      "component": "Navbar03",
       "uses": [
         "Box",
         "Button",
@@ -705,9 +686,8 @@
       ]
     },
     {
-      "id": "pricing-tiers-01",
+      "id": "pricing-01",
       "category": "pricing",
-      "family": "pricing-tiers",
       "name": "Three cards with highlighted plan",
       "description": "Three separate pricing cards with a centred section heading. The recommended plan is lifted with a brand border, a solid call to action and a Most popular badge; ticked feature lists sit under a divider and every call to action is pinned to the foot of its card.",
       "tags": [
@@ -718,9 +698,9 @@
         "footnote"
       ],
       "files": [
-        "pricing-tiers-01.tsx"
+        "pricing-01.tsx"
       ],
-      "component": "PricingTiers01",
+      "component": "Pricing01",
       "uses": [
         "Badge",
         "Box",
@@ -738,9 +718,8 @@
       ]
     },
     {
-      "id": "pricing-tiers-02",
+      "id": "pricing-02",
       "category": "pricing",
-      "family": "pricing-tiers",
       "name": "Joined panel with tinted plan",
       "description": "Three tiers sharing one rounded panel rather than floating as separate cards. The recommended column is marked by a tinted background instead of a border, so nothing breaks the outer silhouette, and each call to action sits at the foot of its column.",
       "tags": [
@@ -751,9 +730,9 @@
         "tinted-surface"
       ],
       "files": [
-        "pricing-tiers-02.tsx"
+        "pricing-02.tsx"
       ],
-      "component": "PricingTiers02",
+      "component": "Pricing02",
       "uses": [
         "Badge",
         "Box",
@@ -770,9 +749,8 @@
       ]
     },
     {
-      "id": "pricing-tiers-03",
+      "id": "pricing-03",
       "category": "pricing",
-      "family": "pricing-tiers",
       "name": "Inverted recommended tier",
       "description": "Three tiers where the recommended plan sits on an inverted surface to carry the most weight, with an oversized price and an annual-billing note under each. Ticks and secondary text adapt to whichever surface the card uses, and every call to action is pinned to the foot of its card.",
       "tags": [
@@ -783,9 +761,9 @@
         "feature-list"
       ],
       "files": [
-        "pricing-tiers-03.tsx"
+        "pricing-03.tsx"
       ],
-      "component": "PricingTiers03",
+      "component": "Pricing03",
       "uses": [
         "Badge",
         "Box",
@@ -803,8 +781,7 @@
     },
     {
       "id": "signup-01",
-      "category": "auth",
-      "family": "signup",
+      "category": "signup",
       "name": "Centred card with value list",
       "description": "Sign-up card on a tinted band: split first and last name row, work email, password with a strength hint, a terms checkbox, and a short ticked list of what the free tier includes.",
       "tags": [
@@ -817,7 +794,7 @@
       "files": [
         "signup-01.tsx"
       ],
-      "component": "Signup01",
+      "component": "Auth02",
       "uses": [
         "Box",
         "Button",
@@ -841,9 +818,8 @@
       ]
     },
     {
-      "id": "stats-band-01",
+      "id": "stats-01",
       "category": "stats",
-      "family": "stats-band",
       "name": "Centred marketing numbers",
       "description": "A marketing stats band: oversized numbers with captions under a centred heading, four across on desktop and two on mobile. On the base surface.",
       "tags": [
@@ -854,9 +830,9 @@
         "heading"
       ],
       "files": [
-        "stats-band-01.tsx"
+        "stats-01.tsx"
       ],
-      "component": "StatsBand01",
+      "component": "Stats01",
       "uses": [
         "Box",
         "Container",
@@ -867,9 +843,8 @@
       ]
     },
     {
-      "id": "stats-band-02",
+      "id": "stats-02",
       "category": "stats",
-      "family": "stats-band",
       "name": "KPI cards with trend indicators",
       "description": "A dashboard-flavoured KPI band on a tinted surface: four bordered cards, each composing a Stat — label, value, a signed trend indicator and a note. Four across from md, two below.",
       "tags": [
@@ -880,9 +855,9 @@
         "tinted-band"
       ],
       "files": [
-        "stats-band-02.tsx"
+        "stats-02.tsx"
       ],
-      "component": "StatsBand02",
+      "component": "Stats02",
       "uses": [
         "Box",
         "Container",
@@ -898,9 +873,8 @@
       ]
     },
     {
-      "id": "stats-band-03",
+      "id": "stats-03",
       "category": "stats",
-      "family": "stats-band",
       "name": "Inverted split with a 2×2 grid",
       "description": "The stats skeleton as an inverted closing band, split two ways: framing copy on the left, a 2×2 grid of oversized numbers on the right. Stacks into one column below lg.",
       "tags": [
@@ -911,9 +885,9 @@
         "side-heading"
       ],
       "files": [
-        "stats-band-03.tsx"
+        "stats-03.tsx"
       ],
-      "component": "StatsBand03",
+      "component": "Stats03",
       "uses": [
         "Box",
         "Container",
@@ -925,9 +899,8 @@
       ]
     },
     {
-      "id": "team-grid-01",
+      "id": "team-01",
       "category": "team",
-      "family": "team-grid",
       "name": "Centred portraits, four up",
       "description": "A borderless four-up grid of centred portraits with name, role and a small social row beneath each, under a centred heading. Two across at sm, four at lg, one below.",
       "tags": [
@@ -938,9 +911,9 @@
         "avatar"
       ],
       "files": [
-        "team-grid-01.tsx"
+        "team-01.tsx"
       ],
-      "component": "TeamGrid01",
+      "component": "Team01",
       "uses": [
         "Avatar",
         "Box",
@@ -955,9 +928,8 @@
       ]
     },
     {
-      "id": "team-grid-02",
+      "id": "team-02",
       "category": "team",
-      "family": "team-grid",
       "name": "Bordered cards with bios",
       "description": "The team skeleton with more to say: bordered cards on a tinted band, each pairing an avatar and role with a short bio and a social row pinned to the bottom. Three across from md, one below.",
       "tags": [
@@ -968,9 +940,9 @@
         "social-row"
       ],
       "files": [
-        "team-grid-02.tsx"
+        "team-02.tsx"
       ],
-      "component": "TeamGrid02",
+      "component": "Team02",
       "uses": [
         "Avatar",
         "Box",
@@ -985,9 +957,8 @@
       ]
     },
     {
-      "id": "team-grid-03",
+      "id": "team-03",
       "category": "team",
-      "family": "team-grid",
       "name": "Heading beside a dense grid",
       "description": "The team skeleton split two ways: a heading column with an intro and careers call to action on the left, a dense grid of rounded-avatar members on the right. Stacks into one column below lg.",
       "tags": [
@@ -998,9 +969,9 @@
         "careers-cta"
       ],
       "files": [
-        "team-grid-03.tsx"
+        "team-03.tsx"
       ],
-      "component": "TeamGrid03",
+      "component": "Team03",
       "uses": [
         "Avatar",
         "Box",
@@ -1014,9 +985,8 @@
       ]
     },
     {
-      "id": "testimonial-grid-01",
+      "id": "testimonials-01",
       "category": "testimonials",
-      "family": "testimonial-grid",
       "name": "Bordered cards with star ratings",
       "description": "A three-column wall of bordered quote cards on the base surface, centred heading above. Each card runs a five-star rating, the quote, then an avatar attribution pinned to a divider at the bottom. Two across at md, one below it.",
       "tags": [
@@ -1027,9 +997,9 @@
         "centred-heading"
       ],
       "files": [
-        "testimonial-grid-01.tsx"
+        "testimonials-01.tsx"
       ],
-      "component": "TestimonialGrid01",
+      "component": "Testimonials01",
       "uses": [
         "Avatar",
         "Box",
@@ -1043,9 +1013,8 @@
       ]
     },
     {
-      "id": "testimonial-grid-02",
+      "id": "testimonials-02",
       "category": "testimonials",
-      "family": "testimonial-grid",
       "name": "Raised cards on a tinted band",
       "description": "The quote-card skeleton with a softer treatment: a tinted band carrying raised, borderless cards with a decorative quotation glyph and the avatar attribution moved to the top. Three across from md, one below.",
       "tags": [
@@ -1056,9 +1025,9 @@
         "avatar"
       ],
       "files": [
-        "testimonial-grid-02.tsx"
+        "testimonials-02.tsx"
       ],
-      "component": "TestimonialGrid02",
+      "component": "Testimonials02",
       "uses": [
         "Avatar",
         "Box",
@@ -1071,9 +1040,8 @@
       ]
     },
     {
-      "id": "testimonial-grid-03",
+      "id": "testimonials-03",
       "category": "testimonials",
-      "family": "testimonial-grid",
       "name": "Light cards on an inverted band",
       "description": "The quote-card skeleton on an inverted closing band: the heading inverts with the surface while the cards flip to the light base to read as spotlights. Star rating, quote, and avatar attribution on a divider. Three across from md, one below.",
       "tags": [
@@ -1084,9 +1052,9 @@
         "avatar"
       ],
       "files": [
-        "testimonial-grid-03.tsx"
+        "testimonials-03.tsx"
       ],
-      "component": "TestimonialGrid03",
+      "component": "Testimonials03",
       "uses": [
         "Avatar",
         "Box",

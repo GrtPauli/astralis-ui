@@ -101,7 +101,7 @@ function FeatureCell({
  * beside it and two supporting cells. Every span collapses below `lg` so the
  * whole thing becomes a single readable column on small screens.
  */
-export function FeaturesGrid03() {
+export function Features03() {
   return (
     <Box as="section" bg="base" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

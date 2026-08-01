@@ -42,7 +42,7 @@ function CheckIcon() {
  * Two-column hero pairing a feature checklist with a testimonial card floating
  * over a brand-tinted panel. Stacks to one column below `lg`.
  */
-export function HeroSplit03() {
+export function Hero03() {
   return (
     <Box as="section" bg="base" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

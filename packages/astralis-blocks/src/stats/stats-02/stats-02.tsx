@@ -29,7 +29,7 @@ const kpis = [
  * dotted sub-component access that breaks across the RSC boundary. The children
  * are the flat exports. Four across from md, two below.
  */
-export function StatsBand02() {
+export function Stats02() {
   return (
     <Box as="section" bg="subtle" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

@@ -1,9 +1,8 @@
-import type { BlockMeta } from "../../../registry";
+import type { BlockMeta } from "../../registry";
 
 export default {
-  id: "pricing-tiers-02",
+  id: "pricing-02",
   category: "pricing",
-  family: "pricing-tiers",
   name: "Joined panel with tinted plan",
   description:
     "Three tiers sharing one rounded panel rather than floating as separate cards. The recommended column is marked by a tinted background instead of a border, so nothing breaks the outer silhouette, and each call to action sits at the foot of its column.",

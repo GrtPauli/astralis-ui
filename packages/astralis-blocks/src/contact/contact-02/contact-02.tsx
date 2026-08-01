@@ -36,7 +36,7 @@ const facts = [
  * `Select` carries a `name`, so it participates in native form submission with
  * no client state; the form still submits nowhere as written.
  */
-export function ContactSplit02() {
+export function Contact02() {
   return (
     <Box as="section" bg="subtle" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

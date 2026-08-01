@@ -37,7 +37,7 @@ function ArrowRight() {
  * action is a Link with `color="inverted"` rather than a ghost Button. The
  * explicit colour holds in both states and the underline carries the hover.
  */
-export function CtaPanel02() {
+export function Cta02() {
   return (
     <Box as="section" bg="inverted" py={{ base: "14", lg: "20" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

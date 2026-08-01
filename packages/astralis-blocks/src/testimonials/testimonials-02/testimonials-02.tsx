@@ -41,7 +41,7 @@ const testimonials = [
  * `raised` is exactly the role a shadowed card sits in — a layer floating above
  * the tinted band rather than drawn on it — so the cards take `bg="raised"`.
  */
-export function TestimonialGrid02() {
+export function Testimonials02() {
   return (
     <Box as="section" bg="subtle" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

@@ -79,7 +79,7 @@ function CheckMark() {
 }
 
 /** Three separate cards, the recommended plan lifted with a brand border. */
-export function PricingTiers01() {
+export function Pricing01() {
   return (
     <Box as="section" bg="base" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

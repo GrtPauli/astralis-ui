@@ -42,7 +42,7 @@ const details = [
  * are dimmed with `opacity` on their wrapper rather than a muted colour, since
  * the label ladder has no inverted-muted rung. Stacks below `lg`.
  */
-export function ContactSplit03() {
+export function Contact03() {
   return (
     <Box as="section" bg="base" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

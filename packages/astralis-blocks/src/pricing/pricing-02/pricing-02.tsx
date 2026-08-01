@@ -71,7 +71,7 @@ function CheckMark() {
  * recommended column is marked by a tinted background instead of a border, so
  * nothing breaks the outer silhouette.
  */
-export function PricingTiers02() {
+export function Pricing02() {
   return (
     <Box as="section" bg="subtle" py={{ base: "16", lg: "24" }}>
       <Container maxW="5xl" px={{ base: "6", lg: "8" }}>

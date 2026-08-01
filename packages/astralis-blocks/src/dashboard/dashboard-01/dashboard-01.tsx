@@ -5,6 +5,9 @@ import {
   Avatar,
   Badge,
   Box,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbRoot,
   Flex,
   Grid,
   Icon,
@@ -24,11 +27,8 @@ const paths = {
   invoice: "M6 3h12v18l-3-2-3 2-3-2-3 2V3Zm3 5h6M9 12h6",
   settings: "M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1v.3a2 2 0 1 1-4 0v-.2a1.6 1.6 0 0 0-2.8-1.1l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3.5 15H3a2 2 0 1 1 0-4h.2A1.6 1.6 0 0 0 4.3 8.2l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 2.7-1.1V4a2 2 0 1 1 4 0v.2a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0 1.1 2.7h.3a2 2 0 1 1 0 4h-.2a1.6 1.6 0 0 0-1.1 1Z",
   help: "M12 17h.01M9.1 9a3 3 0 1 1 4.2 2.7c-.8.4-1.3 1-1.3 1.8v.5",
-  search: "M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Zm5-2 4 4",
   bell: "M18 8a6 6 0 1 0-12 0c0 6-2 7-2 7h16s-2-1-2-7ZM10.3 20a2 2 0 0 0 3.4 0",
   menu: "M4 7h16M4 12h16M4 17h16",
-  close: "m6 6 12 12M18 6 6 18",
-  chevron: "m9 6 6 6-6 6",
 };
 
 const groups = [
@@ -81,8 +81,10 @@ interface NavItem {
 }
 
 /**
- * A nav row. The active row is the only one that paints a surface — style props
- * carry no hover state, so rest/hover styling is a `className` job in your app.
+ * A nav row. The resting rows lift to the base surface on hover and take a
+ * brand ring on keyboard focus; the active row already paints one, so it only
+ * deepens its label. Both come from the interaction-state props, so the row
+ * needs no CSS of its own.
  */
 function NavRow({ item }: { item: NavItem }) {
   return (
@@ -99,6 +101,8 @@ function NavRow({ item }: { item: NavItem }) {
       bg={item.active ? "base" : undefined}
       color={item.active ? "base" : "muted"}
       shadow={item.active ? "xs" : undefined}
+      hover={item.active ? undefined : { bg: "base", color: "base" }}
+      focusVisible={{ borderColor: "brand" }}
     >
       {/* `justifyContent="between"` pushes the badge to the trailing edge —
           there is no `ml="auto"`, the margin scale carries no auto. */}
@@ -120,7 +124,7 @@ function NavRow({ item }: { item: NavItem }) {
 /** The sidebar body, shared by the fixed rail and the mobile drawer. */
 function SidebarContent() {
   return (
-    <Flex direction="column" h="full">
+    <Flex direction="column" alignItems="stretch" h="full">
       {/* ---- Workspace ---- */}
       <Flex alignItems="center" gap="2.5" h="16" px="4" shrink="0">
         <Flex
@@ -197,11 +201,11 @@ function SidebarContent() {
  * as an overlay drawer. That disclosure is the only state here, so everything
  * else stays plain markup.
  */
-export function DashboardShell01() {
+export function Dashboard01() {
   const [open, setOpen] = useState(false);
 
   return (
-    <Flex minH="screen" bg="base">
+    <Flex alignItems="stretch" minH="screen" bg="base">
       {/* ---------------------------------------------------------------- */}
       {/* Sidebar — in-flow from lg                                        */}
       {/* ---------------------------------------------------------------- */}
@@ -252,7 +256,7 @@ export function DashboardShell01() {
       {/* ---------------------------------------------------------------- */}
       {/* Main column                                                      */}
       {/* ---------------------------------------------------------------- */}
-      <Flex direction="column" flex="1">
+      <Flex direction="column" alignItems="stretch" flex="1">
         <Flex
           as="header"
           position="sticky"
@@ -278,28 +282,24 @@ export function DashboardShell01() {
             p="2"
             rounded="md"
             bg="transparent"
+            hover={{ bg: "subtle" }}
+            focusVisible={{ borderColor: "brand" }}
           >
             <NavIcon path={paths.menu} />
           </Box>
 
-          {/* Breadcrumb trail from primitives: the Breadcrumb component
-              flat-exports no parts, and dotted compound access breaks in
-              Server Components. See reports/astralis-api-updates.md. */}
-          <Flex as="nav" aria-label="Breadcrumb" alignItems="center" gap="2">
-            {/* Text carries typography only, so the responsive `display` goes
-                on a Box around it. */}
-            <Box display={{ base: "hidden", sm: "block" }}>
-              <Text as="a" href="#" size="sm" color="muted">
-                Workspace
-              </Text>
-            </Box>
-            <Box color="subtle" display={{ base: "hidden", sm: "block" }}>
-              <NavIcon path={paths.chevron} />
-            </Box>
-            <Text as="span" size="sm" weight="medium" truncate>
-              Dashboard
-            </Text>
-          </Flex>
+          {/* The flat exports, not `Breadcrumb.Item` — a client-reference stub
+              carries no static properties, so dotted access resolves to
+              undefined once this block is copied into a Server Component tree.
+              The root draws the separators itself. */}
+          <BreadcrumbRoot>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="#">Workspace</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <BreadcrumbLink isCurrent>Dashboard</BreadcrumbLink>
+            </BreadcrumbItem>
+          </BreadcrumbRoot>
 
           {/* Spacer: `flex="1"` stands in for the `mx="auto"` the margin scale
               does not carry. */}
@@ -317,31 +317,38 @@ export function DashboardShell01() {
             <Box display={{ base: "hidden", lg: "block" }}>
               <Kbd size="sm">⌘K</Kbd>
             </Box>
-            <Box
+            <Flex
               as="button"
               type="button"
               aria-label="Notifications"
+              alignItems="center"
+              justifyContent="center"
               cursor="pointer"
               p="2"
               rounded="md"
               bg="transparent"
+              hover={{ bg: "subtle" }}
+              focusVisible={{ borderColor: "brand" }}
               color="muted"
             >
               <NavIcon path={paths.bell} />
-            </Box>
+            </Flex>
             <Avatar name="Ada Lovelace" size="sm" />
           </Flex>
         </Flex>
 
-        {/* ---- Content region — replace everything inside ---- */}
+        {/* ---- Content region — replace everything inside ----
+            `h="full"` on the stack and `flex="1"` on the last panel: the tiles
+            keep their fixed height and the panel absorbs whatever is left, so
+            the region fills the viewport instead of stopping short of it. */}
         <Box as="main" flex="1" p={{ base: "4", lg: "6" }}>
-          <Stack direction="vertical" alignItems="stretch" gap={{ base: "4", lg: "6" }}>
+          <Stack direction="vertical" alignItems="stretch" gap={{ base: "4", lg: "6" }} h="full">
             <Grid columns={{ base: "1", md: "3" }} gap={{ base: "4", lg: "6" }}>
               <Box h="32" bg="subtle" rounded="xl" />
               <Box h="32" bg="subtle" rounded="xl" />
               <Box h="32" bg="subtle" rounded="xl" />
             </Grid>
-            <Box minH="96" bg="subtle" rounded="xl" />
+            <Box flex="1" minH="96" bg="subtle" rounded="xl" />
           </Stack>
         </Box>
       </Flex>

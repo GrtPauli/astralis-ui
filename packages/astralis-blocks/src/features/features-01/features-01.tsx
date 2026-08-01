@@ -112,7 +112,7 @@ const features = [
  * Six features as flat bordered cards, three across. Icon tiles sit above the
  * copy so the card reads top-down. Drops to two columns at `sm`, one at `base`.
  */
-export function FeaturesGrid01() {
+export function Features01() {
   return (
     <Box as="section" bg="base" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

@@ -1,9 +1,8 @@
-import type { BlockMeta } from "../../../registry";
+import type { BlockMeta } from "../../registry";
 
 export default {
-  id: "stats-band-02",
+  id: "stats-02",
   category: "stats",
-  family: "stats-band",
   name: "KPI cards with trend indicators",
   description:
     "A dashboard-flavoured KPI band on a tinted surface: four bordered cards, each composing a Stat — label, value, a signed trend indicator and a note. Four across from md, two below.",

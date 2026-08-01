@@ -22,7 +22,7 @@ const bars = [42, 68, 55, 84, 72, 96];
  * Two-column hero with the media on the left and an email capture on the right,
  * over a tinted band. Stacks to one column below `lg`, media last.
  */
-export function HeroSplit02() {
+export function Hero02() {
   return (
     <Box as="section" bg="subtle" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>

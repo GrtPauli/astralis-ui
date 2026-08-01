@@ -19,7 +19,7 @@ import {
  * The form submits nowhere as written — point it at your own endpoint, or drop
  * an `onSubmit` on the form and mark the file `"use client"`.
  */
-export function CtaPanel03() {
+export function Cta03() {
   return (
     <Box as="section" bg="base" py={{ base: "16", lg: "24" }}>
       <Container maxW="5xl" px={{ base: "6", lg: "8" }}>

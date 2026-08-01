@@ -79,7 +79,7 @@ function Wordmark() {
  * panel, so each rule belongs to the element it bounds rather than being an
  * extra node between them.
  */
-export function NavbarInline01() {
+export function Navbar01() {
   const [open, setOpen] = useState(false);
 
   return (
@@ -128,6 +128,8 @@ export function NavbarInline01() {
             p="2"
             rounded="md"
             bg="transparent"
+            hover={{ bg: "subtle" }}
+            focusVisible={{ borderColor: "brand" }}
           >
             <MenuIcon open={open} />
           </Box>

@@ -10,6 +10,7 @@ import {
   Icon,
   Input,
   InputTextarea,
+  Link,
   Stack,
   Text,
 } from "astralis-ui";
@@ -70,7 +71,7 @@ function DetailIcon({ path }: { path: string }) {
  * The form submits nowhere as written — wire it to your own handler, or drop an
  * `onSubmit` and mark the file `"use client"`.
  */
-export function ContactSplit01() {
+export function Contact01() {
   return (
     <Box as="section" bg="base" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>
@@ -112,9 +113,18 @@ export function ContactSplit01() {
                       {item.label}
                     </Text>
                     {item.href ? (
-                      <Text as="a" href={item.href} size="md" weight="medium">
+                      /* Link rather than `Text as="a"`: it carries Text's
+                         typography anyway, and brings a hover state a bare
+                         Text cannot express. */
+                      <Link
+                        href={item.href}
+                        size="md"
+                        weight="medium"
+                        colorScheme="gray"
+                        variant="hover"
+                      >
                         {item.value}
-                      </Text>
+                      </Link>
                     ) : (
                       <Text as="span" size="md" weight="medium">
                         {item.value}

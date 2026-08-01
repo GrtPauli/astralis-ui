@@ -38,7 +38,7 @@ function CheckMark() {
  * *on* the page rather than floating above it, which is what `raised` would
  * claim. The section keeps `bg="base"` so the panel has something to sit on.
  */
-export function CtaPanel01() {
+export function Cta01() {
   return (
     <Box as="section" bg="base" py={{ base: "16", lg: "24" }}>
       {/* A closing panel wants a narrower measure than a hero: the copy is one

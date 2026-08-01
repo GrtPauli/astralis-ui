@@ -22,7 +22,7 @@ const metrics = [
  * dashboard KPI, which reads small at hero scale. See
  * reports/astralis-api-updates.md.
  */
-export function StatsBand01() {
+export function Stats01() {
   return (
     <Box as="section" bg="base" py={{ base: "16", lg: "24" }}>
       <Container maxW="6xl" px={{ base: "6", lg: "8" }}>
