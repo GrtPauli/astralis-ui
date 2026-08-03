@@ -45,12 +45,17 @@
       "types": "./serialize.d.ts",
       "import": "./dist/theme/serialize.js"
     },
+    "./color-schemes": {
+      "types": "./color-schemes.d.ts",
+      "import": "./dist/const/color-schemes.js"
+    },
     "./styles.css": "./dist/styles.css"
   },
   "files": [
     "dist",
     "theme-math.d.ts",
-    "serialize.d.ts"
+    "serialize.d.ts",
+    "color-schemes.d.ts"
   ],
   "sideEffects": [
     "**/*.css"
