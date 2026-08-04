@@ -14,6 +14,8 @@ import { UNSET, type Control, type PropValue } from "@/lib/playground/controls";
 
 interface PlaygroundPanelProps {
   controls: readonly Control[];
+  /** Style props, shown under their own heading — see styleControls(). */
+  styleControls?: readonly Control[];
   state: Record<string, PropValue>;
   onChange: (prop: string, value: PropValue) => void;
   /** Children text, when the component takes any. */
@@ -142,6 +144,7 @@ function ControlRow({
 
 export function PlaygroundPanel({
   controls,
+  styleControls = [],
   state,
   onChange,
   childrenValue,
@@ -172,6 +175,28 @@ export function PlaygroundPanel({
           onChange={(value) => onChange(control.prop, value)}
         />
       ))}
+
+      {/* Style props sit under their own heading: they're a shared vocabulary
+          every Box-composing primitive accepts, not this component's own API,
+          and mixing them into one list makes the real props hard to find. */}
+      {styleControls.length > 0 && (
+        <>
+          <div className="flex items-center gap-2 pt-1">
+            <Text size="xs" color="subtle" className="uppercase tracking-wide">
+              Layout &amp; spacing
+            </Text>
+            <span className="h-px flex-1 bg-stroke-subtle" />
+          </div>
+          {styleControls.map((control) => (
+            <ControlRow
+              key={control.prop}
+              control={control}
+              value={state[control.prop]}
+              onChange={(value) => onChange(control.prop, value)}
+            />
+          ))}
+        </>
+      )}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import {
   Alert,
   Avatar,
   Badge,
+  Box,
   Button,
   ButtonGroup,
   Calendar,
@@ -14,7 +15,9 @@ import {
   DataList,
   Drawer,
   Field,
+  Flex,
   Heading,
+  Grid,
   Input,
   Kbd,
   Link,
@@ -33,6 +36,7 @@ import {
   Slider,
   Spinner,
   Steps,
+  Stack,
   Switch,
   Table,
   Tabs,
@@ -49,6 +53,7 @@ import { accordionProps } from "./accordion/accordion-props";
 import { alertProps } from "./alert/alert-props";
 import { avatarProps } from "./avatar/avatar-props";
 import { badgeProps } from "./badge/badge-props";
+import { boxProps } from "./box/box-props";
 import { buttonProps } from "./button/button-props";
 import { buttonGroupProps } from "./button-group/button-group-props";
 import { cardProps } from "./card/card-props";
@@ -59,7 +64,9 @@ import { comboboxProps } from "./combobox/combobox-props";
 import { dataListProps } from "./data-list/data-list-props";
 import { drawerProps } from "./drawer/drawer-props";
 import { fieldProps } from "./field/field-props";
+import { flexProps } from "./flex/flex-props";
 import { headingProps } from "./heading/heading-props";
+import { gridProps } from "./grid/grid-props";
 import { inputProps } from "./input/input-props";
 import { kbdProps } from "./kbd/kbd-props";
 import { linkProps } from "./link/link-props";
@@ -78,6 +85,7 @@ import { sliderProps } from "./slider/slider-props";
 import { skeletonProps } from "./skeleton/skeleton-props";
 import { spinnerProps } from "./spinner/spinner-props";
 import { stepsProps } from "./steps/steps-props";
+import { stackProps } from "./stack/stack-props";
 import { switchProps } from "./switch/switch-props";
 import { tableProps } from "./table/table-props";
 import { tabsProps } from "./tabs/tabs-props";
@@ -151,6 +159,18 @@ export interface PlaygroundEntry {
    * `options` array, which codegen serializes to a JS literal.
    */
   baseProps?: Record<string, unknown>;
+  /**
+   * Style props to offer, on top of anything the props table documents. The
+   * layout primitives need this: their tables group whole families into one
+   * row (`p · px · py · pt/pb/pl/pr`), so almost nothing derives.
+   *
+   * Only the NAMES live here, and `styleTokens` is a discriminator rather than
+   * the token set itself, because this module is evaluated on the server —
+   * `hasPlayground` runs there. The values come from `astralis-ui`, which is a
+   * client module, so the panel resolves them client-side.
+   */
+  styleProps?: readonly string[];
+  styleTokens?: "box" | "flex" | "grid";
 }
 
 const asEntry = <P,>(component: ComponentType<P>) =>
@@ -291,6 +311,105 @@ export const playgrounds = {
     tag: "Calendar",
     component: asEntry(Calendar),
     rows: calendarProps,
+  },
+
+  /* ---- Layout primitives ----
+
+     These are configured almost entirely by style props, which no props table
+     documents one row at a time — so `styleProps` carries a curated subset
+     rather than the whole 67-prop Box vocabulary, which would be a wall of
+     pickers rather than a playground. */
+
+  "box-demo": {
+    tag: "Box",
+    component: asEntry(Box),
+    rows: boxProps,
+    styleTokens: "box",
+    styleProps: ["p", "bg", "rounded", "w", "border", "borderColor", "shadow"],
+    fixture: {
+      node: <>Box content</>,
+      source: `Box content`,
+    },
+  },
+  "flex-demo": {
+    tag: "Flex",
+    component: asEntry(Flex),
+    rows: flexProps,
+    styleTokens: "flex",
+    styleProps: ["direction", "justifyContent", "alignItems", "gap", "wrap", "p"],
+    fixture: {
+      node: (
+        <>
+          <Box p="4" bg="subtle" rounded="md">
+            One
+          </Box>
+          <Box p="4" bg="subtle" rounded="md">
+            Two
+          </Box>
+          <Box p="4" bg="subtle" rounded="md">
+            Three
+          </Box>
+        </>
+      ),
+      source: `<Box p="4" bg="subtle" rounded="md">One</Box>
+<Box p="4" bg="subtle" rounded="md">Two</Box>
+<Box p="4" bg="subtle" rounded="md">Three</Box>`,
+      imports: ["Box"],
+    },
+  },
+  "grid-demo": {
+    tag: "Grid",
+    component: asEntry(Grid),
+    rows: gridProps,
+    styleTokens: "grid",
+    styleProps: ["columns", "gap", "rowGap", "columnGap", "alignItems", "p"],
+    baseProps: { columns: "3" },
+    fixture: {
+      node: (
+        <>
+          <Box p="4" bg="subtle" rounded="md">
+            One
+          </Box>
+          <Box p="4" bg="subtle" rounded="md">
+            Two
+          </Box>
+          <Box p="4" bg="subtle" rounded="md">
+            Three
+          </Box>
+        </>
+      ),
+      source: `<Box p="4" bg="subtle" rounded="md">One</Box>
+<Box p="4" bg="subtle" rounded="md">Two</Box>
+<Box p="4" bg="subtle" rounded="md">Three</Box>`,
+      imports: ["Box"],
+    },
+  },
+  "stack-demo": {
+    tag: "Stack",
+    component: asEntry(Stack),
+    rows: stackProps,
+    /* Stack renders a Flex, so it accepts the same vocabulary. */
+    styleTokens: "flex",
+    styleProps: ["gap", "alignItems", "justifyContent", "p"],
+    fixture: {
+      node: (
+        <>
+          <Box p="4" bg="subtle" rounded="md">
+            One
+          </Box>
+          <Box p="4" bg="subtle" rounded="md">
+            Two
+          </Box>
+          <Box p="4" bg="subtle" rounded="md">
+            Three
+          </Box>
+        </>
+      ),
+      source: `<Box p="4" bg="subtle" rounded="md">One</Box>
+<Box p="4" bg="subtle" rounded="md">Two</Box>
+<Box p="4" bg="subtle" rounded="md">Three</Box>`,
+      imports: ["Box"],
+    },
   },
 
   /* ---- Overlays ----
@@ -794,6 +913,10 @@ export type PlaygroundName = keyof typeof playgrounds;
  * a tab over an empty rail, which reads as broken rather than as absent. So the
  * tab is gated on there being at least one real control.
  */
-export const hasPlayground = (name: string): name is PlaygroundName =>
-  Object.hasOwn(playgrounds, name) &&
-  deriveControls(playgrounds[name as PlaygroundName].rows).length > 0;
+export const hasPlayground = (name: string): name is PlaygroundName => {
+  if (!Object.hasOwn(playgrounds, name)) return false;
+  const entry: PlaygroundEntry = playgrounds[name as PlaygroundName];
+  // Style props count: the layout primitives derive almost nothing from their
+  // tables and would otherwise be judged empty.
+  return deriveControls(entry.rows).length > 0 || (entry.styleProps?.length ?? 0) > 0;
+};

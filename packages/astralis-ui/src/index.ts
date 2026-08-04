@@ -15,3 +15,15 @@ export * from './theme';
  * client reference and COLOR_SCHEMES.map() would fail.
  */
 export { COLOR_SCHEMES, accentClass, type ColorScheme } from './const/color-schemes';
+
+/*
+ * The values each style prop accepts. Client-only by design: this is for
+ * building pickers, and it pulls in the component style maps it derives from.
+ * Anything needing these on the server should read the token maps directly.
+ */
+export {
+  BOX_STYLE_TOKENS,
+  FLEX_STYLE_TOKENS,
+  GRID_STYLE_TOKENS,
+  type StylePropTokens,
+} from './const/style-prop-tokens';

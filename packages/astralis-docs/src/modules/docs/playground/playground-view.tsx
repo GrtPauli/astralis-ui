@@ -2,8 +2,23 @@
 
 import { useMemo, useState } from "react";
 import { Maximize2 } from "lucide-react";
-import { Button, CodeBlock, Icon, Modal, Tabs } from "astralis-ui";
-import { deriveControls, initialState, liveProps, type PropValue } from "@/lib/playground/controls";
+import {
+  BOX_STYLE_TOKENS,
+  Button,
+  CodeBlock,
+  FLEX_STYLE_TOKENS,
+  GRID_STYLE_TOKENS,
+  Icon,
+  Modal,
+  Tabs,
+} from "astralis-ui";
+import {
+  deriveControls,
+  initialState,
+  liveProps,
+  styleControls,
+  type PropValue,
+} from "@/lib/playground/controls";
 import { generateJsx } from "@/lib/playground/codegen";
 import { useShikiHtml } from "@/lib/use-shiki";
 import { playgrounds, type PlaygroundEntry, type PlaygroundName } from "@/modules/demos/playgrounds";
@@ -186,9 +201,33 @@ function Board({
   );
 }
 
+/** Token vocabularies live in the library; this module is the client side. */
+const STYLE_TOKENS = {
+  box: BOX_STYLE_TOKENS,
+  flex: FLEX_STYLE_TOKENS,
+  grid: GRID_STYLE_TOKENS,
+};
+
 export function PlaygroundView({ name }: { name: PlaygroundName }) {
   const entry: PlaygroundEntry = playgrounds[name];
-  const controls = useMemo(() => deriveControls(entry.rows), [entry.rows]);
+  const propControls = useMemo(() => deriveControls(entry.rows), [entry.rows]);
+  const styleRail = useMemo(
+    () =>
+      entry.styleProps && entry.styleTokens
+        ? styleControls(
+            entry.styleProps,
+            STYLE_TOKENS[entry.styleTokens],
+            new Set(propControls.map((control) => control.prop)),
+          )
+        : [],
+    [entry.styleProps, entry.styleTokens, propControls],
+  );
+  /* One state bag: style props are just more controls once derived, so codegen,
+     reset and the unset rule all work on them without knowing the difference. */
+  const controls = useMemo(
+    () => [...propControls, ...styleRail],
+    [propControls, styleRail],
+  );
   const baseState = useMemo(() => initialState(controls), [controls]);
 
   const [state, setState] = useState<PropState>(baseState);
@@ -223,7 +262,8 @@ export function PlaygroundView({ name }: { name: PlaygroundName }) {
   const highlighted = useShikiHtml(code, "tsx");
 
   const panelProps = {
-    controls,
+    controls: propControls,
+    styleControls: styleRail,
     state,
     onChange: (prop: string, value: PropValue) =>
       setState((prev) => ({ ...prev, [prop]: value })),

@@ -7,6 +7,7 @@ import {
   initialState,
   liveProps,
   parseUnion,
+  styleControls,
   UNSET,
   unquote,
 } from "./controls";
@@ -238,6 +239,57 @@ describe("deriveControl", () => {
         deriveControl(row({ prop: "v", type: `"a" | "b"`, control: { kind: "text" } }))?.kind,
       ).toBe("text");
     });
+  });
+});
+
+describe("styleControls", () => {
+  const tokens = {
+    p: ["1", "2", "0.5", "1.5", "10"],
+    rounded: ["none", "sm", "md", "lg", "full"],
+    bg: ["base", "subtle", "muted", "raised", "inverted", "transparent"],
+  };
+
+  it("starts every style prop unset — the component's own default applies", () => {
+    for (const control of styleControls(["p", "rounded"], tokens)) {
+      expect(control).toMatchObject({ initial: UNSET, optional: true });
+    }
+  });
+
+  it("re-sorts numeric scales, which Object.keys reorders", () => {
+    // Object.keys puts integer-like keys first, so a spacing map comes back as
+    // 1,2,10,0.5,1.5 and the picker would read as nonsense.
+    const control = styleControls(["p"], tokens)[0];
+    expect(control && "options" in control ? control.options : []).toEqual([
+      "0.5",
+      "1",
+      "1.5",
+      "2",
+      "10",
+    ]);
+  });
+
+  it("leaves word scales in their declared order", () => {
+    const control = styleControls(["rounded"], tokens)[0];
+    expect(control && "options" in control ? control.options : []).toEqual(tokens.rounded);
+  });
+
+  it("uses chips for short lists and a dropdown for long ones", () => {
+    expect(styleControls(["rounded"], tokens)[0].kind).toBe("chips");
+    expect(styleControls(["bg"], tokens)[0].kind).toBe("select");
+  });
+
+  it("skips props the props table already documents", () => {
+    // Flex documents `direction` as a real row AND accepts it as a style prop.
+    // Two controls on one state key would render twice and fight each other.
+    expect(styleControls(["p", "rounded"], tokens, new Set(["rounded"])).map((c) => c.prop)).toEqual(
+      ["p"],
+    );
+  });
+
+  it("skips props the component has no tokens for", () => {
+    // Grid props asked of a Box entry, say — offering them would generate a
+    // prop that resolves to no class and silently does nothing.
+    expect(styleControls(["columns", "p"], tokens).map((c) => c.prop)).toEqual(["p"]);
   });
 });
 

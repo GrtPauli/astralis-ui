@@ -180,6 +180,54 @@ export function deriveControls(rows: readonly PropRow[]): Control[] {
   return rows.map(deriveControl).filter((c): c is Control => c !== null);
 }
 
+/**
+ * Controls for style props — `p`, `gap`, `bg` and the rest of the Box
+ * vocabulary — which no props table documents one row at a time.
+ *
+ * Options come from the library's own token maps (`BOX_STYLE_TOKENS` and
+ * friends), never a hand-written list. That is not tidiness: a value outside
+ * those maps resolves to no class at all, so the prop would silently do
+ * nothing, and a picker offering it would be lying.
+ *
+ * Every style prop is optional — the component's own default applies when it
+ * is UNSET — which is why these need no documented default to behave.
+ */
+export function styleControls(
+  props: readonly string[],
+  tokens: Readonly<Record<string, readonly string[]>>,
+  /** Props the props table already documents — Flex's `direction` is both. */
+  taken: ReadonlySet<string> = new Set(),
+): Control[] {
+  const controls: Control[] = [];
+  for (const prop of props) {
+    // A prop in both places would render twice and write the same state key
+    // from two controls. The documented row wins: it carries the real default.
+    if (taken.has(prop)) continue;
+    const options = tokens[prop];
+    if (!options?.length) continue; // not a real style prop for this component
+    controls.push({
+      kind: options.length <= MAX_CHIPS ? "chips" : "select",
+      prop,
+      options: sortTokens(options),
+      initial: UNSET,
+      optional: true,
+    });
+  }
+  return controls;
+}
+
+/**
+ * Object.keys puts integer-like keys first in numeric order and everything else
+ * in insertion order, so a spacing scale comes back as 1,2,3,…,0.5,1.5 — the
+ * source order is simply not recoverable. Re-sort when every token is a number;
+ * leave word scales (`xs`, `sm`, `auto`) exactly as declared.
+ */
+function sortTokens(options: readonly string[]): readonly string[] {
+  return options.every((option) => option !== "" && Number.isFinite(Number(option)))
+    ? [...options].sort((a, b) => Number(a) - Number(b))
+    : options;
+}
+
 export type PropValue = string | boolean | number;
 
 /** The starting prop state for a set of controls. */
