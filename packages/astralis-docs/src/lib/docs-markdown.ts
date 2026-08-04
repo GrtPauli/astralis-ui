@@ -2,7 +2,7 @@ import { readFileSync, readdirSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { navigation } from "./navigation";
 import type { PropRow } from "@/modules/docs/props-table";
-import { COLOR_SCHEME_TYPE } from "@/modules/demos/color-schemes";
+import { COLOR_SCHEME_TYPE, COLOR_SCHEMES } from "@/modules/demos/color-schemes";
 
 /**
  * Agent-consumable markdown for every docs page: the source MDX with imports
@@ -113,7 +113,7 @@ function mdxPathFor(slug: string, kind: DocEntry["kind"]): string | null {
  * below has no module system, so anything shared has to be handed in by name.
  * Keep this in step with what those modules actually import.
  */
-const PROP_ROW_SCOPE: Record<string, string> = { COLOR_SCHEME_TYPE };
+const PROP_ROW_SCOPE: Record<string, unknown> = { COLOR_SCHEME_TYPE, COLOR_SCHEMES };
 
 /**
  * Load one exported array from a `*-props.ts` data module. These files are our
