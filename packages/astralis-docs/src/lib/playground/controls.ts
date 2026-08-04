@@ -13,11 +13,20 @@ import { COLOR_SCHEMES, COLOR_SCHEME_TYPE } from "@/modules/demos/color-schemes"
  * Pure and React-free on purpose — this is the part worth unit-testing.
  */
 
+/**
+ * An enum control that starts with nothing chosen. `optional: true` means the
+ * component's real default is not one of the selectable values — either it
+ * isn't documented, or it's derived (Alert's `colorScheme` comes from
+ * `status`). Picking the first option would then be a guess that codegen has
+ * to emit, so the rest state is UNSET: no prop passed, nothing generated.
+ */
+export const UNSET = "";
+
 export type Control =
   /** Few, short options — rendered as a row of chips. */
-  | { kind: "chips"; prop: string; options: readonly string[]; initial: string }
+  | { kind: "chips"; prop: string; options: readonly string[]; initial: string; optional: boolean }
   /** Many or long options — rendered as a dropdown. */
-  | { kind: "select"; prop: string; options: readonly string[]; initial: string }
+  | { kind: "select"; prop: string; options: readonly string[]; initial: string; optional: boolean }
   | { kind: "switch"; prop: string; initial: boolean }
   | { kind: "text"; prop: string; initial: string }
   | { kind: "number"; prop: string; initial: number };
@@ -70,20 +79,29 @@ export function parseUnion(type: string): string[] | null {
   return members;
 }
 
-/** The initial value for an enum control: the documented default, else the first option. */
+/**
+ * Where an enum control starts.
+ *
+ * The documented default when it is one of the options, otherwise UNSET. It is
+ * deliberately not "the first option": that would be a guess, and codegen has
+ * no way to tell a guess from a deliberate choice, so it would emit
+ * `variant="solid"` on a component the reader never touched.
+ */
 function initialFor(options: readonly string[], row: PropRow): string {
-  const fallback = unquote(row.default);
-  return fallback !== undefined && options.includes(fallback) ? fallback : options[0];
+  const documented = unquote(row.default);
+  return documented !== undefined && options.includes(documented) ? documented : UNSET;
 }
 
 function pickerFor(options: readonly string[], row: PropRow): Control {
   const compact =
     options.length <= MAX_CHIPS && options.every((o) => o.length <= MAX_CHIP_LABEL);
+  const initial = initialFor(options, row);
   return {
     kind: compact ? "chips" : "select",
     prop: row.prop,
     options,
-    initial: initialFor(options, row),
+    initial,
+    optional: initial === UNSET,
   };
 }
 
@@ -107,13 +125,16 @@ export function deriveControl(row: PropRow): Control | null {
       case "omit":
         return null;
       case "chips":
-      case "select":
+      case "select": {
+        const initial = initialFor(row.control.options, row);
         return {
           kind: row.control.kind,
           prop: row.prop,
           options: row.control.options,
-          initial: initialFor(row.control.options, row),
+          initial,
+          optional: initial === UNSET,
         };
+      }
       case "switch":
         return { kind: "switch", prop: row.prop, initial: unquote(row.default) === "true" };
       case "text":
@@ -166,4 +187,14 @@ export function initialState(controls: readonly Control[]): Record<string, PropV
   const state: Record<string, PropValue> = {};
   for (const control of controls) state[control.prop] = control.initial;
   return state;
+}
+
+/**
+ * What to actually spread onto the live component. An UNSET control must
+ * contribute nothing — passing `variant=""` would hand cva an empty variant key
+ * and silently drop the recipe's classes, so the stage would stop matching the
+ * generated code.
+ */
+export function liveProps(state: Record<string, PropValue>): Record<string, PropValue> {
+  return Object.fromEntries(Object.entries(state).filter(([, value]) => value !== UNSET));
 }

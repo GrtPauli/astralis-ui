@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { Maximize2 } from "lucide-react";
 import { Button, CodeBlock, Icon, Modal, Tabs } from "astralis-ui";
-import { deriveControls, initialState, type PropValue } from "@/lib/playground/controls";
+import { deriveControls, initialState, liveProps, type PropValue } from "@/lib/playground/controls";
 import { generateJsx } from "@/lib/playground/codegen";
 import { useShikiHtml } from "@/lib/use-shiki";
 import { playgrounds, type PlaygroundEntry, type PlaygroundName } from "@/modules/demos/playgrounds";
@@ -41,12 +41,27 @@ function Stage({
   className?: string;
 }) {
   const Component = entry.component;
+  /* A fixture wins over text children: composed components (Alert, ButtonGroup,
+     Accordion) are configured by their parts, not by a label. */
+  const kids = entry.fixture ? entry.fixture.node : entry.children === undefined ? undefined : content;
+  /* Unset controls must not reach the component, or the stage would stop
+     matching the code the rail is showing. */
+  const props = liveProps(state);
   return (
     <div
       className={`preview-grid relative flex items-center justify-center overflow-auto rounded-lg p-6 ${className}`}
     >
       {overlay && <div className="absolute right-2 top-2 z-10">{overlay}</div>}
-      <Component {...state}>{entry.children === undefined ? undefined : content}</Component>
+      {/* Composed components (Alert, Accordion) are block-level and need a
+          width to read correctly; a Badge or Button must stay centred at its
+          natural size, so only fixtures get the wrapper. */}
+      {entry.fixture ? (
+        <div className="w-full max-w-md">
+          <Component {...props}>{kids}</Component>
+        </div>
+      ) : (
+        <Component {...props}>{kids}</Component>
+      )}
     </div>
   );
 }
@@ -193,7 +208,12 @@ export function PlaygroundView({ name }: { name: PlaygroundName }) {
     tag: entry.tag,
     props: state,
     rows: entry.rows,
-    children: entry.children === undefined ? undefined : children,
+    children: entry.fixture
+      ? entry.fixture.source
+      : entry.children === undefined
+        ? undefined
+        : children,
+    imports: entry.fixture?.imports,
     /* Narrower than the 72-col default: this renders in a side rail, so it
        should wrap to one prop per line rather than scroll sideways. */
     maxWidth: 40,

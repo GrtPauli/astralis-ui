@@ -1,7 +1,15 @@
 import { describe, expect, it } from "vitest";
 import type { PropRow } from "@/modules/docs/props-table";
 import { COLOR_SCHEMES, COLOR_SCHEME_TYPE } from "@/modules/demos/color-schemes";
-import { deriveControl, deriveControls, initialState, parseUnion, unquote } from "./controls";
+import {
+  deriveControl,
+  deriveControls,
+  initialState,
+  liveProps,
+  parseUnion,
+  UNSET,
+  unquote,
+} from "./controls";
 
 const row = (partial: Partial<PropRow> & Pick<PropRow, "prop" | "type">): PropRow => ({
   description: "",
@@ -61,6 +69,7 @@ describe("deriveControl", () => {
       prop: "size",
       options: ["xs", "sm", "md", "lg"],
       initial: "sm",
+      optional: false,
     });
   });
 
@@ -84,10 +93,43 @@ describe("deriveControl", () => {
     ).toBe("c");
   });
 
-  it("falls back to the first option when the default isn't one of them", () => {
-    expect(
-      deriveControl(row({ prop: "variant", type: `"a" | "b"`, default: `"zzz"` }))?.initial,
-    ).toBe("a");
+  describe("unset state", () => {
+    it("starts unset when no default is documented", () => {
+      // NOT the first option: codegen cannot tell a guess from a choice, so it
+      // would emit variant="a" on a component nobody configured.
+      const control = deriveControl(row({ prop: "variant", type: `"a" | "b"` }));
+      expect(control).toMatchObject({ initial: UNSET, optional: true });
+    });
+
+    it("starts unset when the documented default isn't a selectable value", () => {
+      // Alert's colorScheme is "from status" — derived, not one of the hues.
+      const control = deriveControl(
+        row({ prop: "colorScheme", type: `"red" | "blue"`, default: "from status" }),
+      );
+      expect(control).toMatchObject({ initial: UNSET, optional: true });
+    });
+
+    it("is not optional when the default is a real option", () => {
+      expect(
+        deriveControl(row({ prop: "variant", type: `"a" | "b"`, default: `"b"` })),
+      ).toMatchObject({ initial: "b", optional: false });
+    });
+
+    it("carries the unset value into the starting state", () => {
+      const controls = deriveControls([row({ prop: "variant", type: `"a" | "b"` })]);
+      expect(initialState(controls)).toEqual({ variant: UNSET });
+    });
+  });
+
+  describe("liveProps", () => {
+    it("drops unset props so the component keeps its own default", () => {
+      // Passing variant="" would hand cva an empty key and drop the recipe.
+      expect(liveProps({ variant: UNSET, size: "lg" })).toEqual({ size: "lg" });
+    });
+
+    it("keeps false and zero, which are real values", () => {
+      expect(liveProps({ disabled: false, value: 0 })).toEqual({ disabled: false, value: 0 });
+    });
   });
 
   it("resolves the prose colorScheme type to the real hue list", () => {
@@ -173,9 +215,22 @@ describe("deriveControl", () => {
     it("chips/select take their options from the override", () => {
       expect(
         deriveControl(
-          row({ prop: "hue", type: "prose", control: { kind: "chips", options: ["x", "y"] } }),
+          row({
+            prop: "hue",
+            type: "prose",
+            default: `"y"`,
+            control: { kind: "chips", options: ["x", "y"] },
+          }),
         ),
-      ).toEqual({ kind: "chips", prop: "hue", options: ["x", "y"], initial: "x" });
+      ).toEqual({ kind: "chips", prop: "hue", options: ["x", "y"], initial: "y", optional: false });
+    });
+
+    it("an override with no documented default still starts unset", () => {
+      expect(
+        deriveControl(
+          row({ prop: "hue", type: "prose", control: { kind: "select", options: ["x", "y"] } }),
+        ),
+      ).toMatchObject({ initial: UNSET, optional: true });
     });
 
     it("an override wins over a parseable type", () => {

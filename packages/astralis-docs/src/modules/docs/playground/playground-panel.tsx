@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, ButtonGroup, Input, NumberInput, Select, Switch, Text } from "astralis-ui";
-import type { Control, PropValue } from "@/lib/playground/controls";
+import { UNSET, type Control, type PropValue } from "@/lib/playground/controls";
 
 /**
  * The control rail. Every input here is an Astralis component — this panel is
@@ -49,6 +49,21 @@ function ControlRow({
           {/* ButtonGroup is inline-flex; as a flex item it blockifies and fills
               the rail, which is what lets flex-wrap actually break the row. */}
           <ButtonGroup spacing="sm" className="flex-wrap">
+            {/* An optional prop needs a way back to "not set" — otherwise the
+                first click is irreversible and the generated code keeps a prop
+                the reader never wanted. */}
+            {control.optional && (
+              <Button
+                size="xs"
+                variant={value === UNSET ? "subtle" : "outline"}
+                colorScheme={value === UNSET ? "brand" : "gray"}
+                aria-pressed={value === UNSET}
+                aria-label={`${control.prop}: default`}
+                onClick={() => onChange(UNSET)}
+              >
+                auto
+              </Button>
+            )}
             {control.options.map((option) => {
               const active = option === value;
               return (
@@ -73,9 +88,12 @@ function ControlRow({
         <Row label={control.prop}>
           <Select
             size="sm"
-            value={String(value)}
+            /* null is Select's empty value; clearable is the way back to it. */
+            value={value === UNSET ? null : String(value)}
+            placeholder="auto"
+            clearable={control.optional}
             options={control.options.map((option) => ({ value: option, label: option }))}
-            onChange={(next) => next !== null && onChange(String(next))}
+            onChange={(next) => onChange(next === null ? UNSET : String(next))}
             aria-label={control.prop}
           />
         </Row>

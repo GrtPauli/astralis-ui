@@ -1,8 +1,11 @@
-import type { ComponentType } from "react";
+import type { ComponentType, ReactNode } from "react";
 import {
+  Accordion,
+  Alert,
   Avatar,
   Badge,
   Button,
+  ButtonGroup,
   Checkbox,
   Code,
   Heading,
@@ -22,9 +25,12 @@ import {
 } from "astralis-ui";
 import type { PropRow } from "@/modules/docs/props-table";
 import { deriveControls } from "@/lib/playground/controls";
+import { accordionProps } from "./accordion/accordion-props";
+import { alertProps } from "./alert/alert-props";
 import { avatarProps } from "./avatar/avatar-props";
 import { badgeProps } from "./badge/badge-props";
 import { buttonProps } from "./button/button-props";
+import { buttonGroupProps } from "./button-group/button-group-props";
 import { checkboxProps } from "./checkbox/checkbox-props";
 import { codeProps } from "./code/code-props";
 import { headingProps } from "./heading/heading-props";
@@ -58,6 +64,27 @@ import { themeToggleProps } from "./theme-toggle/theme-toggle-props";
  * components — referencing them from here is fine, React passes them across
  * the boundary and PlaygroundView (which is "use client") does the rendering.
  */
+/**
+ * Fixed element children for a component that is composed, not labelled —
+ * `Alert.Title`, a `ButtonGroup` of `Button`s, an `Accordion.Item`.
+ *
+ * The playground edits the ROOT's props against this fixture; it does not edit
+ * structure. That boundary is deliberate: a node-tree editor is a different
+ * product, and this one stays finishable by not becoming it.
+ *
+ * `node` is what renders; `source` is written verbatim into the generated JSX
+ * so the code still pastes and runs. They are two hand-written descriptions of
+ * the same thing, which is exactly the drift this project keeps designing
+ * away — but the alternative is parsing JSX at runtime, and the fixtures are
+ * short and reviewed together. Keep them in step.
+ */
+export interface PlaygroundFixture {
+  node: ReactNode;
+  source: string;
+  /** Names the source needs beyond the root tag, e.g. `Button` inside a group. */
+  imports?: readonly string[];
+}
+
 export interface PlaygroundEntry {
   /** JSX tag name written into the generated code. */
   tag: string;
@@ -68,6 +95,8 @@ export interface PlaygroundEntry {
   children?: string;
   /** Label for the children input. */
   childrenLabel?: string;
+  /** Fixed element children. Mutually exclusive with `children`. */
+  fixture?: PlaygroundFixture;
 }
 
 const asEntry = <P,>(component: ComponentType<P>) =>
@@ -144,6 +173,81 @@ export const playgrounds = {
     tag: "ThemeToggle",
     component: asEntry(ThemeToggle),
     rows: themeToggleProps,
+  },
+
+  /* ---- Composed components: root props edited against a fixed fixture ---- */
+
+  "alert-demo": {
+    tag: "Alert",
+    component: asEntry(Alert),
+    rows: alertProps,
+    fixture: {
+      node: (
+        <>
+          <Alert.Title>Scheduled maintenance</Alert.Title>
+          <Alert.Description>
+            The dashboard will be read-only on Saturday from 02:00–04:00 UTC.
+          </Alert.Description>
+        </>
+      ),
+      source: `<Alert.Title>Scheduled maintenance</Alert.Title>
+<Alert.Description>
+  The dashboard will be read-only on Saturday from 02:00–04:00 UTC.
+</Alert.Description>`,
+    },
+  },
+  "button-group-demo": {
+    tag: "ButtonGroup",
+    component: asEntry(ButtonGroup),
+    rows: buttonGroupProps,
+    fixture: {
+      node: (
+        <>
+          <Button>Save draft</Button>
+          <Button>Preview</Button>
+          <Button>Publish</Button>
+        </>
+      ),
+      source: `<Button>Save draft</Button>
+<Button>Preview</Button>
+<Button>Publish</Button>`,
+      imports: ["Button"],
+    },
+  },
+  "accordion-demo": {
+    tag: "Accordion",
+    component: asEntry(Accordion),
+    rows: accordionProps,
+    fixture: {
+      node: (
+        <>
+          <Accordion.Item value="tokens">
+            <Accordion.Trigger>What are semantic tokens?</Accordion.Trigger>
+            <Accordion.Content>
+              Named colors that resolve differently in light and dark mode.
+            </Accordion.Content>
+          </Accordion.Item>
+          <Accordion.Item value="build">
+            <Accordion.Trigger>Do I need a build step?</Accordion.Trigger>
+            <Accordion.Content>
+              No — the library ships precompiled CSS.
+            </Accordion.Content>
+          </Accordion.Item>
+        </>
+      ),
+      source: `<Accordion.Item value="tokens">
+  <Accordion.Trigger>What are semantic tokens?</Accordion.Trigger>
+  <Accordion.Content>
+    Named colors that resolve differently in light and dark mode.
+  </Accordion.Content>
+</Accordion.Item>
+<Accordion.Item value="build">
+  <Accordion.Trigger>Do I need a build step?</Accordion.Trigger>
+  <Accordion.Content>
+    No — the library ships precompiled CSS.
+  </Accordion.Content>
+</Accordion.Item>`,
+    },
   },
   "avatar-demo": { tag: "Avatar", component: asEntry(Avatar), rows: avatarProps },
   "progress-demo": { tag: "Progress", component: asEntry(Progress), rows: progressProps },

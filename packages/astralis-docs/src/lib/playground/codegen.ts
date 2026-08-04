@@ -1,5 +1,5 @@
 import type { PropRow } from "@/modules/docs/props-table";
-import { unquote, type PropValue } from "./controls";
+import { unquote, UNSET, type PropValue } from "./controls";
 
 /**
  * Turning playground state back into JSX you can paste.
@@ -20,12 +20,35 @@ interface GenerateOptions {
   props: Record<string, PropValue>;
   /** The documented rows, for default comparison. */
   rows: readonly PropRow[];
-  /** Text children, if the component takes any. */
+  /** Children source — plain text, or a fixture's JSX, which may be multi-line. */
   children?: string;
+  /**
+   * Names the children need beyond `tag`, so a fixture's code still pastes and
+   * runs. Compound parts (`Alert.Title`) need nothing extra — they come in on
+   * the root — but a ButtonGroup full of `Button`s does.
+   */
+  imports?: readonly string[];
   /** Package the import line points at. */
   from?: string;
   /** Wrap onto one prop per line past this width. */
   maxWidth?: number;
+}
+
+/**
+ * Strip the shared indentation off a fixture written as a template literal, so
+ * it can be re-indented to sit under its parent tag. Blank lines are ignored
+ * when measuring, otherwise one stray empty line would flatten everything.
+ */
+export function dedent(source: string): string {
+  const lines = source.replace(/\t/g, "  ").split("\n");
+  const indents = lines
+    .filter((line) => line.trim() !== "")
+    .map((line) => line.match(/^ */)![0].length);
+  const common = indents.length ? Math.min(...indents) : 0;
+  return lines
+    .map((line) => line.slice(common))
+    .join("\n")
+    .trim();
 }
 
 const DEFAULT_MAX_WIDTH = 72;
@@ -57,6 +80,7 @@ export function generateJsx({
   props,
   rows,
   children,
+  imports,
   from = "astralis-ui",
   maxWidth = DEFAULT_MAX_WIDTH,
 }: GenerateOptions): string {
@@ -64,13 +88,19 @@ export function generateJsx({
 
   const attrs: string[] = [];
   for (const [prop, value] of Object.entries(props)) {
+    // UNSET, and an emptied text box: the reader chose nothing, so say nothing.
+    // `placeholder=""` is not a configuration, it is noise.
+    if (value === UNSET) continue;
     if (isDefault(byName.get(prop), value)) continue;
     const attr = attribute(prop, value);
     if (attr) attrs.push(attr);
   }
 
-  const body = children?.trim() ?? "";
-  const importLine = `import { ${tag} } from "${from}";`;
+  const body = children ? dedent(children) : "";
+
+  // `Alert.Title` needs only `Alert`, so drop anything dotted and de-duplicate.
+  const names = [...new Set([tag, ...(imports ?? [])].map((n) => n.split(".")[0]))].sort();
+  const importLine = `import { ${names.join(", ")} } from "${from}";`;
 
   const oneLine = attrs.length ? `<${tag} ${attrs.join(" ")}>` : `<${tag}>`;
   const closing = `</${tag}>`;
@@ -85,13 +115,22 @@ export function generateJsx({
     return `${importLine}\n\n${element}\n`;
   }
 
+  // A fixture spanning lines can never sit inline, however short it measures.
+  const multiline = body.includes("\n");
   const inline = `${oneLine}${body}${closing}`;
-  const element =
-    inline.length <= maxWidth
-      ? inline
-      : attrs.length
-        ? [`<${tag}`, ...attrs.map((a) => `  ${a}`), `>`, `  ${body}`, closing].join("\n")
-        : [oneLine, `  ${body}`, closing].join("\n");
+
+  let element: string;
+  if (!multiline && inline.length <= maxWidth) {
+    element = inline;
+  } else {
+    const indented = body
+      .split("\n")
+      .map((line) => (line.trim() === "" ? "" : `  ${line}`))
+      .join("\n");
+    element = attrs.length
+      ? [`<${tag}`, ...attrs.map((a) => `  ${a}`), `>`, indented, closing].join("\n")
+      : [oneLine, indented, closing].join("\n");
+  }
 
   return `${importLine}\n\n${element}\n`;
 }

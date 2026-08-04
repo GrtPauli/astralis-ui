@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { PropRow } from "@/modules/docs/props-table";
-import { generateJsx } from "./codegen";
+import { dedent, generateJsx } from "./codegen";
 
 const rows: PropRow[] = [
   { prop: "variant", type: `"solid" | "subtle" | "outline"`, default: `"subtle"`, description: "" },
@@ -14,6 +14,20 @@ const gen = (props: Record<string, string | boolean>, children?: string) =>
   generateJsx({ tag: "Badge", props, rows, children });
 
 const IMPORT = `import { Badge } from "astralis-ui";`;
+
+describe("dedent", () => {
+  it("strips the shared indent a template literal picks up", () => {
+    expect(dedent("\n    <A />\n      <B />\n    <C />\n  ")).toBe("<A />\n  <B />\n<C />");
+  });
+
+  it("ignores blank lines when measuring, so one stray line can't flatten it", () => {
+    expect(dedent("    <A />\n\n    <B />")).toBe("<A />\n\n<B />");
+  });
+
+  it("leaves already-flush source alone", () => {
+    expect(dedent("<A />\n<B />")).toBe("<A />\n<B />");
+  });
+});
 
 describe("generateJsx", () => {
   it("emits an import line and the element", () => {
@@ -83,6 +97,22 @@ describe("generateJsx", () => {
       expect(generateJsx({ tag: "Progress", props: { value: 0 }, rows: numRows })).toContain(
         "value={0}",
       );
+    });
+  });
+
+  describe("unset", () => {
+    it("emits nothing for an unset enum", () => {
+      // The rest state of a prop whose default is derived or undocumented.
+      expect(gen({ variant: "", size: "sm" }, "Hi")).toBe(`${IMPORT}\n\n<Badge>Hi</Badge>\n`);
+    });
+
+    it("emits nothing for an emptied text box", () => {
+      // `label=""` is noise, not configuration.
+      expect(gen({ label: "" }, "Hi")).toBe(`${IMPORT}\n\n<Badge>Hi</Badge>\n`);
+    });
+
+    it("emits the prop once a value is chosen", () => {
+      expect(gen({ variant: "outline" }, "Hi")).toContain(`variant="outline"`);
     });
   });
 
@@ -157,6 +187,61 @@ describe("generateJsx", () => {
         maxWidth: 10,
       });
       expect(out.split("\n").length).toBeGreaterThan(4);
+    });
+  });
+
+  describe("fixtures — multi-line element children", () => {
+    const fixture = `<Alert.Title>Heads up</Alert.Title>
+<Alert.Description>
+  Something happened.
+</Alert.Description>`;
+
+    it("indents the fixture under its parent and never inlines it", () => {
+      expect(generateJsx({ tag: "Alert", props: {}, rows: [], children: fixture })).toBe(
+        `import { Alert } from "astralis-ui";\n\n` +
+          `<Alert>\n` +
+          `  <Alert.Title>Heads up</Alert.Title>\n` +
+          `  <Alert.Description>\n` +
+          `    Something happened.\n` +
+          `  </Alert.Description>\n` +
+          `</Alert>\n`,
+      );
+    });
+
+    it("stays block-form even when the fixture is short enough to fit", () => {
+      const out = generateJsx({ tag: "X", props: {}, rows: [], children: "<A />\n<B />" });
+      expect(out).toContain("<X>\n  <A />\n  <B />\n</X>");
+    });
+
+    it("keeps props on their own lines above a fixture", () => {
+      const rows: PropRow[] = [
+        { prop: "status", type: `"info" | "error"`, default: `"info"`, description: "" },
+      ];
+      const out = generateJsx({ tag: "Alert", props: { status: "error" }, rows, children: fixture });
+      expect(out).toContain(`<Alert\n  status="error"\n>\n  <Alert.Title>`);
+    });
+
+    it("adds imports the fixture needs, sorted and de-duplicated", () => {
+      expect(
+        generateJsx({
+          tag: "ButtonGroup",
+          props: {},
+          rows: [],
+          children: "<Button>Go</Button>",
+          imports: ["Button", "Button"],
+        }),
+      ).toContain(`import { Button, ButtonGroup } from "astralis-ui";`);
+    });
+
+    it("does not import compound parts separately — Alert.Title comes in on Alert", () => {
+      const out = generateJsx({
+        tag: "Alert",
+        props: {},
+        rows: [],
+        children: fixture,
+        imports: ["Alert.Title"],
+      });
+      expect(out.split("\n")[0]).toBe(`import { Alert } from "astralis-ui";`);
     });
   });
 
