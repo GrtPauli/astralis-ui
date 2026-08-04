@@ -21,7 +21,7 @@ export const radioProps: PropRow[] = [
     description: "Selected hue.",
   },
   {
-    prop: "invalid` / `disabled` / `readOnly",
+    prop: "invalid / disabled / readOnly",
     type: `boolean`,
     default: `false`,
     description: "State flags — inherited from [Field](/docs/components/field).",

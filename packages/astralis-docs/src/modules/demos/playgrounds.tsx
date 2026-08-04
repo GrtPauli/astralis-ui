@@ -1,5 +1,4 @@
 import type { ComponentType, ReactNode } from "react";
-import type { PropValue } from "@/lib/playground/controls";
 import {
   Accordion,
   Alert,
@@ -7,19 +6,27 @@ import {
   Badge,
   Button,
   ButtonGroup,
+  Calendar,
   Card,
   Checkbox,
   Code,
+  Combobox,
   DataList,
+  Field,
   Heading,
   Input,
   Kbd,
   Link,
   List,
+  MultiSelect,
+  NumberInput,
+  PinInput,
   Progress,
   Radio,
+  Select,
   Separator,
   Skeleton,
+  Slider,
   Spinner,
   Steps,
   Switch,
@@ -40,17 +47,25 @@ import { badgeProps } from "./badge/badge-props";
 import { buttonProps } from "./button/button-props";
 import { buttonGroupProps } from "./button-group/button-group-props";
 import { cardProps } from "./card/card-props";
+import { calendarProps } from "./calendar/calendar-props";
 import { checkboxProps } from "./checkbox/checkbox-props";
 import { codeProps } from "./code/code-props";
+import { comboboxProps } from "./combobox/combobox-props";
 import { dataListProps } from "./data-list/data-list-props";
+import { fieldProps } from "./field/field-props";
 import { headingProps } from "./heading/heading-props";
 import { inputProps } from "./input/input-props";
 import { kbdProps } from "./kbd/kbd-props";
 import { linkProps } from "./link/link-props";
 import { listProps } from "./list/list-props";
+import { multiSelectProps } from "./multi-select/multi-select-props";
+import { numberInputProps } from "./number-input/number-input-props";
+import { pinInputProps } from "./pin-input/pin-input-props";
 import { progressProps } from "./progress/progress-props";
 import { radioProps } from "./radio/radio-props";
 import { separatorProps } from "./separator/separator-props";
+import { selectProps } from "./select/select-props";
+import { sliderProps } from "./slider/slider-props";
 import { skeletonProps } from "./skeleton/skeleton-props";
 import { spinnerProps } from "./spinner/spinner-props";
 import { stepsProps } from "./steps/steps-props";
@@ -121,8 +136,11 @@ export interface PlaygroundEntry {
    *
    * Merged UNDER control state, and emitted in the generated code, because the
    * pasted snippet needs them to work.
+   *
+   * Not restricted to PropValue: Select and friends are configured by an
+   * `options` array, which codegen serializes to a JS literal.
    */
-  baseProps?: Record<string, PropValue>;
+  baseProps?: Record<string, unknown>;
 }
 
 const asEntry = <P,>(component: ComponentType<P>) =>
@@ -201,7 +219,90 @@ export const playgrounds = {
     rows: themeToggleProps,
   },
 
+  /* ---- Data entry ---- */
+
+  /* `options` is configuration, not children, and not worth a control — the
+     point is the surrounding props. Codegen serializes it to a JS literal so
+     the snippet still runs. */
+  "select-demo": {
+    tag: "Select",
+    component: asEntry(Select),
+    rows: selectProps,
+    baseProps: {
+      options: [
+        { value: "sm", label: "Small" },
+        { value: "md", label: "Medium" },
+        { value: "lg", label: "Large" },
+      ],
+    },
+  },
+  "combobox-demo": {
+    tag: "Combobox",
+    component: asEntry(Combobox),
+    rows: comboboxProps,
+    baseProps: {
+      options: [
+        { value: "react", label: "React" },
+        { value: "vue", label: "Vue" },
+        { value: "svelte", label: "Svelte" },
+      ],
+    },
+  },
+  "multi-select-demo": {
+    tag: "MultiSelect",
+    component: asEntry(MultiSelect),
+    rows: multiSelectProps,
+    baseProps: {
+      options: [
+        { value: "design", label: "Design" },
+        { value: "eng", label: "Engineering" },
+        { value: "ops", label: "Operations" },
+      ],
+    },
+  },
+  "slider-demo": {
+    tag: "Slider",
+    component: asEntry(Slider),
+    rows: sliderProps,
+    baseProps: { defaultValue: 40 },
+  },
+  "number-input-demo": {
+    tag: "NumberInput",
+    component: asEntry(NumberInput),
+    rows: numberInputProps,
+    baseProps: { defaultValue: 3 },
+  },
+  "pin-input-demo": {
+    tag: "PinInput",
+    component: asEntry(PinInput),
+    rows: pinInputProps,
+  },
+  "calendar-demo": {
+    tag: "Calendar",
+    component: asEntry(Calendar),
+    rows: calendarProps,
+  },
+
   /* ---- Composed components: root props edited against a fixed fixture ---- */
+
+  "field-demo": {
+    tag: "Field",
+    component: asEntry(Field),
+    rows: fieldProps,
+    fixture: {
+      node: (
+        <>
+          <Field.Label>Email address</Field.Label>
+          <Input type="email" placeholder="you@example.com" />
+          <Field.HelpText>We&rsquo;ll never share your email.</Field.HelpText>
+        </>
+      ),
+      source: `<Field.Label>Email address</Field.Label>
+<Input type="email" placeholder="you@example.com" />
+<Field.HelpText>We'll never share your email.</Field.HelpText>`,
+      imports: ["Input"],
+    },
+  },
 
   "alert-demo": {
     tag: "Alert",

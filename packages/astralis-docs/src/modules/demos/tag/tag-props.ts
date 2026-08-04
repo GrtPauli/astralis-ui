@@ -22,13 +22,13 @@ export const tagProps: PropRow[] = [
     description: "Hue.",
   },
   {
-    prop: "startElement` / `endElement",
+    prop: "startElement / endElement",
     type: `ReactNode`,
     description: "Leading / trailing slots (endElement yields to the close button).",
   },
   {
-    prop: "closable` / `onClose",
-    type: `boolean\` / \`() => void`,
+    prop: "closable / onClose",
+    type: `boolean / () => void`,
     description: "Adds the ✕ remove button.",
   },
 ];

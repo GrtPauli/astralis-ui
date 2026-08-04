@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { PropRow } from "@/modules/docs/props-table";
-import { dedent, generateJsx } from "./codegen";
+import { dedent, generateJsx, jsLiteral } from "./codegen";
 
 const rows: PropRow[] = [
   { prop: "variant", type: `"solid" | "subtle" | "outline"`, default: `"subtle"`, description: "" },
@@ -26,6 +26,29 @@ describe("dedent", () => {
 
   it("leaves already-flush source alone", () => {
     expect(dedent("<A />\n<B />")).toBe("<A />\n<B />");
+  });
+});
+
+describe("jsLiteral", () => {
+  it("writes object keys unquoted, the way JSX is actually written", () => {
+    expect(jsLiteral({ value: "sm", label: "Small" })).toBe(`{ value: "sm", label: "Small" }`);
+  });
+
+  it("quotes keys that aren't identifiers", () => {
+    expect(jsLiteral({ "data-id": 1 })).toBe(`{ "data-id": 1 }`);
+  });
+
+  it("keeps a short array on one line", () => {
+    expect(jsLiteral(["a", "b"])).toBe(`["a", "b"]`);
+  });
+
+  it("breaks a long array one item per line, with a trailing comma", () => {
+    expect(
+      jsLiteral([
+        { value: "sm", label: "Small" },
+        { value: "md", label: "Medium" },
+      ]),
+    ).toBe(`[\n  { value: "sm", label: "Small" },\n  { value: "md", label: "Medium" },\n]`);
   });
 });
 
@@ -242,6 +265,40 @@ describe("generateJsx", () => {
         imports: ["Alert.Title"],
       });
       expect(out.split("\n")[0]).toBe(`import { Alert } from "astralis-ui";`);
+    });
+  });
+
+  describe("non-primitive props", () => {
+    it("serializes an options array into a braced attribute", () => {
+      const out = generateJsx({
+        tag: "Select",
+        props: { options: [{ value: "sm", label: "Small" }] },
+        rows: [],
+      });
+      expect(out).toContain(`options={[{ value: "sm", label: "Small" }]}`);
+    });
+
+    it("indents a multi-line attribute under the tag", () => {
+      const out = generateJsx({
+        tag: "Select",
+        props: {
+          options: [
+            { value: "sm", label: "Small" },
+            { value: "md", label: "Medium" },
+          ],
+        },
+        rows: [],
+      });
+      // A wide attribute forces block form even though nothing else would.
+      expect(out).toBe(
+        `import { Select } from "astralis-ui";\n\n` +
+          `<Select\n` +
+          `  options={[\n` +
+          `    { value: "sm", label: "Small" },\n` +
+          `    { value: "md", label: "Medium" },\n` +
+          `  ]}\n` +
+          `/>\n`,
+      );
     });
   });
 

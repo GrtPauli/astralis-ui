@@ -15,7 +15,7 @@ export const inputProps: PropRow[] = [
     description: "Height and padding.",
   },
   {
-    prop: "invalid` / `disabled` / `readOnly",
+    prop: "invalid / disabled / readOnly",
     type: `boolean`,
     default: `false`,
     description: "State flags — inherited automatically inside a [Field](/docs/components/field).",

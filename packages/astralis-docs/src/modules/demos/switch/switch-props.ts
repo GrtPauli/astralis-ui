@@ -4,8 +4,8 @@ import { COLOR_SCHEME_TYPE } from "@/modules/demos/color-schemes";
 /** Keep in sync with the switch component's types in astralis-ui. */
 export const switchProps: PropRow[] = [
   {
-    prop: "checked` / `defaultChecked` / `onChange",
-    type: `boolean\` / \`boolean\` / \`(e) => void`,
+    prop: "checked / defaultChecked / onChange",
+    type: `boolean / boolean / (e) => void`,
     default: `— / false / —`,
     description: "Controlled / uncontrolled API.",
   },
@@ -27,7 +27,7 @@ export const switchProps: PropRow[] = [
     description: "Label rendered beside the track.",
   },
   {
-    prop: "invalid` / `disabled` / `readOnly",
+    prop: "invalid / disabled / readOnly",
     type: `boolean`,
     default: `false`,
     description: "State flags — inherited from [Field](/docs/components/field).",

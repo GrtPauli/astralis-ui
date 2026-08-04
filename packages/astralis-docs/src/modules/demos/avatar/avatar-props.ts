@@ -4,7 +4,7 @@ import { COLOR_SCHEME_TYPE } from "@/modules/demos/color-schemes";
 /** Keep in sync with the avatar component's types in astralis-ui. */
 export const avatarProps: PropRow[] = [
   {
-    prop: "src` / `alt",
+    prop: "src / alt",
     type: `string`,
     description: "The image, with its alt text.",
   },

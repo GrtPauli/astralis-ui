@@ -1,5 +1,5 @@
 import type { PropRow } from "@/modules/docs/props-table";
-import { unquote, UNSET, type PropValue } from "./controls";
+import { unquote, UNSET } from "./controls";
 
 /**
  * Turning playground state back into JSX you can paste.
@@ -16,8 +16,8 @@ import { unquote, UNSET, type PropValue } from "./controls";
 interface GenerateOptions {
   /** JSX tag name, e.g. "Badge". */
   tag: string;
-  /** Current control state, keyed by prop name. */
-  props: Record<string, PropValue>;
+  /** Current control state (plus any baseProps), keyed by prop name. */
+  props: Record<string, unknown>;
   /** The documented rows, for default comparison. */
   rows: readonly PropRow[];
   /** Children source — plain text, or a fixture's JSX, which may be multi-line. */
@@ -53,8 +53,30 @@ export function dedent(source: string): string {
 
 const DEFAULT_MAX_WIDTH = 72;
 
+/**
+ * A JS literal for a prop that isn't a primitive — `options` arrays and the
+ * like. JSON.stringify quotes every key, which is not how anyone writes JSX,
+ * so identifier keys are unquoted and short collections stay on one line.
+ */
+export function jsLiteral(value: unknown): string {
+  if (Array.isArray(value)) {
+    const items = value.map(jsLiteral);
+    const inline = `[${items.join(", ")}]`;
+    if (inline.length <= 48 && !inline.includes("\n")) return inline;
+    return `[\n${items.map((item) => `  ${item}`).join(",\n")},\n]`;
+  }
+  if (value && typeof value === "object") {
+    const entries = Object.entries(value as Record<string, unknown>).map(
+      ([key, val]) =>
+        `${/^[A-Za-z_$][\w$]*$/.test(key) ? key : JSON.stringify(key)}: ${jsLiteral(val)}`,
+    );
+    return `{ ${entries.join(", ")} }`;
+  }
+  return JSON.stringify(value);
+}
+
 /** Is this value the prop's documented default, and therefore droppable? */
-function isDefault(row: PropRow | undefined, value: PropValue): boolean {
+function isDefault(row: PropRow | undefined, value: unknown): boolean {
   if (!row) return false;
   const documented = unquote(row.default);
   if (documented === undefined) {
@@ -62,17 +84,18 @@ function isDefault(row: PropRow | undefined, value: PropValue): boolean {
     // emitting. Strings and numbers have no safe assumption — always emit.
     return typeof value === "boolean" ? value === false : false;
   }
-  return typeof value === "boolean"
-    ? String(value) === documented
-    : String(value) === documented;
+  // Objects and arrays have no documented default worth comparing against.
+  if (value !== null && typeof value === "object") return false;
+  return String(value) === documented;
 }
 
-/** `variant="outline"`, `max={100}`, or a bare `disabled` for a true boolean. */
-function attribute(prop: string, value: PropValue): string | null {
+/** `variant="outline"`, `max={100}`, `options={[…]}`, or a bare `disabled`. */
+function attribute(prop: string, value: unknown): string | null {
   if (typeof value === "boolean") return value ? prop : null;
   // Numbers take braces — `max="100"` would pass the string "100".
   if (typeof value === "number") return `${prop}={${value}}`;
-  return `${prop}="${value}"`;
+  if (typeof value === "string") return `${prop}="${value}"`;
+  return `${prop}={${jsLiteral(value)}}`;
 }
 
 export function generateJsx({
@@ -102,35 +125,39 @@ export function generateJsx({
   const names = [...new Set([tag, ...(imports ?? [])].map((n) => n.split(".")[0]))].sort();
   const importLine = `import { ${names.join(", ")} } from "${from}";`;
 
+  /** Indent every line, so a serialized `options={[…]}` nests properly too. */
+  const indent = (text: string) =>
+    text
+      .split("\n")
+      .map((line) => (line.trim() === "" ? "" : `  ${line}`))
+      .join("\n");
+
   const oneLine = attrs.length ? `<${tag} ${attrs.join(" ")}>` : `<${tag}>`;
   const closing = `</${tag}>`;
+
+  // An attribute that spans lines forces block form, like a multi-line fixture.
+  const wideAttrs = attrs.some((attr) => attr.includes("\n"));
 
   // Self-closing when there are no children — `<Spinner size="lg" />`.
   if (!body) {
     const selfClosed = attrs.length ? `<${tag} ${attrs.join(" ")} />` : `<${tag} />`;
     const element =
-      selfClosed.length <= maxWidth
+      !wideAttrs && selfClosed.length <= maxWidth
         ? selfClosed
-        : [`<${tag}`, ...attrs.map((a) => `  ${a}`), "/>"].join("\n");
+        : [`<${tag}`, ...attrs.map(indent), "/>"].join("\n");
     return `${importLine}\n\n${element}\n`;
   }
 
   // A fixture spanning lines can never sit inline, however short it measures.
-  const multiline = body.includes("\n");
+  const multiline = body.includes("\n") || wideAttrs;
   const inline = `${oneLine}${body}${closing}`;
 
-  let element: string;
-  if (!multiline && inline.length <= maxWidth) {
-    element = inline;
-  } else {
-    const indented = body
-      .split("\n")
-      .map((line) => (line.trim() === "" ? "" : `  ${line}`))
-      .join("\n");
-    element = attrs.length
-      ? [`<${tag}`, ...attrs.map((a) => `  ${a}`), `>`, indented, closing].join("\n")
-      : [oneLine, indented, closing].join("\n");
-  }
+  const element =
+    !multiline && inline.length <= maxWidth
+      ? inline
+      : attrs.length
+        ? [`<${tag}`, ...attrs.map(indent), `>`, indent(body), closing].join("\n")
+        : [oneLine, indent(body), closing].join("\n");
 
   return `${importLine}\n\n${element}\n`;
 }

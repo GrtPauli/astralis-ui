@@ -195,6 +195,6 @@ export function initialState(controls: readonly Control[]): Record<string, PropV
  * and silently drop the recipe's classes, so the stage would stop matching the
  * generated code.
  */
-export function liveProps(state: Record<string, PropValue>): Record<string, PropValue> {
+export function liveProps(state: Record<string, unknown>): Record<string, unknown> {
   return Object.fromEntries(Object.entries(state).filter(([, value]) => value !== UNSET));
 }

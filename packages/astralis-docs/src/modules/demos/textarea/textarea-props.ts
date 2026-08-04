@@ -27,7 +27,7 @@ export const textareaProps: PropRow[] = [
     description: "Character counter (pairs with `maxLength`).",
   },
   {
-    prop: "invalid` / `disabled` / `readOnly",
+    prop: "invalid / disabled / readOnly",
     type: `boolean`,
     default: `from [Field](/docs/components/field)`,
     description: "State plumbing.",
