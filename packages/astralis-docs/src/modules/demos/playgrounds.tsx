@@ -12,6 +12,7 @@ import {
   Code,
   Combobox,
   DataList,
+  Drawer,
   Field,
   Heading,
   Input,
@@ -19,8 +20,11 @@ import {
   Link,
   List,
   MultiSelect,
+  Menu,
   NumberInput,
+  Modal,
   PinInput,
+  Popover,
   Progress,
   Radio,
   Select,
@@ -37,6 +41,7 @@ import {
   Textarea,
   ThemeToggle,
   Timeline,
+  Tooltip,
 } from "astralis-ui";
 import type { PropRow } from "@/modules/docs/props-table";
 import { deriveControls } from "@/lib/playground/controls";
@@ -52,6 +57,7 @@ import { checkboxProps } from "./checkbox/checkbox-props";
 import { codeProps } from "./code/code-props";
 import { comboboxProps } from "./combobox/combobox-props";
 import { dataListProps } from "./data-list/data-list-props";
+import { drawerProps } from "./drawer/drawer-props";
 import { fieldProps } from "./field/field-props";
 import { headingProps } from "./heading/heading-props";
 import { inputProps } from "./input/input-props";
@@ -59,8 +65,11 @@ import { kbdProps } from "./kbd/kbd-props";
 import { linkProps } from "./link/link-props";
 import { listProps } from "./list/list-props";
 import { multiSelectProps } from "./multi-select/multi-select-props";
+import { menuProps } from "./menu/menu-props";
+import { modalProps } from "./modal/modal-props";
 import { numberInputProps } from "./number-input/number-input-props";
 import { pinInputProps } from "./pin-input/pin-input-props";
+import { popoverProps } from "./popover/popover-props";
 import { progressProps } from "./progress/progress-props";
 import { radioProps } from "./radio/radio-props";
 import { separatorProps } from "./separator/separator-props";
@@ -77,6 +86,7 @@ import { textProps } from "./text/text-props";
 import { textareaProps } from "./textarea/textarea-props";
 import { themeToggleProps } from "./theme-toggle/theme-toggle-props";
 import { timelineProps } from "./timeline/timeline-props";
+import { tooltipProps } from "./tooltip/tooltip-props";
 
 /**
  * Components with a live Playground tab.
@@ -282,6 +292,177 @@ export const playgrounds = {
     component: asEntry(Calendar),
     rows: calendarProps,
   },
+
+  /* ---- Overlays ----
+
+     These have no closed-state appearance beyond their trigger, so the canvas
+     shows the trigger and you open it to see the props take effect. That is
+     also exactly what the component looks like in a real page, so nothing is
+     being faked. Modal and Drawer cover the viewport when open, which is their
+     nature rather than a playground problem. */
+
+  "modal-demo": {
+    tag: "Modal",
+    component: asEntry(Modal),
+    rows: modalProps,
+    fixture: {
+      node: (
+        <>
+          <Modal.Trigger>
+            <Button variant="outline" colorScheme="gray">
+              Open modal
+            </Button>
+          </Modal.Trigger>
+          <Modal.Content>
+            <Modal.Header>
+              <Modal.Title>Edit profile</Modal.Title>
+              <Modal.CloseButton />
+            </Modal.Header>
+            <Modal.Body>
+              <Modal.Description>Change your details and save.</Modal.Description>
+            </Modal.Body>
+          </Modal.Content>
+        </>
+      ),
+      source: `<Modal.Trigger>
+  <Button variant="outline" colorScheme="gray">Open modal</Button>
+</Modal.Trigger>
+<Modal.Content>
+  <Modal.Header>
+    <Modal.Title>Edit profile</Modal.Title>
+    <Modal.CloseButton />
+  </Modal.Header>
+  <Modal.Body>
+    <Modal.Description>Change your details and save.</Modal.Description>
+  </Modal.Body>
+</Modal.Content>`,
+      imports: ["Button"],
+    },
+  },
+  "drawer-demo": {
+    tag: "Drawer",
+    component: asEntry(Drawer),
+    rows: drawerProps,
+    fixture: {
+      node: (
+        <>
+          <Drawer.Trigger>
+            <Button variant="outline" colorScheme="gray">
+              Open settings
+            </Button>
+          </Drawer.Trigger>
+          <Drawer.Content>
+            <Drawer.Header>
+              <Drawer.Title>Workspace settings</Drawer.Title>
+              <Drawer.CloseButton />
+            </Drawer.Header>
+            <Drawer.Body>
+              <Drawer.Description>Slides in from the placement you pick.</Drawer.Description>
+            </Drawer.Body>
+          </Drawer.Content>
+        </>
+      ),
+      source: `<Drawer.Trigger>
+  <Button variant="outline" colorScheme="gray">Open settings</Button>
+</Drawer.Trigger>
+<Drawer.Content>
+  <Drawer.Header>
+    <Drawer.Title>Workspace settings</Drawer.Title>
+    <Drawer.CloseButton />
+  </Drawer.Header>
+  <Drawer.Body>
+    <Drawer.Description>Slides in from the placement you pick.</Drawer.Description>
+  </Drawer.Body>
+</Drawer.Content>`,
+      imports: ["Button"],
+    },
+  },
+  "popover-demo": {
+    tag: "Popover",
+    component: asEntry(Popover),
+    rows: popoverProps,
+    fixture: {
+      node: (
+        <>
+          <Popover.Trigger>
+            <Button variant="outline" colorScheme="gray">
+              Share
+            </Button>
+          </Popover.Trigger>
+          <Popover.Content withArrow>
+            <Popover.Title>Share this page</Popover.Title>
+            <Popover.Description>Anyone with the link can view.</Popover.Description>
+          </Popover.Content>
+        </>
+      ),
+      source: `<Popover.Trigger>
+  <Button variant="outline" colorScheme="gray">Share</Button>
+</Popover.Trigger>
+<Popover.Content withArrow>
+  <Popover.Title>Share this page</Popover.Title>
+  <Popover.Description>Anyone with the link can view.</Popover.Description>
+</Popover.Content>`,
+      imports: ["Button"],
+    },
+  },
+  "tooltip-demo": {
+    tag: "Tooltip",
+    component: asEntry(Tooltip),
+    rows: tooltipProps,
+    fixture: {
+      node: (
+        <>
+          <Tooltip.Trigger>
+            <Button variant="outline" colorScheme="gray">
+              Hover me
+            </Button>
+          </Tooltip.Trigger>
+          <Tooltip.Content withArrow>Auto-format the document</Tooltip.Content>
+        </>
+      ),
+      source: `<Tooltip.Trigger>
+  <Button variant="outline" colorScheme="gray">Hover me</Button>
+</Tooltip.Trigger>
+<Tooltip.Content withArrow>Auto-format the document</Tooltip.Content>`,
+      imports: ["Button"],
+    },
+  },
+  "menu-demo": {
+    tag: "Menu",
+    component: asEntry(Menu),
+    rows: menuProps,
+    fixture: {
+      node: (
+        <>
+          <Menu.Trigger>
+            <Button variant="outline" colorScheme="gray">
+              Actions
+            </Button>
+          </Menu.Trigger>
+          <Menu.Content>
+            <Menu.Item>Edit</Menu.Item>
+            <Menu.Item>Duplicate</Menu.Item>
+            <Menu.Separator />
+            <Menu.Item>Delete</Menu.Item>
+          </Menu.Content>
+        </>
+      ),
+      source: `<Menu.Trigger>
+  <Button variant="outline" colorScheme="gray">Actions</Button>
+</Menu.Trigger>
+<Menu.Content>
+  <Menu.Item>Edit</Menu.Item>
+  <Menu.Item>Duplicate</Menu.Item>
+  <Menu.Separator />
+  <Menu.Item>Delete</Menu.Item>
+</Menu.Content>`,
+      imports: ["Button"],
+    },
+  },
+
+  /* Toast is absent on purpose: it has no element to configure. You call
+     `toast.info(…)` and a <Toaster /> renders it, so there are no root props
+     to edit against a fixture — it would need a different kind of playground. */
 
   /* ---- Composed components: root props edited against a fixed fixture ---- */
 
