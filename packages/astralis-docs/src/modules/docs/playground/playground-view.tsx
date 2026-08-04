@@ -44,9 +44,9 @@ function Stage({
   /* A fixture wins over text children: composed components (Alert, ButtonGroup,
      Accordion) are configured by their parts, not by a label. */
   const kids = entry.fixture ? entry.fixture.node : entry.children === undefined ? undefined : content;
-  /* Unset controls must not reach the component, or the stage would stop
-     matching the code the rail is showing. */
-  const props = liveProps(state);
+  /* baseProps first so a control always wins. Unset controls must not reach the
+     component, or the stage would stop matching the code the rail is showing. */
+  const props = liveProps({ ...entry.baseProps, ...state });
   return (
     <div
       className={`preview-grid relative flex items-center justify-center overflow-auto rounded-lg p-6 ${className}`}
@@ -206,7 +206,8 @@ export function PlaygroundView({ name }: { name: PlaygroundName }) {
 
   const code = generateJsx({
     tag: entry.tag,
-    props: state,
+    /* baseProps are emitted too — the snippet needs them to actually work. */
+    props: { ...entry.baseProps, ...state },
     rows: entry.rows,
     children: entry.fixture
       ? entry.fixture.source
