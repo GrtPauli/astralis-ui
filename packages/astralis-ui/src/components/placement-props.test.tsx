@@ -1,15 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { render } from "@testing-library/react";
-import { CardRoot } from "./data-display/card";
-import { StatRoot, StatLabel, StatValue } from "./data-display/stat";
+import { Card } from "./data-display/card";
+import { Stat, StatLabel, StatValue } from "./data-display/stat";
 import { Select } from "./data-entry/select";
 import { Badge } from "./data-display/badge";
 import { Kbd } from "./typography/kbd";
-import { BreadcrumbRoot } from "./navigation/breadcrumb";
-import { CodeBlockRoot } from "./typography/code-block";
-import { TableRoot } from "./data-display/table";
-import { StepsRoot } from "./navigation/steps";
-import { TabsRoot } from "./navigation/tabs";
+import { Breadcrumb } from "./navigation/breadcrumb";
+import { CodeBlock } from "./typography/code-block";
+import { Table } from "./data-display/table";
+import { Steps } from "./navigation/steps";
+import { Tabs } from "./navigation/tabs";
 import { Tag } from "./data-display/tag";
 import { Skeleton } from "./feedback/skeleton";
 import { Spinner } from "./feedback/spinner";
@@ -37,16 +37,18 @@ import { Link } from "./typography/link";
  * so what matters is that no component is missed and none of them leaks a
  * placement key onto the DOM. A component added to the rule and left out of
  * this table is the failure this cannot catch, so the list is kept in step
- * with PLACEMENT_ADOPTERS below.
+ * Each entry names the COMPOUND export, which is the root — Object.assign
+ * returns the root function itself, so Steps and StepsRoot are one value and
+ * only the compound name is exported.
  */
 const ADOPTERS: Array<[string, (props: Record<string, unknown>) => React.ReactElement]> = [
   ["Badge", (p) => <Badge {...p}>badge</Badge>],
   ["Kbd", (p) => <Kbd {...p}>K</Kbd>],
-  ["BreadcrumbRoot", (p) => <BreadcrumbRoot {...p} />],
-  ["CodeBlockRoot", (p) => <CodeBlockRoot {...p} code="x" />],
-  ["TableRoot", (p) => <TableRoot {...p} />],
-  ["StepsRoot", (p) => <StepsRoot {...p} />],
-  ["TabsRoot", (p) => <TabsRoot {...p} defaultValue="a" />],
+  ["Breadcrumb", (p) => <Breadcrumb {...p} />],
+  ["CodeBlock", (p) => <CodeBlock {...p} code="x" />],
+  ["Table", (p) => <Table {...p} />],
+  ["Steps", (p) => <Steps {...p} />],
+  ["Tabs", (p) => <Tabs {...p} defaultValue="a" />],
   ["Tag", (p) => <Tag {...p}>tag</Tag>],
   ["Skeleton", (p) => <Skeleton {...p} />],
   ["Spinner", (p) => <Spinner {...p} />],
@@ -70,9 +72,9 @@ describe.each(ADOPTERS)("placement on %s", (name, render_) => {
 describe("placement props on recipe components", () => {
   it("resolves placement props to classes on Card", () => {
     const { container } = render(
-      <CardRoot w="full" maxW="lg" flex="1" mt="4">
+      <Card w="full" maxW="lg" flex="1" mt="4">
         card
-      </CardRoot>,
+      </Card>,
     );
     const card = container.firstElementChild!;
 
@@ -87,7 +89,7 @@ describe("placement props on recipe components", () => {
   });
 
   it("never leaks a placement prop onto the DOM as an attribute", () => {
-    const { container } = render(<CardRoot w="full" alignSelf="end" mb="2" />);
+    const { container } = render(<Card w="full" alignSelf="end" mb="2" />);
     const card = container.firstElementChild!;
 
     for (const leaked of ["w", "alignself", "mb"]) {
@@ -96,7 +98,7 @@ describe("placement props on recipe components", () => {
   });
 
   it("keeps the recipe's own variant classes alongside placement", () => {
-    const { container } = render(<CardRoot variant="outline" size="lg" w="full" />);
+    const { container } = render(<Card variant="outline" size="lg" w="full" />);
     const classes = [...container.firstElementChild!.classList];
 
     // `size` here is the Card recipe's scale, not Box's width+height.
@@ -105,7 +107,7 @@ describe("placement props on recipe components", () => {
   });
 
   it("accepts responsive placement, the same as on Box", () => {
-    const { container } = render(<CardRoot w={{ base: "full", md: "1/2" }} />);
+    const { container } = render(<Card w={{ base: "full", md: "1/2" }} />);
     const classes = [...container.firstElementChild!.classList];
 
     // Whole class names, not prefixes: the CSS coverage gate scans source for
@@ -115,12 +117,12 @@ describe("placement props on recipe components", () => {
     );
   });
 
-  it("gives Stat placement and a flat root export", () => {
+  it("gives Stat placement props", () => {
     const { container } = render(
-      <StatRoot w="full" mt="2">
+      <Stat w="full" mt="2">
         <StatLabel>Revenue</StatLabel>
         <StatValue>$12k</StatValue>
-      </StatRoot>,
+      </Stat>,
     );
     const stat = container.firstElementChild!;
 

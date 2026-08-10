@@ -12,7 +12,6 @@ export const DataList = Object.assign(DataListRoot, {
 
 /* 2️⃣ Flat exports */
 export {
-  DataListRoot,
   DataListItem,
   DataListLabel,
   DataListValue,

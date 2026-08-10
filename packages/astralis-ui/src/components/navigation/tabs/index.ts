@@ -11,8 +11,7 @@ export const Tabs = Object.assign(TabsRoot, {
 });
 
 /* 2️⃣ Flat exports for tree-shaking (sub-parts only — the root is `Tabs` itself) */
-export {
-  TabsRoot, TabsList, TabsTrigger, TabsContent };
+export { TabsList, TabsTrigger, TabsContent };
 
 export default Tabs;
 

@@ -8,6 +8,6 @@ export const Avatar = Object.assign(AvatarRoot, {
   Badge: AvatarBadge,
 });
 
-export { AvatarRoot, AvatarGroup, AvatarBadge };
+export { AvatarGroup, AvatarBadge };
 
 export type { AvatarProps, AvatarGroupProps, AvatarBadgeProps, AvatarSize, AvatarShape, AvatarStatus } from "./avatar.types";

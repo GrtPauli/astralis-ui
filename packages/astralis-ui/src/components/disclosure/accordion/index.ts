@@ -11,8 +11,7 @@ export const Accordion = Object.assign(AccordionRoot, {
 });
 
 /** Flat exports of the sub-parts only (the root IS the compound export). */
-export {
-  AccordionRoot, AccordionItem, AccordionTrigger, AccordionContent };
+export { AccordionItem, AccordionTrigger, AccordionContent };
 
 export type {
   AccordionProps,
