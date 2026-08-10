@@ -36,6 +36,14 @@ import { QrCode } from "./data-display/qr-code";
 import { Slider } from "./data-entry/slider";
 import { Timeline } from "./data-display/timeline";
 import { DataList } from "./data-display/data-list";
+import { ButtonGroup } from "./buttons/button-group";
+import { Marquee } from "./data-display/marquee";
+import { Calendar } from "./data-display/calendar";
+import { Combobox } from "./data-entry/combobox";
+import { MultiSelect } from "./data-entry/multi-select";
+import { ThemeToggle } from "./buttons/theme-toggle";
+import { Image } from "./data-display/image";
+import { AstralisProvider } from "../theme/provider";
 
 /**
  * The rule these pin down:
@@ -96,6 +104,12 @@ const ADOPTERS: Array<[string, (props: Record<string, unknown>) => React.ReactEl
   ["Slider", (p) => <Slider {...p} />],
   ["Timeline", (p) => <Timeline {...p}><span>a</span></Timeline>],
   ["DataList", (p) => <DataList {...p}><span>a</span></DataList>],
+  ["ButtonGroup", (p) => <ButtonGroup {...p}><span>a</span></ButtonGroup>],
+  ["Marquee", (p) => <Marquee {...p}><span>a</span></Marquee>],
+  ["Calendar", (p) => <Calendar {...p} />],
+  ["Combobox", (p) => <Combobox {...p} options={[]} />],
+  ["MultiSelect", (p) => <MultiSelect {...p} options={[]} />],
+  ["Image", (p) => <Image {...p} src="x.png" alt="x" />],
 ];
 
 describe.each(ADOPTERS)("placement on %s", (_name, render_) => {
@@ -172,6 +186,22 @@ describe("placement props on recipe components", () => {
       expect.arrayContaining(["astralis:w-full", "astralis:mt-2"]),
     );
     expect(stat.hasAttribute("w")).toBe(false);
+  });
+
+  it("forwards placement through ThemeToggle to the Button it renders", () => {
+    // Needs the provider to render at all, so the table-driven check cannot be
+    // used — its root element would be the provider, not the control.
+    const { container } = render(
+      <AstralisProvider>
+        <ThemeToggle w="full" mt="4" />
+      </AstralisProvider>,
+    );
+    const button = container.querySelector("button")!;
+
+    expect([...button.classList]).toEqual(
+      expect.arrayContaining(["astralis:w-full", "astralis:mt-4"]),
+    );
+    expect(button.hasAttribute("w")).toBe(false);
   });
 
   it("passes an aria-label through to Select's combobox", () => {
