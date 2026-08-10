@@ -3,6 +3,13 @@ import { render } from "@testing-library/react";
 import { CardRoot } from "./data-display/card";
 import { StatRoot, StatLabel, StatValue } from "./data-display/stat";
 import { Select } from "./data-entry/select";
+import { Badge } from "./data-display/badge";
+import { Kbd } from "./typography/kbd";
+import { BreadcrumbRoot } from "./navigation/breadcrumb";
+import { CodeBlockRoot } from "./typography/code-block";
+import { TableRoot } from "./data-display/table";
+import { StepsRoot } from "./navigation/steps";
+import { TabsRoot } from "./navigation/tabs";
 
 /**
  * The rule these pin down:
@@ -17,6 +24,38 @@ import { Select } from "./data-entry/select";
  * prop that looks valid and does nothing — or worse, reaches the DOM as a
  * stray attribute.
  */
+
+/**
+ * Phase 2 — the same contract across every component that adopts the rule.
+ *
+ * Table-driven rather than one test each: the wiring is identical everywhere,
+ * so what matters is that no component is missed and none of them leaks a
+ * placement key onto the DOM. A component added to the rule and left out of
+ * this table is the failure this cannot catch, so the list is kept in step
+ * with PLACEMENT_ADOPTERS below.
+ */
+const ADOPTERS: Array<[string, (props: Record<string, unknown>) => React.ReactElement]> = [
+  ["Badge", (p) => <Badge {...p}>badge</Badge>],
+  ["Kbd", (p) => <Kbd {...p}>K</Kbd>],
+  ["BreadcrumbRoot", (p) => <BreadcrumbRoot {...p} />],
+  ["CodeBlockRoot", (p) => <CodeBlockRoot {...p} code="x" />],
+  ["TableRoot", (p) => <TableRoot {...p} />],
+  ["StepsRoot", (p) => <StepsRoot {...p} />],
+  ["TabsRoot", (p) => <TabsRoot {...p} defaultValue="a" />],
+];
+
+describe.each(ADOPTERS)("placement on %s", (name, render_) => {
+  it("resolves w to a class and keeps it off the DOM", () => {
+    const { container } = render(render_({ w: "full", mt: "4" }));
+    const root = container.firstElementChild!;
+
+    expect([...root.classList]).toEqual(
+      expect.arrayContaining(["astralis:w-full", "astralis:mt-4"]),
+    );
+    expect(root.hasAttribute("w")).toBe(false);
+    expect(root.hasAttribute("mt")).toBe(false);
+  });
+});
 
 describe("placement props on recipe components", () => {
   it("resolves placement props to classes on Card", () => {
