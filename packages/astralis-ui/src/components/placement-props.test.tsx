@@ -23,6 +23,10 @@ import { Radio } from "./data-entry/radio";
 import { Progress } from "./feedback/progress";
 import { NumberInput } from "./data-entry/number-input";
 import { Field } from "./data-entry/field";
+import { Button } from "./buttons/button";
+import { Text } from "./typography/text";
+import { Heading } from "./typography/heading";
+import { Highlight } from "./typography/highlight";
 
 /**
  * The rule these pin down:
@@ -70,6 +74,10 @@ const ADOPTERS: Array<[string, (props: Record<string, unknown>) => React.ReactEl
   ["Progress", (p) => <Progress {...p} value={50} />],
   ["NumberInput", (p) => <NumberInput {...p} />],
   ["Field", (p) => <Field {...p} />],
+  ["Button", (p) => <Button {...p}>go</Button>],
+  ["Text", (p) => <Text {...p}>text</Text>],
+  ["Heading", (p) => <Heading {...p}>head</Heading>],
+  ["Highlight", (p) => <Highlight {...p} query="a">abc</Highlight>],
 ];
 
 describe.each(ADOPTERS)("placement on %s", (name, render_) => {
