@@ -15,6 +15,14 @@ import { Skeleton } from "./feedback/skeleton";
 import { Spinner } from "./feedback/spinner";
 import { Icon } from "./icon";
 import { Link } from "./typography/link";
+import { Alert } from "./feedback/alert";
+import { Input } from "./data-entry/input";
+import { Checkbox } from "./data-entry/checkbox";
+import { Switch } from "./data-entry/switch";
+import { Radio } from "./data-entry/radio";
+import { Progress } from "./feedback/progress";
+import { NumberInput } from "./data-entry/number-input";
+import { Field } from "./data-entry/field";
 
 /**
  * The rule these pin down:
@@ -54,6 +62,14 @@ const ADOPTERS: Array<[string, (props: Record<string, unknown>) => React.ReactEl
   ["Spinner", (p) => <Spinner {...p} />],
   ["Icon", (p) => <Icon {...p} as="svg" />],
   ["Link", (p) => <Link {...p} href="#">link</Link>],
+  ["Alert", (p) => <Alert {...p}>alert</Alert>],
+  ["Input", (p) => <Input {...p} />],
+  ["Checkbox", (p) => <Checkbox {...p} />],
+  ["Switch", (p) => <Switch {...p} />],
+  ["Radio", (p) => <Radio {...p} value="a" />],
+  ["Progress", (p) => <Progress {...p} value={50} />],
+  ["NumberInput", (p) => <NumberInput {...p} />],
+  ["Field", (p) => <Field {...p} />],
 ];
 
 describe.each(ADOPTERS)("placement on %s", (name, render_) => {
