@@ -10,6 +10,11 @@ import { CodeBlockRoot } from "./typography/code-block";
 import { TableRoot } from "./data-display/table";
 import { StepsRoot } from "./navigation/steps";
 import { TabsRoot } from "./navigation/tabs";
+import { Tag } from "./data-display/tag";
+import { Skeleton } from "./feedback/skeleton";
+import { Spinner } from "./feedback/spinner";
+import { Icon } from "./icon";
+import { Link } from "./typography/link";
 
 /**
  * The rule these pin down:
@@ -42,6 +47,11 @@ const ADOPTERS: Array<[string, (props: Record<string, unknown>) => React.ReactEl
   ["TableRoot", (p) => <TableRoot {...p} />],
   ["StepsRoot", (p) => <StepsRoot {...p} />],
   ["TabsRoot", (p) => <TabsRoot {...p} defaultValue="a" />],
+  ["Tag", (p) => <Tag {...p}>tag</Tag>],
+  ["Skeleton", (p) => <Skeleton {...p} />],
+  ["Spinner", (p) => <Spinner {...p} />],
+  ["Icon", (p) => <Icon {...p} as="svg" />],
+  ["Link", (p) => <Link {...p} href="#">link</Link>],
 ];
 
 describe.each(ADOPTERS)("placement on %s", (name, render_) => {
