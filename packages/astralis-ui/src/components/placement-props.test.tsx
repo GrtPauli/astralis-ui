@@ -27,6 +27,9 @@ import { Button } from "./buttons/button";
 import { Text } from "./typography/text";
 import { Heading } from "./typography/heading";
 import { Highlight } from "./typography/highlight";
+import { Avatar } from "./data-display/avatar";
+import { Accordion } from "./disclosure/accordion";
+import { Carousel } from "./disclosure/carousel";
 
 /**
  * The rule these pin down:
@@ -56,11 +59,11 @@ import { Highlight } from "./typography/highlight";
 const ADOPTERS: Array<[string, (props: Record<string, unknown>) => React.ReactElement]> = [
   ["Badge", (p) => <Badge {...p}>badge</Badge>],
   ["Kbd", (p) => <Kbd {...p}>K</Kbd>],
-  ["Breadcrumb", (p) => <Breadcrumb {...p} />],
+  ["Breadcrumb", (p) => <Breadcrumb {...p}><span>a</span></Breadcrumb>],
   ["CodeBlock", (p) => <CodeBlock {...p} code="x" />],
-  ["Table", (p) => <Table {...p} />],
-  ["Steps", (p) => <Steps {...p} />],
-  ["Tabs", (p) => <Tabs {...p} defaultValue="a" />],
+  ["Table", (p) => <Table {...p}><tbody><tr><td>a</td></tr></tbody></Table>],
+  ["Steps", (p) => <Steps {...p}><span>a</span></Steps>],
+  ["Tabs", (p) => <Tabs {...p} defaultValue="a"><span>a</span></Tabs>],
   ["Tag", (p) => <Tag {...p}>tag</Tag>],
   ["Skeleton", (p) => <Skeleton {...p} />],
   ["Spinner", (p) => <Spinner {...p} />],
@@ -78,9 +81,12 @@ const ADOPTERS: Array<[string, (props: Record<string, unknown>) => React.ReactEl
   ["Text", (p) => <Text {...p}>text</Text>],
   ["Heading", (p) => <Heading {...p}>head</Heading>],
   ["Highlight", (p) => <Highlight {...p} query="a">abc</Highlight>],
+  ["Avatar", (p) => <Avatar {...p} name="A B" />],
+  ["Accordion", (p) => <Accordion {...p} />],
+  ["Carousel", (p) => <Carousel {...p}><span>a</span></Carousel>],
 ];
 
-describe.each(ADOPTERS)("placement on %s", (name, render_) => {
+describe.each(ADOPTERS)("placement on %s", (_name, render_) => {
   it("resolves w to a class and keeps it off the DOM", () => {
     const { container } = render(render_({ w: "full", mt: "4" }));
     const root = container.firstElementChild!;
