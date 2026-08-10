@@ -24,6 +24,7 @@ export const Steps = Object.assign(StepsRoot, {
 
 /* 2️⃣ Flat exports for tree-shaking (sub-parts only — the root is `Steps` itself) */
 export {
+  StepsRoot,
   StepsList,
   StepsItem,
   StepsIndicator,

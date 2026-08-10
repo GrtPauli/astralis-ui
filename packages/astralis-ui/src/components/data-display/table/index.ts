@@ -18,7 +18,8 @@ export const Table = Object.assign(TableRoot, {
   Caption: TableCaption,
 });
 
-export { TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption };
+export {
+  TableRoot, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption };
 
 export type {
   TableProps,

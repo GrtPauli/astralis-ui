@@ -22,8 +22,13 @@ export const Carousel = Object.assign(CarouselRoot, {
   AutoPlayTrigger: CarouselAutoPlayTrigger,
 });
 
-/** Flat exports of the sub-parts only. */
+/*
+ * Flat exports, root included. Dotted access resolves to undefined across the
+ * RSC boundary, so a Server Component that could import the parts but not the
+ * root had no way to use this at all.
+ */
 export {
+  CarouselRoot,
   CarouselTrack,
   CarouselSlide,
   CarouselControl,

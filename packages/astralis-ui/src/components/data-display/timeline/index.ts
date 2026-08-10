@@ -12,7 +12,8 @@ export const Timeline = Object.assign(TimelineRoot, {
   Description: TimelineDescription,
 });
 
-export { TimelineItem, TimelineIndicator, TimelineContent, TimelineTitle, TimelineDescription };
+export {
+  TimelineRoot, TimelineItem, TimelineIndicator, TimelineContent, TimelineTitle, TimelineDescription };
 
 export type {
   TimelineProps,
