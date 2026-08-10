@@ -30,6 +30,12 @@ import { Highlight } from "./typography/highlight";
 import { Avatar } from "./data-display/avatar";
 import { Accordion } from "./disclosure/accordion";
 import { Carousel } from "./disclosure/carousel";
+import { Pagination } from "./disclosure/pagination";
+import { PinInput } from "./data-entry/pin-input";
+import { QrCode } from "./data-display/qr-code";
+import { Slider } from "./data-entry/slider";
+import { Timeline } from "./data-display/timeline";
+import { DataList } from "./data-display/data-list";
 
 /**
  * The rule these pin down:
@@ -84,6 +90,12 @@ const ADOPTERS: Array<[string, (props: Record<string, unknown>) => React.ReactEl
   ["Avatar", (p) => <Avatar {...p} name="A B" />],
   ["Accordion", (p) => <Accordion {...p} />],
   ["Carousel", (p) => <Carousel {...p}><span>a</span></Carousel>],
+  ["Pagination", (p) => <Pagination {...p} count={3} />],
+  ["PinInput", (p) => <PinInput {...p} />],
+  ["QrCode", (p) => <QrCode {...p} value="x" />],
+  ["Slider", (p) => <Slider {...p} />],
+  ["Timeline", (p) => <Timeline {...p}><span>a</span></Timeline>],
+  ["DataList", (p) => <DataList {...p}><span>a</span></DataList>],
 ];
 
 describe.each(ADOPTERS)("placement on %s", (_name, render_) => {
