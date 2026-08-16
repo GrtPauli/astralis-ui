@@ -89,13 +89,18 @@ const groupSpec = (map) =>
   Object.fromEntries(Object.entries(map).map(([prop, m]) => [prop, propSpec(prop, m)]));
 
 const box = groupSpec(boxVariantMap);
+const flex = groupSpec(flexVariantMap);
 const propGroups = {
   box,
-  flex: groupSpec(flexVariantMap),
+  flex,
   flexItem: groupSpec(flexItemVariantMap),
   grid: groupSpec(gridVariantMap),
   gridItem: groupSpec(gridItemVariantMap),
   text: groupSpec(textVariantMap),
+  // Stack is Flex minus `direction` plus its own axis vocabulary
+  // (stack.types.ts) — claiming the flex group as-is would bless
+  // direction="row" on Stack, which the type system rejects.
+  stack: { ...flex, direction: { kind: "keyword", tokens: ["horizontal", "vertical"], arbitrary: false } },
   // The subset every recipe component accepts (splitPlacement's contract).
   placement: Object.fromEntries(
     PLACEMENT_PROP_NAMES.map((p) => {
@@ -120,19 +125,16 @@ const componentNames = Object.keys(rootExports)
 /* Style-prop surfaces per component. Two authored tables, both transcribed
    from tested behaviour and drift-checked against the export list above.
    Components in neither table get [] — meaning "props manifest pending",
-   NOT "accepts nothing"; the react-docgen manifest is the planned upgrade.
-   Stack/HStack/VStack sit in the box group only: their `direction` speaks
-   the axis vocabulary, not flex's, so claiming the flex group would let a
-   validator bless direction="row" on Stack, which the type system rejects. */
+   NOT "accepts nothing"; the react-docgen manifest is the planned upgrade. */
 const PRIMITIVE_GROUPS = {
   Box: ["box"],
   Flex: ["box", "flex"],
   FlexItem: ["box", "flexItem"],
   Grid: ["box", "grid"],
   GridItem: ["box", "gridItem"],
-  Stack: ["box"],
-  HStack: ["box"],
-  VStack: ["box"],
+  Stack: ["box", "stack"],
+  HStack: ["box", "stack"],
+  VStack: ["box", "stack"],
   Center: ["box"],
   Container: ["box"],
   AspectRatio: ["box"],
@@ -157,12 +159,21 @@ for (const name of [...Object.keys(PRIMITIVE_GROUPS), ...PLACEMENT_ADOPTERS]) {
   if (!exportSet.has(name)) fail(`authored table names "${name}", which is not exported`);
 }
 
+/* Props deliberately typed away on specific components — the validator turns
+   these into targeted errors instead of "unknown prop" shrugs. */
+const EXCLUDED_PROPS = {
+  // `size` is typed `never` — Container has no scale of its own; use maxW.
+  Container: ["size"],
+  // Presets fix the axis; direction is omitted from their props entirely.
+  HStack: ["direction"],
+  VStack: ["direction"],
+};
+
 const components = Object.fromEntries(
   componentNames.map((name) => {
     const groups = PRIMITIVE_GROUPS[name] ?? (PLACEMENT_ADOPTERS.includes(name) ? ["placement"] : []);
     const entry = { groups };
-    // Container's `size` is typed `never` — no scale of its own; see container.types.ts.
-    if (name === "Container") entry.exclude = ["size"];
+    if (EXCLUDED_PROPS[name]) entry.exclude = EXCLUDED_PROPS[name];
     return [name, entry];
   }),
 );
