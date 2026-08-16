@@ -241,6 +241,108 @@ test("channel values referencing unknown astralis vars are flagged", () => {
   assert.deepEqual(own.errors, []);
 });
 
+/* ---- Tier B: anatomy ------------------------------------------------------ */
+
+test("a part outside its compound root warns, inside is silent", () => {
+  const inside = validate(`<Card><Card.Header><Card.Title>t</Card.Title></Card.Header></Card>`);
+  assert.deepEqual(inside.warnings, []);
+
+  const outside = validate(`<Box><CardBody>x</CardBody></Box>`, "Box, CardBody");
+  assert.equal(outside.warnings[0].code, "part-outside-root");
+  assert.ok(outside.warnings[0].message.includes("Card"));
+});
+
+test("an explicit Root satisfies the anatomy", () => {
+  const r = validate(`<Card.Root><Card.Body>x</Card.Body></Card.Root>`, "Card");
+  assert.deepEqual(r.warnings, []);
+});
+
+test("namespaced variants and containers are not anatomy children", () => {
+  // Input.Password is a standalone composed input; Radio.Group WRAPS radios.
+  const r = validate(
+    `<Flex><InputPassword /><Radio.Group><Radio value="a" /></Radio.Group></Flex>`,
+    "Flex, InputPassword, Radio",
+  );
+  assert.deepEqual(r.warnings, []);
+});
+
+test("detached part subtrees make no claim — composed under foreign structure does", () => {
+  // A snippet whose tree is all same-compound parts (Playground content).
+  const snippet = validate(
+    `<DataList.Item><DataList.Label>k</DataList.Label><DataList.Value>v</DataList.Value></DataList.Item>`,
+    "DataList",
+  );
+  assert.deepEqual(snippet.warnings, []);
+
+  // The same parts under a foreign Box with no root anywhere: the mistake.
+  const composed = validate(`<Box><DataList.Item>x</DataList.Item></Box>`, "Box, DataList");
+  assert.equal(composed.warnings[0].code, "part-outside-root");
+});
+
+test("Tabs triggers and panels must pair by value", () => {
+  const broken = validate(`<Tabs defaultValue="a">
+    <Tabs.List><Tabs.Trigger value="a">A</Tabs.Trigger><Tabs.Trigger value="b">B</Tabs.Trigger></Tabs.List>
+    <Tabs.Content value="a">1</Tabs.Content>
+    <Tabs.Content value="c">3</Tabs.Content>
+  </Tabs>`, "Tabs");
+  assert.equal(broken.errors.length, 1);
+  assert.ok(broken.errors[0].message.includes(`"b"`), "the trigger without a panel");
+  assert.equal(broken.warnings.filter((w) => w.code === "tabs-value-mismatch").length, 1);
+
+  const ok = validate(`<Tabs defaultValue="a">
+    <Tabs.List><Tabs.Trigger value="a">A</Tabs.Trigger></Tabs.List>
+    <Tabs.Content value="a">1</Tabs.Content>
+  </Tabs>`, "Tabs");
+  assert.deepEqual(ok.errors, []);
+});
+
+test("a bad Tabs defaultValue is caught; dynamic values silence the check", () => {
+  const bad = validate(`<Tabs defaultValue="nope">
+    <Tabs.List><Tabs.Trigger value="a">A</Tabs.Trigger></Tabs.List>
+    <Tabs.Content value="a">1</Tabs.Content>
+  </Tabs>`, "Tabs");
+  assert.ok(bad.errors.some((e) => e.message.includes("defaultValue")));
+
+  const dynamic = validate(`<Tabs defaultValue="x">
+    <Tabs.List>{items.map((i) => <Tabs.Trigger value={i.id}>{i.label}</Tabs.Trigger>)}</Tabs.List>
+    <Tabs.Content value="x">1</Tabs.Content>
+  </Tabs>`, "Tabs");
+  assert.deepEqual(dynamic.errors, []);
+});
+
+/* ---- Tier D: a11y ---------------------------------------------------------- */
+
+test("typo'd aria attributes are errors with a did-you-mean", () => {
+  const r = validate(`<Box aria-lable="menu" />`);
+  assert.equal(r.errors[0].code, "unknown-aria-attribute");
+  assert.ok(r.errors[0].message.includes("aria-label"));
+});
+
+test("abstract or invented roles are errors", () => {
+  const r = validate(`<div role="botton" />`);
+  assert.equal(r.errors[0].code, "invalid-role");
+  assert.ok(r.errors[0].message.includes("button"));
+});
+
+test("images need a text alternative — including our Image wrapper", () => {
+  const bare = validate(`<Image src="x.png" />`, "Image");
+  assert.equal(bare.errors[0].code, "missing-alt");
+
+  const img = validate(`<img src="x.png" />`, "Box");
+  assert.equal(img.errors[0].code, "missing-alt");
+
+  const fine = validate(`<Image src="x.png" alt="" />`, "Image");
+  assert.deepEqual(fine.errors, []);
+
+  const spread = validate(`<Image src="x.png" {...rest} />`, "Image");
+  assert.deepEqual(spread.errors, []);
+});
+
+test("positive tabIndex warns", () => {
+  const r = validate(`<Box tabIndex={3} />`);
+  assert.equal(r.warnings[0].code, "positive-tabindex");
+});
+
 test("--strict-tokens flags raw colors as drift, off by default", () => {
   const src = `import { Box } from "astralis-ui";\nexport const X = () => (<Box bg="#0ea5e9" p="37px" />);`;
   const loose = validateSource(src, prepared, "test.tsx");

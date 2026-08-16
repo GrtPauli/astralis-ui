@@ -29,6 +29,7 @@
 
 import { parse } from "@babel/parser";
 import { classifyChannelValue } from "./css-value.mjs";
+import { ARIA_ATTRS, ROLES } from "./aria.mjs";
 
 const BARE_NUMBER = /^-?(\d+\.?\d*|\.\d+)$/;
 
@@ -276,28 +277,26 @@ export function validateSource(source, prepared, filePath = "<source>", opts = {
     }
   };
 
-  /* ---- walk ----------------------------------------------------------------- */
-  const walk = (node, fn) => {
-    fn(node);
-    for (const key of Object.keys(node)) {
-      if (key === "loc") continue;
-      const v = node[key];
-      if (Array.isArray(v)) {
-        for (const c of v) if (c && typeof c.type === "string") walk(c, fn);
-      } else if (v && typeof v.type === "string") {
-        walk(v, fn);
-      }
-    }
-  };
+  /* ---- one element: identity + every per-attribute check ------------------- */
+  // Identity of a JSX element for anatomy purposes:
+  //   { display, specName?, owner?, part?, dom? }
+  const analyzeOpening = (node) => {
+    const identity = { display: null, specName: null, owner: null, part: null, dom: null };
 
-  walk(ast.program, (node) => {
-    if (node.type !== "JSXOpeningElement") return;
-
-    // Resolve the element to a spec component, when it is one of ours.
-    let specName = null;
     if (node.name.type === "JSXIdentifier") {
-      specName = imported.get(node.name.name) ?? null;
-      if (specName && !spec.components[specName]) specName = null; // hook/util renders? not ours to judge
+      const local = node.name.name;
+      identity.display = local;
+      if (/^[a-z]/.test(local)) identity.dom = local;
+      const specName = imported.get(local) ?? null;
+      if (specName && spec.components[specName]) {
+        identity.specName = specName;
+        // A flat part export (CardBody) knows its compound via partOf.
+        const partOf = spec.components[specName].partOf;
+        if (partOf) {
+          identity.owner = partOf;
+          identity.part = specName.slice(partOf.length);
+        }
+      }
     } else if (
       node.name.type === "JSXMemberExpression" &&
       node.name.object.type === "JSXIdentifier" &&
@@ -309,52 +308,209 @@ export function validateSource(source, prepared, filePath = "<source>", opts = {
       // flat cousin existing wouldn't make a missing dot-part render.
       const owner = imported.get(node.name.object.name);
       const part = node.name.property.name;
+      identity.display = `${owner}.${part}`;
       const ownerSpec = spec.components[owner];
       if (ownerSpec?.parts?.includes(part)) {
+        identity.owner = owner;
+        identity.part = part;
         // A part with a flat twin (CardBody) carries that twin's groups.
-        specName = spec.components[owner + part] ? owner + part : null;
+        if (spec.components[owner + part]) identity.specName = owner + part;
       } else if (ownerSpec) {
         report(errors, "unknown-part", node.name,
           `${owner}.${part} — no such part${ownerSpec.parts ? ` (${owner} has: ${ownerSpec.parts.join(", ")})` : ""}`);
       }
     }
 
-    const comp = specName ? spec.components[specName] : null;
+    const comp = identity.specName ? spec.components[identity.specName] : null;
     const allowed = {};
     if (comp) for (const g of comp.groups) Object.assign(allowed, spec.propGroups[g]);
     const hasBox = comp ? comp.groups.includes("box") : false;
 
+    let hasSpread = false;
+    let hasAlt = false;
+    let hasAriaCover = false; // aria-label / aria-labelledby / aria-hidden
+
     for (const attr of node.attributes) {
-      if (attr.type !== "JSXAttribute" || attr.name.type !== "JSXIdentifier") continue;
+      if (attr.type === "JSXSpreadAttribute") { hasSpread = true; continue; }
+      if (attr.name.type !== "JSXIdentifier") continue;
       const prop = attr.name.name;
 
+      /* -- universal checks: every element, astralis or not ---------------- */
       if (prop === "className") { checkClassName(attr); continue; }
       if (prop === "style") { checkStyle(attr); continue; }
+      if (prop.startsWith("aria-")) {
+        hasAriaCover ||= prop === "aria-label" || prop === "aria-labelledby" || prop === "aria-hidden";
+        if (!ARIA_ATTRS.has(prop)) {
+          const near = suggestToken(prop, [...ARIA_ATTRS]);
+          report(errors, "unknown-aria-attribute", attr,
+            `"${prop}" is not an ARIA attribute — it renders, and assistive technology hears nothing` +
+            (near ? ` (did you mean "${near}"?)` : ""));
+        }
+        continue;
+      }
+      if (prop === "role") {
+        const value = literalOf(attr.value) ?? (attr.value?.type === "JSXExpressionContainer" ? literalOf(attr.value.expression) : null);
+        if (value !== null) {
+          for (const token of value.split(/\s+/).filter(Boolean)) {
+            if (!ROLES.has(token)) {
+              const near = suggestToken(token, [...ROLES]);
+              report(errors, "invalid-role", attr,
+                `"${token}" is not an ARIA role${near ? ` (did you mean "${near}"?)` : ""}`);
+            }
+          }
+        }
+        continue;
+      }
+      if (prop === "tabIndex") {
+        const value = literalOf(attr.value) ?? (attr.value?.type === "JSXExpressionContainer" ? literalOf(attr.value.expression) : null);
+        if (value !== null && Number(value) > 0) {
+          report(warnings, "positive-tabindex", attr,
+            `tabIndex={${value}} hijacks the page's tab order — use 0 (in order) or -1 (programmatic only)`);
+        }
+        continue;
+      }
+      if (prop === "alt") { hasAlt = true; continue; }
+
+      /* -- astralis prop checks --------------------------------------------- */
       if (!comp) continue;
 
       if (comp.exclude?.includes(prop)) {
         const hint =
-          specName === "Container" ? " — Container has no size scale; use maxW" :
+          identity.specName === "Container" ? " — Container has no size scale; use maxW" :
           prop === "direction" ? ` — the axis is fixed by the preset; use Stack for a switchable direction` : "";
-        report(errors, "excluded-prop", attr, `${specName} deliberately has no "${prop}" prop${hint}`);
+        report(errors, "excluded-prop", attr, `${identity.specName} deliberately has no "${prop}" prop${hint}`);
         continue;
       }
       if (stateProps.has(prop)) {
         // Only Box-composing primitives resolve states; elsewhere no claim.
-        if (hasBox) checkStateValue(specName, prop, attr.value, attr);
+        if (hasBox) checkStateValue(identity.specName, prop, attr.value, attr);
         continue;
       }
       if (allowed[prop]) {
-        checkPropValue(specName, prop, allowed[prop], attr.value, attr);
+        checkPropValue(identity.specName, prop, allowed[prop], attr.value, attr);
         continue;
       }
       if (comp.groups.length === 1 && comp.groups[0] === "placement" && DOCTRINE_PAINT_PROPS.has(prop)) {
         report(warnings, "paint-on-recipe", attr,
-          `${specName} owns its own ${prop} — paint props stay off recipe components; reach for variant/size/colorScheme instead`);
+          `${identity.specName} owns its own ${prop} — paint props stay off recipe components; reach for variant/size/colorScheme instead`);
       }
       // Anything else: DOM prop, recipe prop, or manifest-pending — no claim.
     }
-  });
+
+    // Images need a text alternative: real <img>, or our Image wrapper —
+    // which jsx-a11y can never know renders an img. Spread props may carry
+    // alt, so their presence silences the claim.
+    if ((identity.dom === "img" || identity.specName === "Image") && !hasSpread && !hasAlt && !hasAriaCover) {
+      report(errors, "missing-alt", node,
+        `${identity.display} has no alt — pass alt="…" (or alt="" if purely decorative)`);
+    }
+
+    return identity;
+  };
+
+  /* ---- anatomy: parts want their compound root above them ------------------ */
+  const providesRoot = (ancestor, owner) =>
+    ancestor.specName === owner ||
+    ancestor.specName === owner + "Root" ||
+    (ancestor.owner === owner && ancestor.part === "Root");
+
+  const checkAnatomy = (identity, node, ancestors) => {
+    if (!identity.owner || identity.part === "Root") return;
+    // Only anatomy CHILDREN are claimed — namespaced variants (Input.Password)
+    // and container parts (Radio.Group wraps radios) carry no requirement.
+    const anatomy = spec.components[identity.owner]?.anatomy;
+    if (!anatomy?.children.includes(identity.part)) return;
+    if (ancestors.some((a) => providesRoot(a, identity.owner))) return;
+    // Detached subtrees make no claim: a part that IS the expression's root,
+    // or sits only under parts of its own compound, is a snippet composed
+    // under the real root somewhere else (Playground content, render props).
+    if (ancestors.length === 0) return;
+    if (ancestors.every((a) => a.owner === identity.owner)) return;
+    // Composed under FOREIGN structure with no root in sight — that's the
+    // real mistake. Warn, not error: file-local analysis cannot see whether
+    // a root wraps this component at its call sites.
+    report(warnings, "part-outside-root", node,
+      `${identity.display} sits outside a ${identity.owner} in this tree — legal only if a ${identity.owner} wraps this component where it's used`);
+  };
+
+  /* ---- Tabs: triggers and panels must speak the same values ---------------- */
+  const tabsStack = [];
+  const collectTabsValue = (identity, node) => {
+    if (tabsStack.length === 0 || identity.owner !== "Tabs") return;
+    const scope = tabsStack[tabsStack.length - 1];
+    if (identity.part !== "Trigger" && identity.part !== "Content") return;
+    const attr = node.attributes.find(
+      (a) => a.type === "JSXAttribute" && a.name.type === "JSXIdentifier" && a.name.name === "value",
+    );
+    const value = attr
+      ? literalOf(attr.value) ?? (attr.value?.type === "JSXExpressionContainer" ? literalOf(attr.value.expression) : null)
+      : null;
+    if (value === null) { scope.dynamic = true; return; }
+    (identity.part === "Trigger" ? scope.triggers : scope.contents).push({ value, node: attr });
+  };
+
+  const settleTabs = (scope) => {
+    // Any dynamic value and the pairing is not statically decidable.
+    if (scope.dynamic || scope.triggers.length === 0 || scope.contents.length === 0) return;
+    const triggerValues = new Set(scope.triggers.map((t) => t.value));
+    const contentValues = new Set(scope.contents.map((c) => c.value));
+    for (const t of scope.triggers) {
+      if (!contentValues.has(t.value)) {
+        report(errors, "tabs-value-mismatch", t.node,
+          `Tabs trigger "${t.value}" has no matching content panel — clicking it shows nothing`);
+      }
+    }
+    for (const c of scope.contents) {
+      if (!triggerValues.has(c.value)) {
+        report(warnings, "tabs-value-mismatch", c.node,
+          `Tabs content "${c.value}" has no trigger — the panel is unreachable`);
+      }
+    }
+    if (scope.defaultValue !== null && !triggerValues.has(scope.defaultValue)) {
+      report(errors, "tabs-value-mismatch", scope.node,
+        `Tabs defaultValue "${scope.defaultValue}" matches no trigger`);
+    }
+  };
+
+  /* ---- traversal, carrying JSX ancestry ------------------------------------- */
+  const ancestors = [];
+  const traverse = (node) => {
+    let pushed = false;
+    let tabsPushed = false;
+
+    if (node.type === "JSXElement") {
+      const opening = node.openingElement;
+      const identity = analyzeOpening(opening);
+      checkAnatomy(identity, opening, ancestors);
+      collectTabsValue(identity, opening);
+      if (identity.specName === "Tabs") {
+        const attr = opening.attributes.find(
+          (a) => a.type === "JSXAttribute" && a.name.type === "JSXIdentifier" && a.name.name === "defaultValue",
+        );
+        tabsStack.push({
+          triggers: [], contents: [], dynamic: false, node: opening,
+          defaultValue: attr ? literalOf(attr.value) ?? (attr.value?.type === "JSXExpressionContainer" ? literalOf(attr.value.expression) : null) : null,
+        });
+        tabsPushed = true;
+      }
+      ancestors.push(identity);
+      pushed = true;
+    }
+
+    for (const key of Object.keys(node)) {
+      if (key === "loc") continue;
+      const v = node[key];
+      if (Array.isArray(v)) {
+        for (const c of v) if (c && typeof c.type === "string") traverse(c);
+      } else if (v && typeof v.type === "string") {
+        traverse(v);
+      }
+    }
+
+    if (tabsPushed) settleTabs(tabsStack.pop());
+    if (pushed) ancestors.pop();
+  };
+  traverse(ast.program);
 
   const byPosition = (a, b) => a.line - b.line || a.column - b.column;
   return { errors: errors.sort(byPosition), warnings: warnings.sort(byPosition) };
