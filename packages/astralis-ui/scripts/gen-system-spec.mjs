@@ -65,6 +65,18 @@ const { gridVariantMap, gridItemVariantMap } = await import(
 );
 const { textVariantMap } = await import(distUrl("components/typography/text/text.styles.js"));
 
+/* What kind of CSS value each channel carries — the grammar a validator
+   holds an ARBITRARY (non-token) string against. Everything not listed is a
+   length-percentage: spacing, sizing, gap, offsets, radius, basis. */
+const SLUG_VALUE_TYPES = {
+  bg: "color",
+  color: "color",
+  "border-color": "color",
+  shadow: "shadow",
+  opacity: "number",
+  order: "integer",
+};
+
 /** One prop's spec entry. Channel routing mirrors the engine: registered
  *  name AND branded map — Text's `size` stays keyword here for the same
  *  reason it stays keyword at runtime. */
@@ -80,6 +92,7 @@ function propSpec(prop, tokenMap) {
       tokens,
       arbitrary: true,
       unitless: UNITLESS_CHANNEL_SLUGS.has(slug),
+      valueType: SLUG_VALUE_TYPES[slug] ?? "length",
     };
   }
   return { kind: "keyword", tokens, arbitrary: false };
@@ -174,6 +187,13 @@ const components = Object.fromEntries(
     const groups = PRIMITIVE_GROUPS[name] ?? (PLACEMENT_ADOPTERS.includes(name) ? ["placement"] : []);
     const entry = { groups };
     if (EXCLUDED_PROPS[name]) entry.exclude = EXCLUDED_PROPS[name];
+    // Compound parts attached to the export (Menu.Trigger, Card.Body, ...) —
+    // enumerated from the real object, so dot-access validates against what
+    // actually exists at runtime. Some compounds also have flat exports
+    // (CardBody); some are dot-only (MenuItem does not exist) — the parts
+    // list is the only truth for dot-access.
+    const parts = Object.keys(rootExports[name] ?? {}).filter((k) => /^[A-Z]/.test(k));
+    if (parts.length) entry.parts = parts;
     return [name, entry];
   }),
 );
