@@ -55,6 +55,21 @@ const MUST_BE_ZERO_CLIENT = [
   "Progress",
   "Skeleton",
   "Spinner",
+  // de-contexted compounds (phase 2): size/state travels via data attributes
+  "Card",
+  "CardHeader",
+  "CardTitle",
+  "CardDescription",
+  "CardBody",
+  "CardFooter",
+  "Table",
+  "TableHeader",
+  "TableBody",
+  "TableFooter",
+  "TableRow",
+  "TableHead",
+  "TableCell",
+  "TableCaption",
 ];
 
 const failures = [];
@@ -67,9 +82,11 @@ for (const [relPath, mod] of modules) {
   const base = relPath.replace(/\.js$/, "");
   const srcFile = [".tsx", ".ts"].map((ext) => join(SRC, base + ext)).find(existsSync);
   if (!srcFile) {
-    // No source counterpart (generated helper chunks). Client is only ever
-    // declared in source, so these must ship bannerless.
-    if (mod.isClient) failures.push(`${relPath} has "use client" but no source file declares it`);
+    // Every dist module has a 1:1 source counterpart (preserveModules, no
+    // helper chunks today). An orphan is a stale file from a deleted/renamed
+    // source lingering because emptyOutDir is false — it would still ship in
+    // the npm pack, so fail loudly rather than reason about its banner.
+    failures.push(`${relPath} has no source counterpart — stale dist output; delete it (or clean dist/)`);
     continue;
   }
   const srcIsClient = readFileSync(srcFile, "utf8").trimStart().startsWith('"use client"');

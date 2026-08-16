@@ -4,6 +4,7 @@ import { cloneElement, type KeyboardEvent, type MouseEvent, type ReactElement } 
 import { useMenu } from "../menu.context";
 import type { MenuItemProps, MenuSectionProps, MenuTriggerProps } from "../menu.types";
 import { astralisMerge } from "../../../utils/astralis-merge";
+import { resolveServerChild } from "../../../utils/resolve-server-child";
 import {
   menuItemClasses,
   menuItemDangerClasses,
@@ -15,7 +16,7 @@ import {
 
 export function MenuTrigger({ children }: MenuTriggerProps) {
   const { toggle, open, triggerRef, contentId } = useMenu();
-  const child = children as ReactElement<Record<string, unknown>>;
+  const child = resolveServerChild(children) as ReactElement<Record<string, unknown>>;
   return cloneElement(child, {
     ref: triggerRef,
     onClick: (e: MouseEvent) => {
