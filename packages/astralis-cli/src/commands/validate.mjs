@@ -13,9 +13,10 @@
    ========================================================================== */
 
 import { readFileSync, readdirSync, statSync } from "node:fs";
-import { join, dirname, relative, resolve } from "node:path";
+import { join, relative, resolve } from "node:path";
 import { bold, cyan, dim, red, yellow, green, ok, fail } from "../lib/ui.mjs";
 import { prepareSpec, validateSource } from "../lib/validate-core.mjs";
+import { findInstalledSpec } from "../lib/spec-resolve.mjs";
 
 const SKIP_DIRS = new Set(["node_modules", ".git", ".next", "dist", "build", "out", ".astralis"]);
 
@@ -34,18 +35,6 @@ function collectFiles(path, into) {
     }
   }
   return into;
-}
-
-/** Walk upward for node_modules/astralis-ui — the CONSUMER's copy, which is
- *  the version their code must conform to. (require.resolve can't be used:
- *  the library's exports map carries no "require" condition, and the CLI's
- *  own dependency copy could be a different version than theirs.) */
-export function findInstalledSpec(startDir) {
-  for (let dir = resolve(startDir); ; dir = dirname(dir)) {
-    const candidate = join(dir, "node_modules", "astralis-ui", "dist", "system-spec.json");
-    if (statSync(candidate, { throwIfNoEntry: false })) return candidate;
-    if (dirname(dir) === dir) return null;
-  }
 }
 
 function loadSpec(explicitPath) {

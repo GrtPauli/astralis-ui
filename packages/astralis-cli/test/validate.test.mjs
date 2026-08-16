@@ -3,8 +3,8 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname } from "node:path";
-import { prepareSpec, validateSource } from "../src/lib/validate-core.mjs";
-import { findInstalledSpec } from "../src/commands/validate.mjs";
+// Through the package's own subpath — the same door astralis-mcp uses.
+import { prepareSpec, validateSource, findInstalledSpec } from "../src/lib/validate.mjs";
 
 /*
  * Every test seeds ONE mistake of the class the validator claims to catch —
