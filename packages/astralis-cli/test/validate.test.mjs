@@ -117,12 +117,32 @@ test("excluded props get targeted errors", () => {
   assert.ok(r.errors[0].message.includes("maxW"));
 });
 
-test("compound dot-parts resolve to their flat exports", () => {
+test("compound dot-parts validate against the enumerated parts", () => {
   const good = validate(`<Card><Card.Body>x</Card.Body></Card>`);
   assert.deepEqual(good.errors, []);
 
   const bad = validate(`<Card><Card.Contents>x</Card.Contents></Card>`);
   assert.equal(bad.errors[0].code, "unknown-part");
+  assert.ok(bad.errors[0].message.includes("Body"), "message lists the real parts");
+
+  // Dot-only compounds (no MenuItem flat export) — the docs demos' false
+  // positive, fixed by enumerating parts from the real export object.
+  const menu = validate(`<Menu><Menu.Trigger>open</Menu.Trigger><Menu.Content><Menu.Item>a</Menu.Item></Menu.Content></Menu>`, "Menu");
+  assert.deepEqual(menu.errors, []);
+});
+
+test("boolean variant props take bare attributes", () => {
+  // <Text truncate> is JSX for truncate={true} — a boolean-keyed variant map.
+  const r = validate(`<Text truncate gutterBottom={true}>x</Text>`);
+  assert.deepEqual(r.errors, []);
+
+  const still = validate(`<Box p />`);
+  assert.equal(still.errors[0].code, "invalid-value");
+});
+
+test("rounded is a recipe prop on recipe components — no doctrine warning", () => {
+  const r = validate(`<Button rounded="full">x</Button>`);
+  assert.deepEqual(r.warnings, []);
 });
 
 test("paint on a recipe component warns with the doctrine", () => {
@@ -153,4 +173,81 @@ test("components without a props manifest still get universal checks", () => {
 test("non-astralis elements and components are left alone", () => {
   const r = validate(`<section someProp="x"><MyThing display="blorp" /></section>`, "Box");
   assert.deepEqual(r.errors, []);
+});
+
+/* ---- Tier C: the value grammar ------------------------------------------ */
+
+test("a typo'd color token is condemned, not passed through", () => {
+  // The Tier A gap, closed: "surfase" typechecks (arbitrary values widened
+  // the type) and the runtime would deliver it — into an invalid declaration.
+  const r = validate(`<Box bg="surfase" />`);
+  assert.equal(r.errors.length, 1);
+  assert.equal(r.errors[0].code, "channel-value-invalid");
+});
+
+test("typo'd sizing keywords get a did-you-mean", () => {
+  const r = validate(`<Box w="fulll" />`);
+  assert.equal(r.errors[0].code, "channel-value-invalid");
+  assert.ok(r.errors[0].message.includes(`did you mean "full"`));
+});
+
+test("keyword typos get a did-you-mean too", () => {
+  const r = validate(`<Box display="flxe" />`);
+  assert.ok(r.errors[0].message.includes(`did you mean "flex"`));
+});
+
+test("a unit that doesn't exist is an error, not a pass-through", () => {
+  const r = validate(`<Box p="37pxx" />`);
+  assert.equal(r.errors[0].code, "channel-value-invalid");
+});
+
+test("valid arbitrary values still make it through the grammar", () => {
+  const r = validate(`<Box p="37px" w="calc(100vw - 200px)" h="75dvh" maxW="65ch"
+    bg="rebeccapurple" color="#0ea5e9" borderColor="oklch(0.7 0.1 200)"
+    m="var(--astralis-spacing-4)" opacity="0.5" order="-1" basis="30%" />`);
+  assert.deepEqual(r.errors, []);
+  assert.deepEqual(r.warnings, []);
+});
+
+test("gradients on a color channel explain themselves", () => {
+  const r = validate(`<Box bg="linear-gradient(red, blue)" />`);
+  assert.equal(r.errors[0].code, "channel-value-invalid");
+  assert.ok(r.errors[0].message.includes("backgroundImage"));
+});
+
+test("multi-part values make no claim", () => {
+  // padding shorthand and layered shadows are valid CSS the grammar cannot
+  // (and must not pretend to) decide.
+  const r = validate(`<Box p="4px 8px" shadow="0 1px 2px rgba(0,0,0,0.2)" />`);
+  assert.deepEqual(r.errors, []);
+});
+
+test("shadow identifiers outside none are condemned", () => {
+  const r = validate(`<Box shadow="fancy" />`);
+  assert.equal(r.errors[0].code, "channel-value-invalid");
+});
+
+test("order and opacity reject non-numeric identifiers", () => {
+  const r = validate(`<Box order="second" opacity="translucent" />`);
+  assert.equal(r.errors.length, 2);
+  assert.ok(r.errors.every((e) => e.code === "channel-value-invalid"));
+});
+
+test("channel values referencing unknown astralis vars are flagged", () => {
+  const bad = validate(`<Box p="var(--astralis-spacing-13)" />`);
+  assert.equal(bad.errors[0].code, "unknown-css-variable");
+
+  const own = validate(`<Box p="var(--my-own-var)" />`);
+  assert.deepEqual(own.errors, []);
+});
+
+test("--strict-tokens flags raw colors as drift, off by default", () => {
+  const src = `import { Box } from "astralis-ui";\nexport const X = () => (<Box bg="#0ea5e9" p="37px" />);`;
+  const loose = validateSource(src, prepared, "test.tsx");
+  assert.deepEqual(loose.warnings, []);
+
+  const strict = validateSource(src, prepared, "test.tsx", { strictTokens: true });
+  assert.equal(strict.warnings.length, 1);
+  assert.equal(strict.warnings[0].code, "off-token-color");
+  assert.ok(strict.warnings[0].message.includes("dark mode"));
 });

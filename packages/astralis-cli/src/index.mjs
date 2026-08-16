@@ -41,6 +41,7 @@ ${bold("Commands")}
                     ${dim("catches what typechecks but still fails: unknown")}
                     ${dim("components, off-set values, dead astralis classes")}
                     ${dim("--json for CI · --spec <path> to override the spec")}
+                    ${dim("--strict-tokens also flags raw colors (drift check)")}
   ${cyan("connect-mcp")}     connect a client to the Astralis docs server
                     ${dim("prompts for the client, then configures it for you")}
                     ${dim("--client claude-code|codex|cursor|claude-desktop|antigravity")}

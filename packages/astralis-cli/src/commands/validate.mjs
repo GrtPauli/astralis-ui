@@ -63,11 +63,13 @@ export async function run(args) {
   const paths = [];
   let specPath = null;
   let asJson = false;
+  let strictTokens = false;
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg === "--spec") specPath = args[++i];
     else if (arg === "--json") asJson = true;
+    else if (arg === "--strict-tokens") strictTokens = true;
     else if (arg.startsWith("--")) fail(`Unknown option "${arg}"`);
     else paths.push(arg);
   }
@@ -84,7 +86,7 @@ export async function run(args) {
 
   for (const file of files) {
     const rel = relative(process.cwd(), file) || file;
-    const { errors, warnings } = validateSource(readFileSync(file, "utf8"), prepared, rel);
+    const { errors, warnings } = validateSource(readFileSync(file, "utf8"), prepared, rel, { strictTokens });
     errorCount += errors.length;
     warningCount += warnings.length;
     if (errors.length || warnings.length) results.push({ file: rel, errors, warnings });

@@ -28,15 +28,45 @@
    ========================================================================== */
 
 import { parse } from "@babel/parser";
+import { classifyChannelValue } from "./css-value.mjs";
 
 const BARE_NUMBER = /^-?(\d+\.?\d*|\.\d+)$/;
 
+/** Nearest token within edit distance 2, for "did you mean" hints. */
+function suggestToken(value, tokens) {
+  let best = null;
+  let bestD = 3;
+  for (const t of tokens) {
+    if (Math.abs(t.length - value.length) >= bestD) continue;
+    const d = editDistance(value, t, bestD);
+    if (d < bestD) { bestD = d; best = t; }
+  }
+  return best;
+}
+
+function editDistance(a, b, cap) {
+  let prev = Array.from({ length: b.length + 1 }, (_, i) => i);
+  for (let i = 1; i <= a.length; i++) {
+    const row = [i];
+    let rowMin = i;
+    for (let j = 1; j <= b.length; j++) {
+      row[j] = Math.min(prev[j] + 1, row[j - 1] + 1, prev[j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1));
+      if (row[j] < rowMin) rowMin = row[j];
+    }
+    if (rowMin >= cap) return cap;
+    prev = row;
+  }
+  return Math.min(prev[b.length], cap);
+}
+
 /* Paint props that recipe components deliberately refuse — the "a component
    owns how it looks" doctrine (utils/placement.ts). Warn-level: the props
-   manifest is still partial, so this stays a nudge rather than a verdict. */
+   manifest is still partial, so this stays a nudge rather than a verdict.
+   `rounded` is NOT here: like `size`, the name is reused as a recipe prop
+   (Button/Image radius scale, Tabs boolean) — the docs demos proved it. */
 const DOCTRINE_PAINT_PROPS = new Set([
   "p", "px", "py", "pt", "pr", "pb", "pl",
-  "bg", "borderColor", "rounded", "shadow",
+  "bg", "borderColor", "shadow",
 ]);
 
 /** Precompute the lookup tables one spec produces. Reusable across files. */
@@ -69,8 +99,10 @@ export function prepareSpec(spec) {
   };
 }
 
-/** Validate one TSX/JSX source. `prepared` comes from prepareSpec(). */
-export function validateSource(source, prepared, filePath = "<source>") {
+/** Validate one TSX/JSX source. `prepared` comes from prepareSpec().
+ *  opts.strictTokens: additionally warn on every valid-but-off-token color —
+ *  the drift check, opt-in because arbitrary values are a feature. */
+export function validateSource(source, prepared, filePath = "<source>", opts = {}) {
   const { spec, classSet, varSet, channelVarSet, statePayload, bpKeys, stateProps } = prepared;
   const errors = [];
   const warnings = [];
@@ -104,16 +136,37 @@ export function validateSource(source, prepared, filePath = "<source>") {
   const checkScalar = (comp, prop, propSpec, value, node) => {
     if (propSpec.tokens.includes(value)) return;
     if (propSpec.kind === "keyword") {
+      const near = suggestToken(value, propSpec.tokens);
       report(errors, "invalid-keyword-value", node,
-        `${comp}: "${value}" is not a ${prop} value — keyword props are closed sets (valid: ${propSpec.tokens.slice(0, 8).join(", ")}${propSpec.tokens.length > 8 ? ", …" : ""})`);
+        `${comp}: "${value}" is not a ${prop} value — keyword props are closed sets` +
+        (near ? ` (did you mean "${near}"?)` : ` (valid: ${propSpec.tokens.slice(0, 8).join(", ")}${propSpec.tokens.length > 8 ? ", …" : ""})`));
       return;
     }
-    // Channel prop: everything else passes through as arbitrary CSS.
+    // Channel prop: an arbitrary value rides the var — but it still has to BE
+    // a value. The grammar condemns only the definitely-wrong (never valid
+    // CSS); everything undecidable passes without a claim.
     if (value === "") {
       report(errors, "empty-channel-value", node, `${comp}: ${prop}="" resolves to nothing`);
-    } else if (BARE_NUMBER.test(value) && !propSpec.unitless) {
+      return;
+    }
+    for (const m of value.matchAll(CSS_VAR_REF)) {
+      if (!knownVar(m[1])) {
+        report(errors, "unknown-css-variable", node,
+          `${comp}: ${prop} references var(${m[1]}), which no token stylesheet declares`);
+      }
+    }
+    const verdict = classifyChannelValue(value, propSpec.valueType ?? "length");
+    if (verdict.verdict === "invalid") {
+      const near = suggestToken(value, propSpec.tokens);
+      report(errors, "channel-value-invalid", node,
+        `${comp}: ${prop}="${value}" is neither a token nor valid CSS — ${verdict.reason}` +
+        (near ? ` (did you mean "${near}"?)` : ""));
+    } else if (verdict.verdict === "bare-number" || (BARE_NUMBER.test(value) && !propSpec.unitless)) {
       report(warnings, "bare-number-value", node,
         `${comp}: ${prop}="${value}" is not a token, and a bare number is not valid CSS here — did you mean a token, or "${value}px"?`);
+    } else if (opts.strictTokens && propSpec.valueType === "color") {
+      report(warnings, "off-token-color", node,
+        `${comp}: ${prop}="${value}" is a raw color — it won't follow the theme or dark mode; prefer a token`);
     }
   };
 
@@ -122,13 +175,18 @@ export function validateSource(source, prepared, filePath = "<source>") {
     if (!v) return null;
     if (v.type === "StringLiteral") return v.value;
     if (v.type === "NumericLiteral") return String(v.value);
+    if (v.type === "BooleanLiteral") return String(v.value);
     if (v.type === "TemplateLiteral" && v.expressions.length === 0) return v.quasis[0].value.cooked;
     return null;
   };
 
   const checkPropValue = (comp, prop, propSpec, valueNode, attr) => {
     if (valueNode === null) {
-      report(errors, "invalid-value", attr, `${comp}: ${prop} needs a value`);
+      // A bare attribute is JSX for {true} — legal exactly when the variant
+      // map is boolean-keyed (truncate, gutterBottom, ...).
+      if (!propSpec.tokens.includes("true")) {
+        report(errors, "invalid-value", attr, `${comp}: ${prop} needs a value`);
+      }
       return;
     }
     const direct = literalOf(valueNode);
@@ -245,13 +303,19 @@ export function validateSource(source, prepared, filePath = "<source>") {
       node.name.object.type === "JSXIdentifier" &&
       imported.has(node.name.object.name)
     ) {
-      // <Card.Body /> -> the flat export "CardBody" is the same part.
-      const flat = imported.get(node.name.object.name) + node.name.property.name;
-      if (spec.components[flat]) {
-        specName = flat;
-      } else {
+      // <Menu.Trigger /> — dot-access validates against the parts the spec
+      // enumerated from the real export object. The flat-name guess is NOT a
+      // fallback: some compounds are dot-only (no MenuItem export), and a
+      // flat cousin existing wouldn't make a missing dot-part render.
+      const owner = imported.get(node.name.object.name);
+      const part = node.name.property.name;
+      const ownerSpec = spec.components[owner];
+      if (ownerSpec?.parts?.includes(part)) {
+        // A part with a flat twin (CardBody) carries that twin's groups.
+        specName = spec.components[owner + part] ? owner + part : null;
+      } else if (ownerSpec) {
         report(errors, "unknown-part", node.name,
-          `${imported.get(node.name.object.name)}.${node.name.property.name} — no such part (no "${flat}" export exists)`);
+          `${owner}.${part} — no such part${ownerSpec.parts ? ` (${owner} has: ${ownerSpec.parts.join(", ")})` : ""}`);
       }
     }
 
