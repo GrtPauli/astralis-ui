@@ -1,3 +1,5 @@
+"use client";
+
 import { splitPlacement } from "../../../../utils/placement";
 import { useState } from "react";
 import { useAvatarGroupContext } from "../avatar.context";

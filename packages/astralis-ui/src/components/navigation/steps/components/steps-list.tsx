@@ -1,3 +1,5 @@
+"use client";
+
 import { Children, cloneElement, isValidElement, useEffect, type ReactElement } from "react";
 import { astralisMerge } from "../../../../utils/astralis-merge";
 import { useStepsContext } from "../steps.context";

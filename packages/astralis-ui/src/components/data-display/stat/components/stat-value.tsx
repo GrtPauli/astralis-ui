@@ -1,3 +1,5 @@
+"use client";
+
 import type { StatValueProps } from "../stat.types";
 import { astralisMerge } from "../../../../utils/astralis-merge";
 import { resolveStyleProps } from "../../../../utils/responsive";

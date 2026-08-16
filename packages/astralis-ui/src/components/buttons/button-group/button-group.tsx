@@ -1,3 +1,5 @@
+"use client";
+
 import { splitPlacement } from "../../../utils/placement";
 import { useMemo, type HTMLAttributes, type Ref } from "react";
 import { buttonGroupVariants } from "./button-group.styles";

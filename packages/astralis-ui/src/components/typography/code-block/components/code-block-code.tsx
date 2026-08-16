@@ -1,3 +1,5 @@
+"use client";
+
 import type { Ref } from "react";
 import { useCodeBlockContext } from "../code-block.context";
 import type { CodeBlockCodeProps } from "../code-block.types";

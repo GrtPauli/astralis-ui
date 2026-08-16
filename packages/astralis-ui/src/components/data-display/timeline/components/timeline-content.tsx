@@ -1,3 +1,5 @@
+"use client";
+
 import type { TimelineContentProps, TimelineTextProps } from "../timeline.types";
 import { useTimeline } from "../timeline.context";
 import { timelineTitleSize } from "../timeline.styles";

@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useId, useMemo, useState, cloneElement, type MouseEvent } from "react";
 import { ModalContext, useModal } from "../modal.context";
 import type { ModalProps, ModalSlotProps } from "../modal.types";

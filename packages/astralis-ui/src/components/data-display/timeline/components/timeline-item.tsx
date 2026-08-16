@@ -1,3 +1,5 @@
+"use client";
+
 import { Children, isValidElement, type ReactElement, type ReactNode } from "react";
 import type { TimelineItemProps } from "../timeline.types";
 import { useTimeline, useTimelineItem } from "../timeline.context";

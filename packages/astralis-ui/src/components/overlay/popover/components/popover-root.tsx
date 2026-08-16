@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useId, useMemo, useRef, useState, cloneElement, type MouseEvent } from "react";
 import { PopoverContext, usePopover } from "../popover.context";
 import type { PopoverProps, PopoverSlotProps } from "../popover.types";

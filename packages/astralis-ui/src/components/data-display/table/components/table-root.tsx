@@ -1,3 +1,5 @@
+"use client";
+
 import { splitPlacement } from "../../../../utils/placement";
 import type { TableProps } from "../table.types";
 import { TableContext } from "../table.context";

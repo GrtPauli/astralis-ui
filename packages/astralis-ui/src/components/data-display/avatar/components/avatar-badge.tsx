@@ -1,3 +1,5 @@
+"use client";
+
 import { useAvatarGroupContext } from "../avatar.context";
 import { avatarBadgeSize, avatarStatusColor } from "../avatar.styles";
 import type { AvatarBadgeProps } from "../avatar.types";

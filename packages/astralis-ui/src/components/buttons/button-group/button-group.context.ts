@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext } from "react";
 import type { ButtonVariant, ButtonColorScheme } from "../button/button.styles";
 import type { VariantProps } from "class-variance-authority";

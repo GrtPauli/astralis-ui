@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext } from "react";
 import type { ResponsiveProp } from "../../../utils/responsive";
 import type { StatSize } from "./stat.types";

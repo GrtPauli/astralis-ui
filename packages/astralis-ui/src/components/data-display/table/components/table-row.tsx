@@ -1,3 +1,5 @@
+"use client";
+
 import type { TableRowProps } from "../table.types";
 import { useTable } from "../table.context";
 import { astralisMerge } from "../../../../utils/astralis-merge";

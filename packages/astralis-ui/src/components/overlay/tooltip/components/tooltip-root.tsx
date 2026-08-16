@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useId, useMemo, useRef, cloneElement, type FocusEvent, type MouseEvent } from "react";
 import { TooltipContext, useTooltip } from "../tooltip.context";
 import type { TooltipProps, TooltipTriggerProps } from "../tooltip.types";

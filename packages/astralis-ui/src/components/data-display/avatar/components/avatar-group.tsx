@@ -1,3 +1,5 @@
+"use client";
+
 import { Children, isValidElement } from "react";
 import { AvatarGroupContext } from "../avatar.context";
 import { avatarVariants } from "../avatar.styles";

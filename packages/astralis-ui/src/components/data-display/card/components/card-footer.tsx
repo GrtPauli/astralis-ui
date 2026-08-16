@@ -1,3 +1,5 @@
+"use client";
+
 import type { Ref } from "react";
 import { useCardContext } from "../card.context";
 import { cardPadding } from "../card.styles";

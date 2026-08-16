@@ -1,3 +1,5 @@
+"use client";
+
 import { splitPlacement } from "../../../utils/placement";
 import { forwardRef, type ElementType, type ReactNode, type Ref } from "react";
 import { buttonVariants, buttonColorClasses } from "./button.styles";

@@ -1,3 +1,5 @@
+"use client";
+
 import { splitPlacement } from "../../../../utils/placement";
 import type { DataListProps } from "../data-list.types";
 import { DataListContext } from "../data-list.context";

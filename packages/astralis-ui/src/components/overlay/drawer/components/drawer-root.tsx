@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useId, useMemo, useState, cloneElement, type MouseEvent } from "react";
 import { DrawerContext, useDrawer } from "../drawer.context";
 import type { DrawerProps, DrawerSlotProps } from "../drawer.types";

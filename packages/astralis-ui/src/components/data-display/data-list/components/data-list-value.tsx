@@ -1,3 +1,5 @@
+"use client";
+
 import type { DataListValueProps } from "../data-list.types";
 import { useDataList } from "../data-list.context";
 import { astralisMerge } from "../../../../utils/astralis-merge";

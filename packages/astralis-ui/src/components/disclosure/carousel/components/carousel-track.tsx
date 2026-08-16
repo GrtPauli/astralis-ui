@@ -1,3 +1,5 @@
+"use client";
+
 import { Children, useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import type { CarouselTrackProps } from "../carousel.types";
 import { useCarousel, CarouselItemContext } from "../carousel.context";

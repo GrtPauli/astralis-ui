@@ -1,3 +1,5 @@
+"use client";
+
 import { cloneElement, type KeyboardEvent, type MouseEvent, type ReactElement } from "react";
 import { useMenu } from "../menu.context";
 import type { MenuItemProps, MenuSectionProps, MenuTriggerProps } from "../menu.types";

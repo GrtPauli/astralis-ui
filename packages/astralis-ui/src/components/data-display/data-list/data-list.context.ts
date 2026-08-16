@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext } from "react";
 import type { DataListOrientation, DataListSize } from "./data-list.types";
 

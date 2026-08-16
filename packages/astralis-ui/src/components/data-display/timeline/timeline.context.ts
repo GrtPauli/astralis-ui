@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext } from "react";
 import type { TimelineSize, TimelineVariant } from "./timeline.types";
 import type { ColorScheme } from "../../../const/color-schemes";

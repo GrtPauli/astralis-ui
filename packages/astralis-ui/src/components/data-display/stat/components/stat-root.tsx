@@ -1,3 +1,5 @@
+"use client";
+
 import type { Ref } from "react";
 import type { StatProps } from "../stat.types";
 import { StatContext } from "../stat.context";

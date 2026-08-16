@@ -1,3 +1,5 @@
+"use client";
+
 import type { TimelineIndicatorProps } from "../timeline.types";
 import { useTimeline } from "../timeline.context";
 import { timelineIndicatorVariants } from "../timeline.styles";

@@ -1,3 +1,5 @@
+"use client";
+
 import type { Ref } from "react";
 import { CardContext } from "../card.context";
 import { cardRootVariants } from "../card.styles";

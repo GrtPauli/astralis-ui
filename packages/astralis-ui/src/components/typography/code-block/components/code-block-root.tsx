@@ -1,3 +1,5 @@
+"use client";
+
 import { splitPlacement } from "../../../../utils/placement";
 import type { Ref } from "react";
 import { CodeBlockContext } from "../code-block.context";

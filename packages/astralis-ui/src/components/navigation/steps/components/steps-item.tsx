@@ -1,3 +1,5 @@
+"use client";
+
 import { Children, isValidElement, useMemo, type ReactNode } from "react";
 import { astralisMerge } from "../../../../utils/astralis-merge";
 import {

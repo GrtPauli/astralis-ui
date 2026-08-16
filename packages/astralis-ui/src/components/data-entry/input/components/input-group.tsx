@@ -1,3 +1,5 @@
+"use client";
+
 import InputGroupContext from "../input.context";
 import type { InputGroupProps } from "../input.types";
 import { astralisMerge } from "../../../../utils/astralis-merge";

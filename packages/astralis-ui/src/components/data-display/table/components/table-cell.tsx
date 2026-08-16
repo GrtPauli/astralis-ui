@@ -1,3 +1,5 @@
+"use client";
+
 import type { TableCellProps } from "../table.types";
 import { useTable } from "../table.context";
 import { tableCellSize } from "../table.styles";
