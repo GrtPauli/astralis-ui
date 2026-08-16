@@ -70,6 +70,26 @@ const MUST_BE_ZERO_CLIENT = [
   "TableHead",
   "TableCell",
   "TableCaption",
+  // de-contexted compounds (phase 3): server-side cloning / data attributes
+  "Stat",
+  "StatLabel",
+  "StatValue",
+  "StatHelpText",
+  "StatIndicator",
+  "Timeline",
+  "DataList",
+  "DataListItem",
+  "DataListLabel",
+  "DataListValue",
+  "Button",
+  "ButtonGroup",
+  "InputGroup",
+  // CodeBlock stays "server shell + client leaf" (CopyTrigger), but its
+  // static parts are individually zero-client:
+  "CodeBlockContent",
+  "CodeBlockCode",
+  "CodeBlockHeader",
+  "CodeBlockTitle",
 ];
 
 const failures = [];
