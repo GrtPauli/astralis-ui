@@ -198,6 +198,64 @@ const components = Object.fromEntries(
   }),
 );
 
+/* Flat part exports (CardBody) are the same component as the attached part
+   (Card.Body) — proven by IDENTITY, not name-matching, so a coincidental
+   name like CheckableTagGroup can never be misclassified. `partOf` lets a
+   validator know a flat part's anatomy without seeing the dot. */
+for (const [name, entry] of Object.entries(components)) {
+  if (!entry.parts) continue;
+  for (const part of entry.parts) {
+    const flat = name + part;
+    if (components[flat] && rootExports[flat] === rootExports[name][part]) {
+      components[flat].partOf = name;
+    }
+  }
+}
+
+/* ANATOMY: which attached parts are CHILDREN that need the compound's root
+   above them. Authored, because the parts namespace conflates two patterns
+   the runtime cannot distinguish: anatomy children (Menu.Item crashes or
+   misbehaves without Menu) versus namespaced variants and containers
+   (Input.Password is a standalone input; Radio.Group WRAPS radios — the
+   direction is inverted). Compounds absent here make no anatomy claim.
+   Drift-checked: every name below must exist in the enumerated parts. */
+const ANATOMY_CHILDREN = {
+  Accordion: ["Item", "Trigger", "Content"],
+  Breadcrumb: ["Item", "Link"],
+  Card: ["Header", "Title", "Description", "Body", "Footer"],
+  Carousel: ["Track", "Slide", "Control", "Prev", "Next", "Indicators", "Indicator", "AutoPlayTrigger", "ProgressText"],
+  CodeBlock: ["Header", "Title", "Content", "Code", "CopyTrigger", "Control", "WindowControls"],
+  DataList: ["Item", "Label", "Value"],
+  Drawer: ["Trigger", "Content", "Header", "Body", "Footer", "Title", "Description", "Close", "CloseButton"],
+  Field: ["Label", "HelpText", "ErrorText"],
+  List: ["Item"],
+  Marquee: ["Item"],
+  Menu: ["Trigger", "Content", "Item", "Label", "Separator", "Group"],
+  Modal: ["Trigger", "Content", "Header", "Body", "Footer", "Title", "Description", "Close", "CloseButton"],
+  Pagination: ["List", "Item", "First", "Last", "Next", "Prev", "Ellipsis", "Jumper", "PageText", "Pages"],
+  Popover: ["Trigger", "Content", "Title", "Description", "Close"],
+  Stat: ["Label", "Value", "HelpText", "Indicator"],
+  Steps: ["List", "Item", "Indicator", "Title", "Description", "Content", "Next", "Prev", "Completed"],
+  Table: ["Header", "Body", "Footer", "Row", "Head", "Cell", "Caption"],
+  Tabs: ["List", "Trigger", "Content"],
+  Timeline: ["Item", "Indicator", "Title", "Description", "Content"],
+  Tooltip: ["Trigger", "Content"],
+};
+
+for (const [owner, children] of Object.entries(ANATOMY_CHILDREN)) {
+  const entry = components[owner];
+  if (!entry?.parts) {
+    fail(`anatomy table names "${owner}", which has no enumerated parts`);
+    continue;
+  }
+  for (const child of children) {
+    if (!entry.parts.includes(child)) {
+      fail(`anatomy: ${owner}.${child} is not an enumerated part of ${owner} (has: ${entry.parts.join(", ")})`);
+    }
+  }
+  entry.anatomy = { children };
+}
+
 /* ---- class inventory (same extraction as the coverage gate) --------------- */
 const css = readFileSync(join(PKG, "dist", "styles.css"), "utf8");
 const classSet = new Set();
